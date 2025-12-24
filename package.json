@@ -1,0 +1,60 @@
+{
+  "name": "@anthropic/diabetes-m-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for Diabetes:M integration with Claude Desktop - Secure access to diabetes management data",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "diabetes-m-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "anthropic",
+    "diabetes",
+    "diabetes-m",
+    "health",
+    "glucose",
+    "insulin",
+    "logbook",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthropics/diabetes-m-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anthropics/diabetes-m-mcp/issues"
+  },
+  "homepage": "https://github.com/anthropics/diabetes-m-mcp#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.25.0",
+    "keytar": "^7.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "optionalDependencies": {
+    "keytar": "^7.9.0"
+  }
+}

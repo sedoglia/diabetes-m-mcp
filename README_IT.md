@@ -1,0 +1,352 @@
+# Diabetes:M MCP Server
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![MCP](https://img.shields.io/badge/MCP-Compatibile-purple.svg)](https://modelcontextprotocol.io/)
+[![Licenza: MIT](https://img.shields.io/badge/Licenza-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[🇬🇧 English Version](README_EN.md)
+
+Server MCP (Model Context Protocol) per integrare i dati di [Diabetes:M](https://diabetes-m.com) con Claude Desktop. Accedi alle tue letture glicemiche, dati insulina, diario alimentare e metriche di salute attraverso conversazioni in linguaggio naturale.
+
+## ✨ Funzionalità
+
+- **9 Strumenti MCP** per accesso completo ai dati del diabete
+- **Sicurezza multi-livello** con crittografia AES-256-GCM
+- **Integrazione keyring di sistema** per archiviazione sicura della chiave master (Windows Credential Vault, macOS Keychain, Linux Secret Service)
+- **Credenziali criptate** nel profilo utente (mai nei file di configurazione)
+- **Autenticazione basata su cookie** (reverse-engineered da analytics.diabetes-m.com)
+- **Ricerca cibi intelligente** dalle voci del tuo diario
+- **Logging di audit completo**
+
+## 🔧 Strumenti Disponibili
+
+### Gestione Credenziali
+
+| Strumento | Descrizione |
+|-----------|-------------|
+| `setup_credentials` | Configura il login Diabetes:M in modo sicuro |
+| `check_credentials` | Verifica se le credenziali sono configurate |
+| `clear_credentials` | Rimuovi le credenziali memorizzate |
+
+### Strumenti Dati Salute
+
+| Strumento | Descrizione |
+|-----------|-------------|
+| `get_logbook_entries` | Recupera voci del diario (glicemia, insulina, carboidrati, note) |
+| `get_glucose_statistics` | Ottieni distribuzione glucosio, media, HbA1c stimata |
+| `get_insulin_analysis` | Analizza utilizzo insulina e rapporti carboidrati |
+| `get_personal_metrics` | Ottieni peso, BMI, pressione sanguigna, HbA1c |
+| `search_foods` | Cerca nel database cibi (include i tuoi cibi personalizzati dal diario) |
+| `generate_health_report` | Genera report salute completo |
+
+## 📦 Installazione
+
+### Opzione 1: Usando npx (Consigliata)
+
+Nessuna installazione richiesta - configura solo Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "diabetes-m": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/diabetes-m-mcp"]
+    }
+  }
+}
+```
+
+### Opzione 2: Installazione Globale
+
+```bash
+npm install -g @anthropic/diabetes-m-mcp
+```
+
+Poi configura Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "diabetes-m": {
+      "command": "diabetes-m-mcp"
+    }
+  }
+}
+```
+
+### Opzione 3: Da Sorgente
+
+```bash
+git clone https://github.com/anthropics/diabetes-m-mcp.git
+cd diabetes-m-mcp
+npm install
+npm run build
+```
+
+Poi configura Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "diabetes-m": {
+      "command": "node",
+      "args": ["/percorso/a/diabetes-m-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+## ⚙️ Configurazione Claude Desktop
+
+Posizione file di configurazione:
+
+| OS | Percorso |
+|----|----------|
+| **Windows** | `%APPDATA%\Claude\claude_desktop_config.json` |
+| **macOS** | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| **Linux** | `~/.config/Claude/claude_desktop_config.json` |
+
+**⚠️ IMPORTANTE: NESSUNA credenziale nel file di configurazione!** Le credenziali sono gestite in modo sicuro attraverso lo strumento `setup_credentials`.
+
+## 🚀 Prima Configurazione
+
+1. Aggiungi il server alla configurazione di Claude Desktop (vedi sopra)
+2. Riavvia Claude Desktop
+3. Chiedi a Claude: **"Configura le mie credenziali Diabetes:M"**
+4. Fornisci email/username e password quando richiesto
+5. Le tue credenziali sono criptate e memorizzate in modo sicuro
+6. Inizia a usare il linguaggio naturale per accedere ai tuoi dati!
+
+## 💬 Esempi d'Uso
+
+### Configurazione Credenziali
+```
+"Configura le mie credenziali Diabetes:M con username mioutente e password miapassword"
+```
+
+### Verifica Stato Credenziali
+```
+"Verifica lo stato delle mie credenziali Diabetes:M"
+```
+
+### Ottieni Voci Diario
+```
+"Mostrami le voci del diario degli ultimi 7 giorni"
+"Quali erano le mie letture glicemiche ieri?"
+```
+
+### Ottieni Statistiche Glucosio
+```
+"Mostrami le statistiche glucosio degli ultimi 30 giorni"
+"Qual è la mia HbA1c stimata?"
+"Com'è il mio tempo nel range questo mese?"
+```
+
+### Analizza Uso Insulina
+```
+"Analizza il mio uso di insulina nelle ultime 2 settimane"
+"Qual è la mia dose media giornaliera di insulina?"
+```
+
+### Ottieni Metriche Personali
+```
+"Quali sono le mie metriche di salute attuali?"
+"Mostrami la cronologia di peso e pressione sanguigna"
+```
+
+### Cerca Cibi
+```
+"Cerca 'polenta' nel database cibi"
+"Trova le info nutrizionali per la pasta"
+```
+
+### Genera Report Salute
+```
+"Genera un report dettagliato sulla salute per gli ultimi 90 giorni"
+```
+
+## 🔒 Architettura di Sicurezza
+
+### Protezione Multi-Livello
+
+```
+┌─────────────────────────────────────────────────────┐
+│               Livello 1: OS Keyring                 │
+│  Chiave master in Windows Vault / macOS Keychain /  │
+│  Linux Secret Service                               │
+├─────────────────────────────────────────────────────┤
+│           Livello 2: Crittografia a Riposo          │
+│  AES-256-GCM • IV/Salt casuali • PBKDF2 (100K iter)│
+├─────────────────────────────────────────────────────┤
+│            Livello 3: Storage Sicuro                │
+│  ~/.diabetesm/credentials.enc • tokens.enc          │
+│  Permessi file: 0600 (solo proprietario)            │
+├─────────────────────────────────────────────────────┤
+│           Livello 4: Validazione Input              │
+│  Schemi Zod • Prevenzione SQL injection             │
+│  Rate limiting (1 req/sec)                          │
+├─────────────────────────────────────────────────────┤
+│             Livello 5: Audit Logging                │
+│  Identificatori hashati • Log sensibili separati    │
+│  Retention configurabile (default: 90 giorni)       │
+└─────────────────────────────────────────────────────┘
+```
+
+### Posizioni di Storage
+
+| File | Scopo |
+|------|-------|
+| `~/.diabetesm/diabetesm-credentials.enc` | Credenziali criptate |
+| `~/.diabetesm/diabetesm-tokens.enc` | Token sessione criptati |
+| `~/.diabetesm/diabetesm-audit.log` | Log audit (dati hashati) |
+
+## 🏗️ Struttura Progetto
+
+```
+diabetes-m-mcp/
+├── src/
+│   ├── index.ts              # Entry point
+│   ├── server.ts             # Setup server MCP
+│   ├── api/
+│   │   ├── auth.ts           # Autenticazione (con gestione cookie)
+│   │   ├── client.ts         # Client HTTP
+│   │   └── endpoints.ts      # Endpoint API (reverse-engineered)
+│   ├── security/
+│   │   ├── audit.ts          # Logging audit
+│   │   ├── credentials.ts    # Gestione credenziali
+│   │   ├── encryption.ts     # Crittografia AES-256-GCM
+│   │   └── keyring.ts        # Integrazione keyring sistema
+│   ├── cache/
+│   │   └── encrypted-cache.ts # Cache criptata
+│   ├── tools/
+│   │   ├── setup-credentials.ts
+│   │   ├── get-logbook-entries.ts
+│   │   ├── get-glucose-statistics.ts
+│   │   ├── get-insulin-analysis.ts
+│   │   ├── get-personal-metrics.ts
+│   │   ├── search-foods.ts    # Cerca in API + voci diario
+│   │   └── generate-health-report.ts
+│   └── types/
+│       ├── api.ts            # Tipi API
+│       ├── security.ts       # Tipi sicurezza
+│       └── tools.ts          # Schemi strumenti
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## 🔍 Risoluzione Problemi
+
+### Errore "No credentials configured"
+
+Esegui lo strumento setup_credentials:
+```
+"Configura le mie credenziali Diabetes:M"
+```
+
+### Autenticazione Fallita
+
+1. Verifica che email/username e password siano corretti
+2. Prova ad accedere manualmente a [analytics.diabetes-m.com](https://analytics.diabetes-m.com)
+3. Riesegui setup_credentials con le credenziali corrette
+
+### Problemi Keyring
+
+Se il keyring di sistema non è disponibile:
+- Il server usa automaticamente lo storage file criptato come fallback
+- Le chiavi sono memorizzate in `~/.diabetesm/master.key.enc`
+- La sicurezza è mantenuta attraverso crittografia specifica per macchina
+
+### Rate Limiting
+
+Il server implementa rate limiting (1 richiesta/secondo). Se vedi errori di rate limit:
+- Attendi qualche secondo e riprova
+- Evita chiamate successive rapide
+
+### Ricerca Cibi Non Trova Risultati
+
+La ricerca cibi dell'API Diabetes:M restituisce solo cibi dal database pubblico. Se cerchi i tuoi cibi personalizzati:
+- Lo strumento cerca automaticamente nelle voci del tuo diario per i cibi personalizzati
+- Assicurati di aver usato il cibo in una voce pasto negli ultimi 90 giorni
+
+## 🔧 Sviluppo
+
+### Prerequisiti
+
+- Node.js 18+
+- npm 8+
+
+### Build
+
+```bash
+npm install
+npm run build
+```
+
+### Esegui Localmente
+
+```bash
+npm start
+```
+
+### Modalità Watch
+
+```bash
+npm run dev
+```
+
+## 🔏 Privacy Policy
+
+### Raccolta Dati
+Questo server MCP raccoglie e tratta i seguenti dati:
+- **Credenziali Diabetes:M** (username/password): Memorizzate localmente solo in forma criptata
+- **Dati salute**: Letture glucosio, dosi insulina, log alimentari e metriche personali recuperate dal tuo account Diabetes:M
+- **Log audit**: Log operazioni hashati per monitoraggio sicurezza (nessun dato salute grezzo)
+
+### Archiviazione Dati
+- Tutti i dati sono memorizzati **localmente sul tuo dispositivo** in `~/.diabetesm/`
+- Le credenziali sono criptate con crittografia **AES-256-GCM**
+- La chiave master di crittografia è memorizzata nel tuo **keyring del SO** (Windows Credential Vault, macOS Keychain, o Linux Secret Service)
+- Nessun dato memorizzato in file di configurazione o testo semplice
+
+### Trasmissione Dati
+- I dati sono trasmessi **solo ai server Diabetes:M** (analytics.diabetes-m.com)
+- Tutte le connessioni usano crittografia **HTTPS/TLS**
+- **Nessun dato inviato ad Anthropic, terze parti o altri server**
+
+### Conservazione Dati
+- I dati in cache scadono automaticamente (TTL 5 minuti per dati sensibili)
+- I log audit sono conservati per 90 giorni di default
+- Puoi eliminare tutti i dati memorizzati in qualsiasi momento usando lo strumento `clear_credentials`
+
+### I Tuoi Diritti
+- Hai pieno controllo sui tuoi dati
+- Usa `clear_credentials` per rimuovere tutte le credenziali e token memorizzati
+- Elimina la directory `~/.diabetesm/` per rimuovere tutti i dati locali
+
+### Servizi di Terze Parti
+Questo server interagisce solo con:
+- **Diabetes:M** (analytics.diabetes-m.com): Il tuo fornitore dati salute
+
+## 📜 Licenza
+
+MIT License - Vedi file [LICENSE](LICENSE)
+
+## ⚠️ Disclaimer
+
+Questo strumento è solo per gestione personale della salute e scopi informativi. Non fornisce consigli medici. Consulta sempre il tuo medico per decisioni mediche.
+
+**Non affiliato, approvato o connesso a Diabetes:M o Sirma Medical Systems.**
+
+## 🙏 Crediti
+
+- API Diabetes:M reverse-engineered da [analytics.diabetes-m.com](https://analytics.diabetes-m.com)
+- Costruito con [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/sdk)
+- Ispirato da [garmin-mcp-ts](https://github.com/sedoglia/garmin-mcp-ts)
+
+## ☕ Supporto
+
+Se trovi questo progetto utile, considera di supportare lo sviluppo:
+
+[![PayPal](https://img.shields.io/badge/PayPal-Dona-blue.svg)](https://www.paypal.com/donate/?business=YOUR_PAYPAL)
