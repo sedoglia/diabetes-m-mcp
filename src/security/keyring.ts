@@ -16,11 +16,12 @@ import { createCipheriv, createDecipheriv, randomBytes, scryptSync, createHash }
 import {
   KEYRING_SERVICE_NAME,
   KEYRING_MASTER_KEY_ACCOUNT,
+  getConfigDir,
   type KeyringService
 } from '../types/security.js';
 import { encryptionService } from './encryption.js';
 
-const CONFIG_DIR = join(homedir(), '.diabetesm');
+const CONFIG_DIR = getConfigDir();
 const FALLBACK_KEY_FILE = join(CONFIG_DIR, 'master.key.enc');
 
 /**
