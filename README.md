@@ -275,7 +275,7 @@ Aggiungi il server MCP Diabetes-M al tuo `claude_desktop_config.json`:
 │  Linux Secret Service                               │
 ├─────────────────────────────────────────────────────┤
 │           Livello 2: Crittografia a Riposo          │
-│  AES-256-GCM • IV/Salt casuali • PBKDF2 (100K iter)│
+│  AES-256-GCM • IV/Salt casuali • PBKDF2 (100K iter) │
 ├─────────────────────────────────────────────────────┤
 │            Livello 3: Storage Sicuro                │
 │  %LOCALAPPDATA%/diabetes-m-mcp/ (Win)               │
