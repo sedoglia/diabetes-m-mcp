@@ -22,7 +22,9 @@
     "prepublishOnly": "npm run clean && npm run build",
     "prepare": "npm run build",
     "bundle": "npm run build && node scripts/create-bundle.js",
-    "release": "npm run bundle && node scripts/create-release.js"
+    "release": "npm run bundle && node scripts/create-release.js",
+    "setup-encryption": "node scripts/setup-encryption.js",
+    "check-encryption": "node scripts/check-encryption.js"
   },
   "keywords": [
     "mcp",
