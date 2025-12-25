@@ -174,7 +174,7 @@ npm run check-encryption
 
 ### 6. Claude Desktop Configuration
 
-### Configuration File Location
+#### Configuration File Location
 
 The Claude Desktop configuration file is located at:
 
@@ -182,7 +182,7 @@ The Claude Desktop configuration file is located at:
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Linux:** `~/.config/Claude/claude_desktop_config.json`
 
-### Configuration Example
+#### Configuration Example
 
 Add the Diabetes-M MCP server to your `claude_desktop_config.json`:
 
@@ -210,7 +210,7 @@ Add the Diabetes-M MCP server to your `claude_desktop_config.json`:
 }
 ```
 
-### Configuration Verification
+#### Configuration Verification
 
 1. Restart Claude Desktop after saving the configuration
 2. Look for Diabetes-M tools among the available ones (hammer icon)
