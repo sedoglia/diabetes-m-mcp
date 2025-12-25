@@ -5,6 +5,8 @@
 [![MCP](https://img.shields.io/badge/MCP-Compatibile-purple.svg)](https://modelcontextprotocol.io/)
 [![Licenza: MIT](https://img.shields.io/badge/Licenza-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+[![PayPal](https://img.shields.io/badge/Supporta%20il%20Progetto-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/sedoglia)
+
 [🇬🇧 English Version](README_EN.md)
 
 Server MCP (Model Context Protocol) per integrare i dati di [Diabetes:M](https://diabetes-m.com) con Claude Desktop. Accedi alle tue letture glicemiche, dati insulina, diario alimentare e metriche di salute attraverso conversazioni in linguaggio naturale.
@@ -40,56 +42,167 @@ Server MCP (Model Context Protocol) per integrare i dati di [Diabetes:M](https:/
 | `search_foods` | Cerca nel database cibi (include i tuoi cibi personalizzati dal diario) |
 | `generate_health_report` | Genera report salute completo |
 
-## 📦 Installazione
+---
 
-### Opzione 1: Usando npx (Consigliata)
+## Prerequisiti
 
-Nessuna installazione richiesta - configura solo Claude Desktop:
+- **Node.js** 18.0 o superiore
+- **npm** 8.0 o superiore
+- **Claude Desktop** installato
+- Account **Diabetes-M Connect** con credenziali valide
 
-```json
-{
-  "mcpServers": {
-    "diabetes-m": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/diabetes-m-mcp"]
-    }
-  }
-}
-```
+## 🚀 Installazione Rapida (Bundle Precompilato)
 
-### Opzione 2: Installazione Globale
+### Passaggi:
+
+### 1. Installa Keytar (Raccomandato per sicurezza massima)
+
+Per utilizzare il vault nativo del sistema operativo (Windows Credential Manager, macOS Keychain, Linux Secret Service), installa `keytar`:
 
 ```bash
-npm install -g @anthropic/diabetes-m-mcp
+npm install keytar
 ```
 
-Poi configura Claude Desktop:
+> **Nota:** Se `keytar` non può essere installato, il sistema userà automaticamente un file criptato come fallback.
 
-```json
-{
-  "mcpServers": {
-    "diabetes-m": {
-      "command": "diabetes-m-mcp"
-    }
-  }
-}
-```
+### 2. Scarica il bundle
 
-### Opzione 3: Da Sorgente
+Usa il browser oppure:
 
 ```bash
-git clone https://github.com/anthropics/diabetes-m-mcp.git
+wget 
+```
+
+### 3. Verifica l'integrità
+
+Verifica l'integrità (opzionale ma consigliato):
+
+```bash
+wget 
+sha256sum -c diabetes-m-mcp.mcpb.sha256
+```
+
+### 4. Installa l'estensione in Claude Desktop (Metodo Consigliato)
+
+**Installazione tramite Custom Desktop Extensions:**
+
+1. Apri **Claude Desktop**
+2. Vai su **Impostazioni** (Settings)
+3. Seleziona la scheda **Estensioni** (Extensions)
+4. Clicca su **Impostazioni Avanzate** (Advanced settings) e trova la sezione **Extension Developer**
+5. Clicca su **"Installa Estensione..."** (Install Extension…)
+6. Seleziona il file `.mcpb` (`diabetes-m-mcp.mcpb` scaricato al passaggio 1)
+7. Segui le indicazioni a schermo per completare l'installazione
+
+> **Nota:** Questo è il metodo più semplice e consigliato. L'estensione sarà automaticamente integrata in Claude Desktop senza necessità di configurazione manuale.
+
+---
+
+### 5. Configura le Credenziali Diabetes-M (Metodo Sicuro - Raccomandato)
+
+Apri una **nuova chat su Claude Desktop** e scrivi il seguente prompt:
+
+```
+Configura le credenziali di accesso per Diabetes-M
+```
+
+Rispondi al messaggio fornendo:
+- **Utente:** la tua email Diabetes-M
+- **Password:** la tua password Diabetes-M
+
+L'estensione provvederà automaticamente a criptare e salvare le credenziali in modo sicuro nel vault nativo del sistema operativo (Windows Credential Manager, macOS Keychain, Linux Secret Service).
+
+> **Nota:** Le credenziali NON verranno salvate in file di testo. Saranno sempre crittografate e gestite dal vault nativo del SO.
+
+### 6. Riavvia Claude Desktop
+
+- Chiudi completamente l'applicazione
+- Riapri Claude Desktop
+- Verifica in Impostazioni → Sviluppatore lo stato della connessione ✅
+
+## 🚀 Installazione (clonando il repository con GIT)
+
+### 1. Clona il Repository
+
+```bash
+git clone https://github.com/sedoglia/diabetes-m-mcp
 cd diabetes-m-mcp
+```
+
+### 2. Installa le Dipendenze
+
+```bash
 npm install
+```
+
+### 3. Installa Keytar (Raccomandato per sicurezza massima)
+
+Per utilizzare il vault nativo del sistema operativo (Windows Credential Manager, macOS Keychain, Linux Secret Service), installa `keytar`:
+
+```bash
+npm install keytar
+```
+
+> **Nota:** Se `keytar` non può essere installato, il sistema userà automaticamente un file criptato come fallback.
+
+### 4. Compila il Progetto
+
+```bash
 npm run build
 ```
 
-Poi configura Claude Desktop:
+### 5. Configura le Credenziali Diabetes-M (Metodo Sicuro - Raccomandato)
+
+Esegui lo script di setup per configurare le credenziali in modo sicuro:
+
+```bash
+npm run setup-encryption
+```
+
+Questo script:
+1. Crea una directory sicura nella home dell'utente
+2. Genera una chiave di encryption e la salva nel vault nativo del SO
+3. Chiede email e password Diabetes-M
+4. Cripta e salva le credenziali in modo sicuro
+
+Per verificare la configurazione:
+```bash
+npm run check-encryption
+```
+
+> **Nota sulla Sicurezza:** Non commitare mai il file `.env` nel controllo versione. È già incluso in `.gitignore`. Si consiglia di usare il metodo sicuro sopra descritto.
+
+## Configurazione di Claude Desktop
+
+### Posizione del File di Configurazione
+
+Il file di configurazione di Claude Desktop si trova in:
+
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+### Esempio di Configurazione
+
+Aggiungi il server MCP Diabetes-M al tuo `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "diabetes-m": {
+    "Diabetes-M": {
+      "command": "node",
+      "args": ["C:\\percorso\\a\\diabetes-M-mcp\\dist\\index.js"]
+    }
+  }
+}
+```
+
+**Per macOS/Linux:**
+
+```json
+{
+  "mcpServers": {
+    "Diabetes-M": {
       "command": "node",
       "args": ["/percorso/a/diabetes-m-mcp/dist/index.js"]
     }
@@ -97,26 +210,11 @@ Poi configura Claude Desktop:
 }
 ```
 
-## ⚙️ Configurazione Claude Desktop
+### Verifica della Configurazione
 
-Posizione file di configurazione:
-
-| OS | Percorso |
-|----|----------|
-| **Windows** | `%APPDATA%\Claude\claude_desktop_config.json` |
-| **macOS** | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| **Linux** | `~/.config/Claude/claude_desktop_config.json` |
-
-**⚠️ IMPORTANTE: NESSUNA credenziale nel file di configurazione!** Le credenziali sono gestite in modo sicuro attraverso lo strumento `setup_credentials`.
-
-## 🚀 Prima Configurazione
-
-1. Aggiungi il server alla configurazione di Claude Desktop (vedi sopra)
-2. Riavvia Claude Desktop
-3. Chiedi a Claude: **"Configura le mie credenziali Diabetes:M"**
-4. Fornisci email/username e password quando richiesto
-5. Le tue credenziali sono criptate e memorizzate in modo sicuro
-6. Inizia a usare il linguaggio naturale per accedere ai tuoi dati!
+1. Riavvia Claude Desktop dopo aver salvato la configurazione
+2. Cerca gli strumenti Diabetes-M tra quelli disponibili (icona martello)
+3. Prova a chiedere: "Quali sono le mie attività recenti su Diabetes-M?"
 
 ## 💬 Esempi d'Uso
 
@@ -270,32 +368,6 @@ La ricerca cibi dell'API Diabetes:M restituisce solo cibi dal database pubblico.
 - Lo strumento cerca automaticamente nelle voci del tuo diario per i cibi personalizzati
 - Assicurati di aver usato il cibo in una voce pasto negli ultimi 90 giorni
 
-## 🔧 Sviluppo
-
-### Prerequisiti
-
-- Node.js 18+
-- npm 8+
-
-### Build
-
-```bash
-npm install
-npm run build
-```
-
-### Esegui Localmente
-
-```bash
-npm start
-```
-
-### Modalità Watch
-
-```bash
-npm run dev
-```
-
 ## 🔏 Privacy Policy
 
 ### Raccolta Dati
@@ -343,10 +415,10 @@ Questo strumento è solo per gestione personale della salute e scopi informativi
 
 - API Diabetes:M reverse-engineered da [analytics.diabetes-m.com](https://analytics.diabetes-m.com)
 - Costruito con [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/sdk)
-- Ispirato da [garmin-mcp-ts](https://github.com/sedoglia/garmin-mcp-ts)
+- Ispirato da [Diabetes-M-mcp-ts](https://github.com/sedoglia/Diabetes-M-mcp-ts)
 
 ## ☕ Supporto
 
 Se trovi questo progetto utile, considera di supportare lo sviluppo:
 
-[![PayPal](https://img.shields.io/badge/PayPal-Dona-blue.svg)](https://www.paypal.com/donate/?business=YOUR_PAYPAL)
+[![PayPal](https://img.shields.io/badge/PayPal-Dona-blue.svg)](https://paypal.me/sedoglia)

@@ -1,116 +1,29 @@
 {
-  "$schema": "https://cdn.jsdelivr.net/npm/@anthropic-ai/mcp-manifest@latest/schema.json",
-  "version": "0.3",
+  "manifest_version": "0.2",
   "name": "diabetes-m-mcp",
-  "display_name": "Diabetes:M MCP Server",
-  "description": "Access your Diabetes:M health data through Claude Desktop - glucose readings, insulin tracking, food diary, and health reports with natural language",
-  "repository": "https://github.com/anthropics/diabetes-m-mcp",
-  "homepage": "https://github.com/anthropics/diabetes-m-mcp",
-  "license": "MIT",
+  "version": "1.0.0",
+  "description": "MCP Server for Diabetes:M integration with Claude Desktop - Secure access to diabetes management data",
   "author": {
-    "name": "Anthropic",
-    "url": "https://anthropic.com"
+    "name": "sedoglia",
+    "email": "sedoglia@gmail.com"
   },
-  "keywords": [
-    "diabetes",
-    "health",
-    "glucose",
-    "insulin",
-    "mcp",
-    "claude",
-    "diabetes-m"
-  ],
-  "categories": [
-    "health",
-    "data-integration"
-  ],
-  "privacy_policies": [
-    {
-      "title": "Privacy Policy",
-      "url": "https://github.com/anthropics/diabetes-m-mcp#-privacy-policy"
+  "homepage": "https://github.com/sedoglia/garmin-mcp-ts",
+  "support": "https://github.com/sedoglia/garmin-mcp-ts/issues",
+  "icon": "Diabetes-M.png",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.js"
+      ],
+      "env": {}
     }
-  ],
-  "tools": [
-    {
-      "name": "setup_credentials",
-      "description": "Configure Diabetes:M login credentials securely",
-      "annotations": {
-        "destructiveHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "check_credentials",
-      "description": "Check if credentials are configured",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "clear_credentials",
-      "description": "Remove stored credentials",
-      "annotations": {
-        "destructiveHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "get_logbook_entries",
-      "description": "Retrieve logbook entries (glucose, insulin, carbs, notes)",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "get_glucose_statistics",
-      "description": "Get glucose statistics including estimated HbA1c",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "get_insulin_analysis",
-      "description": "Analyze insulin usage and carb ratios",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "get_personal_metrics",
-      "description": "Get personal health metrics (weight, BMI, blood pressure)",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "search_foods",
-      "description": "Search food database including custom foods from diary",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    },
-    {
-      "name": "generate_health_report",
-      "description": "Generate comprehensive health report for medical professionals",
-      "annotations": {
-        "readOnlyHint": true,
-        "idempotentHint": true
-      }
-    }
-  ],
-  "requirements": {
-    "node": ">=18.0.0"
   },
-  "installation": {
-    "npm": "@anthropic/diabetes-m-mcp"
-  },
-  "configuration": {
-    "note": "No credentials in config files - use setup_credentials tool"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sedoglia/diabetes-m-mcp"
   }
 }
