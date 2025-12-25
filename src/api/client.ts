@@ -221,15 +221,19 @@ class DiabetesMClient {
   // ============ API Methods ============
 
   /**
-   * Gets logbook entries for a date range
+   * Gets logbook entries for a date range or specific date
    * The Diabetes:M API uses POST with fromDate/toDate (milliseconds) in body
+   * @param dateRange - Predefined range: 'today', '7days', '30days', '90days'
+   * @param category - Optional category filter
+   * @param specificDate - Optional specific date in YYYY-MM-DD format (overrides dateRange)
    */
   async getLogbookEntries(
-    dateRange: string,
-    category?: string
+    dateRange?: string,
+    category?: string,
+    specificDate?: string
   ): Promise<ApiResponse<LogbookEntry[]>> {
     const timer = auditLogger.startTimer();
-    const cacheKey = `logbook:${dateRange}:${category || ''}`;
+    const cacheKey = `logbook:${specificDate || dateRange}:${category || ''}`;
 
     // Check cache
     const cached = await encryptedCache.get<LogbookEntry[]>(cacheKey);
@@ -238,13 +242,31 @@ class DiabetesMClient {
       return { success: true, data: cached, timestamp: new Date().toISOString() };
     }
 
-    const { from, to } = dateRangeToParams(dateRange);
+    // Determine date range
+    let fromDate: number;
+    let toDate: number;
+
+    if (specificDate) {
+      // Specific date: from start of day to end of day
+      const dateObj = new Date(specificDate + 'T00:00:00');
+      fromDate = dateObj.getTime();
+      toDate = new Date(specificDate + 'T23:59:59.999').getTime();
+    } else if (dateRange) {
+      const { from, to } = dateRangeToParams(dateRange);
+      fromDate = new Date(from).getTime();
+      toDate = new Date(to + 'T23:59:59').getTime();
+    } else {
+      // Default to today
+      const today = new Date().toISOString().split('T')[0];
+      fromDate = new Date(today + 'T00:00:00').getTime();
+      toDate = new Date(today + 'T23:59:59.999').getTime();
+    }
 
     // API uses camelCase fromDate/toDate with millisecond timestamps
     // and various include* flags
     const body: Record<string, unknown> = {
-      fromDate: new Date(from).getTime(),
-      toDate: new Date(to + 'T23:59:59').getTime(),
+      fromDate,
+      toDate,
       includeGlucose: true,
       includeBolus: true,
       includeBasal: true,
@@ -257,20 +279,108 @@ class DiabetesMClient {
       all: true
     };
 
+    // Raw entry format from Diabetes:M API (based on actual API response)
+    interface RawLogEntry {
+      entry_id?: number;
+      entry_time?: number;              // Unix timestamp in milliseconds
+      glucose?: number;                 // Value in mmol/L
+      glucoseInCurrentUnit?: number;    // Value already converted to user's unit (mg/dL)
+      carb_bolus?: number;              // Bolus insulin
+      correction_bolus?: number;        // Correction insulin
+      basal?: number;                   // Basal insulin
+      carbs?: number;                   // Carbohydrates in grams
+      proteins?: number;                // Proteins in grams
+      fats?: number;                    // Fats in grams
+      calories?: number;                // Calories
+      notes?: string;                   // Notes/comments
+      category?: number;                // Category code (1=breakfast, 2=after breakfast, etc.)
+      is_sensor?: boolean;              // Is sensor reading
+      food_list?: Array<{               // List of foods
+        name: string;
+        quantity: number;
+        serving: string;
+        calories: number;
+        total_carbs: number;
+        protein: number;
+        total_fat: number;
+      }>;
+      [key: string]: unknown;           // Allow other fields
+    }
+
     // The API returns { logEntryList: [...], filter: {...}, total_rows: N }
     interface DiaryResponse {
-      logEntryList: LogbookEntry[];
+      logEntryList: RawLogEntry[];
       filter: unknown;
       total_rows: number;
       nextPageEntryTime?: number;
     }
 
+    /**
+     * Maps category number to category name
+     */
+    const CATEGORY_MAP: Record<number, string> = {
+      1: 'breakfast',
+      2: 'after_breakfast',
+      3: 'lunch',
+      4: 'after_lunch',
+      5: 'dinner',
+      6: 'after_dinner',
+      7: 'snack',
+      8: 'other',
+      9: 'fasting',
+      10: 'bedtime'
+    };
+
+    /**
+     * Maps raw API entry to normalized LogbookEntry format
+     * Uses glucoseInCurrentUnit which is already in mg/dL
+     */
+    function mapToLogbookEntry(raw: RawLogEntry): LogbookEntry {
+      // Handle timestamp (entry_time is in milliseconds)
+      const timestamp = raw.entry_time
+        ? new Date(raw.entry_time).toISOString()
+        : new Date().toISOString();
+
+      // Use glucoseInCurrentUnit which is already converted to mg/dL by the API
+      // Fall back to converting glucose (mmol/L) if needed
+      let glucose: number | undefined;
+      if (raw.glucoseInCurrentUnit !== undefined && raw.glucoseInCurrentUnit > 0) {
+        glucose = Math.round(raw.glucoseInCurrentUnit);
+      } else if (raw.glucose !== undefined && raw.glucose > 0) {
+        // Convert from mmol/L to mg/dL
+        glucose = Math.round(raw.glucose * 18.0182);
+      }
+
+      // Map category number to name
+      const categoryName = raw.category !== undefined
+        ? CATEGORY_MAP[raw.category] || `category_${raw.category}`
+        : undefined;
+
+      return {
+        id: String(raw.entry_id || raw.entry_time || Date.now()),
+        timestamp,
+        glucose,
+        glucoseUnit: 'mg/dL',
+        insulinBolus: raw.carb_bolus || undefined,
+        insulinBasal: raw.basal || undefined,
+        insulinCorrection: raw.correction_bolus || undefined,
+        carbs: raw.carbs || undefined,
+        fat: raw.fats || undefined,
+        protein: raw.proteins || undefined,
+        calories: raw.calories || undefined,
+        notes: raw.notes || undefined,
+        category: categoryName,
+        isSensor: raw.is_sensor
+      };
+    }
+
     const response = await this.post<DiaryResponse>(ENDPOINTS.LOGBOOK_ENTRIES, body);
 
-    // Transform response to extract just the entries
+    // Transform response to extract and normalize entries
     let entriesResponse: ApiResponse<LogbookEntry[]>;
     if (response.success && response.data) {
-      const entries = response.data.logEntryList || [];
+      const rawEntries = response.data.logEntryList || [];
+      const entries = rawEntries.map(mapToLogbookEntry);
       entriesResponse = {
         success: true,
         data: entries,
@@ -299,6 +409,8 @@ class DiabetesMClient {
 
   /**
    * Gets glucose statistics for a period
+   * The API returns arrays where indices represent different periods:
+   * 0 = 7 days, 1 = 14 days, 2 = 30 days, 3 = 90 days, 4 = today
    */
   async getGlucoseStatistics(period: string): Promise<ApiResponse<GlucoseStatistics>> {
     const timer = auditLogger.startTimer();
@@ -311,27 +423,108 @@ class DiabetesMClient {
       return { success: true, data: cached, timestamp: new Date().toISOString() };
     }
 
-    const { from, to } = dateRangeToParams(period);
-    const response = await this.get<GlucoseStatistics>(ENDPOINTS.GLUCOSE_STATISTICS, { from, to });
+    // Map period to array index
+    const periodIndexMap: Record<string, number> = {
+      'today': 4,
+      '7': 0,
+      '14': 1,
+      '30': 2,
+      '90': 3
+    };
+    const periodIndex = periodIndexMap[period] ?? 0;
+
+    // Raw API response format
+    interface RawStatisticsResponse {
+      m_counts: number[];           // Total readings count per period
+      m_tooLowCounts: number[];     // Hypo (<54 mg/dL) count
+      m_lowCounts: number[];        // Low (54-69 mg/dL) count
+      m_normCounts: number[];       // Normal (70-180 mg/dL) count
+      m_hiCounts: number[];         // High (181-250 mg/dL) count
+      m_tooHiCounts: number[];      // Hyper (>250 mg/dL) count
+      m_glucoseLowest: number[];    // Min glucose (mmol/L)
+      m_glucoseHighest: number[];   // Max glucose (mmol/L)
+      m_glucoseAvgs: number[];      // Average glucose (mmol/L)
+      m_estimatedHbA1c: number;     // Estimated HbA1c
+      m_deviation: number[];        // Standard deviation (mmol/L)
+      m_avgReadingsPerDay: number;  // Average readings per day
+      [key: string]: unknown;
+    }
+
+    const response = await this.get<RawStatisticsResponse>(ENDPOINTS.GLUCOSE_STATISTICS);
 
     if (response.success && response.data) {
-      await encryptedCache.set(cacheKey, response.data, 5 * 60 * 1000, true); // 5 min encrypted cache
+      const raw = response.data;
+      const totalReadings = raw.m_counts?.[periodIndex] || 0;
+
+      // Convert mmol/L to mg/dL (multiply by 18.0182)
+      const toMgdl = (mmol: number) => Math.round(mmol * 18.0182);
+
+      // Calculate distribution counts
+      const hypoCount = raw.m_tooLowCounts?.[periodIndex] || 0;
+      const lowCount = raw.m_lowCounts?.[periodIndex] || 0;
+      const normalCount = raw.m_normCounts?.[periodIndex] || 0;
+      const highCount = raw.m_hiCounts?.[periodIndex] || 0;
+      const hyperCount = raw.m_tooHiCounts?.[periodIndex] || 0;
+
+      // Calculate coefficient of variation (CV = SD / Mean * 100)
+      const avgMmol = raw.m_glucoseAvgs?.[periodIndex] || 0;
+      const sdMmol = raw.m_deviation?.[periodIndex] || 0;
+      const cv = avgMmol > 0 ? (sdMmol / avgMmol) * 100 : 0;
+
+      // Calculate time in range (normal / total * 100)
+      const tir = totalReadings > 0 ? (normalCount / totalReadings) * 100 : 0;
+
+      const stats: GlucoseStatistics = {
+        distribution: {
+          hypo: hypoCount,
+          low: lowCount,
+          normal: normalCount,
+          high: highCount,
+          hyper: hyperCount
+        },
+        average: toMgdl(avgMmol),
+        min: toMgdl(raw.m_glucoseLowest?.[periodIndex] || 0),
+        max: toMgdl(raw.m_glucoseHighest?.[periodIndex] || 0),
+        standardDeviation: toMgdl(sdMmol),
+        coefficientOfVariation: Math.round(cv * 10) / 10,
+        estimatedHbA1c: Math.round(raw.m_estimatedHbA1c * 10) / 10,
+        timeInRange: Math.round(tir * 10) / 10,
+        readingsCount: totalReadings,
+        period: period === 'today' ? 'Today' : `Last ${period} days`
+      };
+
+      await encryptedCache.set(cacheKey, stats, 5 * 60 * 1000, true);
+
+      auditLogger.logOperation(
+        'get_glucose_statistics',
+        'get_glucose_statistics',
+        true,
+        timer(),
+        cacheKey
+      );
+
+      return { success: true, data: stats, timestamp: new Date().toISOString() };
     }
 
     auditLogger.logOperation(
       'get_glucose_statistics',
       'get_glucose_statistics',
-      response.success,
+      false,
       timer(),
       cacheKey,
       response.error?.code
     );
 
-    return response;
+    return {
+      success: false,
+      error: response.error,
+      timestamp: new Date().toISOString()
+    };
   }
 
   /**
    * Gets insulin analysis for a period
+   * Uses statistics endpoint for actual usage data and profile for configured settings
    */
   async getInsulinAnalysis(period: string): Promise<ApiResponse<InsulinAnalysis>> {
     const timer = auditLogger.startTimer();
@@ -344,27 +537,165 @@ class DiabetesMClient {
       return { success: true, data: cached, timestamp: new Date().toISOString() };
     }
 
-    const { from, to } = dateRangeToParams(period);
-    const response = await this.get<InsulinAnalysis>(ENDPOINTS.INSULIN_STATISTICS, { from, to });
+    // Map period to array index (same as glucose statistics)
+    const periodIndexMap: Record<string, number> = {
+      'today': 4,
+      '7': 0,
+      '14': 1,
+      '30': 2,
+      '90': 3
+    };
+    const periodIndex = periodIndexMap[period] ?? 0;
+    const daysInPeriod = period === 'today' ? 1 : parseInt(period) || 7;
 
-    if (response.success && response.data) {
-      await encryptedCache.set(cacheKey, response.data, 5 * 60 * 1000, true); // 5 min encrypted cache
+    // Raw API response format (same endpoint as glucose stats)
+    interface RawStatisticsResponse {
+      m_insulinAvgs: number[];      // Average daily total insulin
+      m_bolusAvgs: number[];        // Average daily bolus
+      m_basalAvgs: number[];        // Average daily basal
+      m_bolusCorrAvgs: number[];    // Average daily correction bolus
+      m_carbAvgs: number[];         // Average daily carbs
+      m_insulinCounts: number[];    // Days with insulin data
+      m_carbCounts: number[];       // Days with carb data
+      m_coverageSum: number;        // Sum for ICR calculation (from actual data)
+      m_coverageCounts: number;     // Count for ICR calculation
+      m_sensitivitySum: number;     // Sum for ISF calculation (from actual data)
+      m_sensitivityCounts: number;  // Count for ISF calculation
+      [key: string]: unknown;
+    }
+
+    // Also fetch profile to get user-configured ICR and ISF settings
+    interface RawProfileResponse {
+      settings?: {
+        insulin_sensitivity_default?: number;
+        insulin_sensitivity_per_hour?: number[];
+        carbohydrates_ratio_default?: number;
+        carbohydrates_ratio_per_hour?: number[];
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }
+
+    // Fetch both statistics and profile in parallel
+    const [statsResponse, profileResponse] = await Promise.all([
+      this.get<RawStatisticsResponse>(ENDPOINTS.GLUCOSE_STATISTICS),
+      this.get<RawProfileResponse>(ENDPOINTS.PERSONAL_METRICS)
+    ]);
+
+    if (statsResponse.success && statsResponse.data) {
+      const raw = statsResponse.data;
+      const profile = profileResponse.success ? profileResponse.data?.settings : undefined;
+
+      // Get averages for the period
+      const avgBolus = raw.m_bolusAvgs?.[periodIndex] || 0;
+      const avgBasal = raw.m_basalAvgs?.[periodIndex] || 0;
+      const avgCorrection = raw.m_bolusCorrAvgs?.[periodIndex] || 0;
+      const avgTotal = raw.m_insulinAvgs?.[periodIndex] || 0;
+      const avgCarbs = raw.m_carbAvgs?.[periodIndex] || 0;
+
+      // Calculate totals for period
+      const totalBolus = Math.round(avgBolus * daysInPeriod);
+      const totalBasal = Math.round(avgBasal * daysInPeriod);
+      const totalCorrection = Math.round(avgCorrection * daysInPeriod);
+      const totalInsulin = totalBolus + totalBasal + totalCorrection;
+      const totalCarbs = Math.round(avgCarbs * daysInPeriod);
+
+      // Calculate percentages
+      const bolusPercentage = totalInsulin > 0 ? (totalBolus / totalInsulin) * 100 : 0;
+      const basalPercentage = totalInsulin > 0 ? (totalBasal / totalInsulin) * 100 : 0;
+
+      // Get user-configured insulin-to-carb ratio from profile settings
+      // carbohydrates_ratio_per_hour is an array with 48 values (every 30 min)
+      // We take the first non-zero value as the representative ratio
+      let configuredIcr = 0;
+      if (profile?.carbohydrates_ratio_per_hour) {
+        for (const ratio of profile.carbohydrates_ratio_per_hour) {
+          if (ratio > 0) {
+            configuredIcr = ratio;
+            break;
+          }
+        }
+      }
+      if (configuredIcr === 0 && profile?.carbohydrates_ratio_default) {
+        configuredIcr = profile.carbohydrates_ratio_default;
+      }
+
+      // Get user-configured insulin sensitivity factor from profile settings
+      // insulin_sensitivity_per_hour is in mmol/L, need to convert to mg/dL
+      let configuredIsf = 0;
+      if (profile?.insulin_sensitivity_per_hour) {
+        for (const sensitivity of profile.insulin_sensitivity_per_hour) {
+          if (sensitivity > 0) {
+            configuredIsf = Math.round(sensitivity * 18.0182);
+            break;
+          }
+        }
+      }
+      if (configuredIsf === 0 && profile?.insulin_sensitivity_default) {
+        configuredIsf = Math.round(profile.insulin_sensitivity_default * 18.0182);
+      }
+
+      // Use configured values from profile, fall back to calculated from data if not set
+      const icr = configuredIcr > 0
+        ? configuredIcr
+        : (raw.m_coverageCounts > 0
+          ? raw.m_coverageSum / raw.m_coverageCounts
+          : (avgCarbs > 0 && avgBolus > 0 ? avgCarbs / avgBolus : 0));
+
+      const isf = configuredIsf > 0
+        ? configuredIsf
+        : (raw.m_sensitivityCounts > 0
+          ? Math.round((raw.m_sensitivitySum / raw.m_sensitivityCounts) * 18.0182)
+          : 0);
+
+      const analysis: InsulinAnalysis = {
+        dailyTotals: {
+          bolus: Math.round(avgBolus),
+          basal: Math.round(avgBasal),
+          correction: Math.round(avgCorrection),
+          total: Math.round(avgTotal)
+        },
+        carbTotals: totalCarbs,
+        insulinToCarbRatio: Math.round(icr * 10) / 10,
+        correctionFactor: isf,
+        averageDailyDose: Math.round(avgTotal * 10) / 10,
+        bolusPercentage: Math.round(bolusPercentage * 10) / 10,
+        basalPercentage: Math.round(basalPercentage * 10) / 10,
+        period: period === 'today' ? 'Today' : `Last ${period} days`
+      };
+
+      await encryptedCache.set(cacheKey, analysis, 5 * 60 * 1000, true);
+
+      auditLogger.logOperation(
+        'get_insulin_analysis',
+        'get_insulin_analysis',
+        true,
+        timer(),
+        cacheKey
+      );
+
+      return { success: true, data: analysis, timestamp: new Date().toISOString() };
     }
 
     auditLogger.logOperation(
       'get_insulin_analysis',
       'get_insulin_analysis',
-      response.success,
+      false,
       timer(),
       cacheKey,
-      response.error?.code
+      statsResponse.error?.code
     );
 
-    return response;
+    return {
+      success: false,
+      error: statsResponse.error,
+      timestamp: new Date().toISOString()
+    };
   }
 
   /**
    * Gets personal metrics
+   * The API returns nested user/settings objects that need to be mapped
    */
   async getPersonalMetrics(): Promise<ApiResponse<PersonalMetrics>> {
     const timer = auditLogger.startTimer();
@@ -377,28 +708,133 @@ class DiabetesMClient {
       return { success: true, data: cached, timestamp: new Date().toISOString() };
     }
 
-    const response = await this.get<PersonalMetrics>(ENDPOINTS.PERSONAL_METRICS);
+    // Raw API response format from /api/v1/user/profile/get_profile
+    interface RawProfileResponse {
+      token?: string;
+      user?: {
+        user_id?: number;
+        firstname?: string;
+        lastname?: string;
+        birthdate?: number;
+        diabetes_type?: number;      // 1=Type 1, 2=Type 2
+        gender?: number;             // 1=Male, 2=Female
+        [key: string]: unknown;
+      };
+      settings?: {
+        units?: string;              // 'metric' or 'imperial'
+        glucose_unit?: string;       // 'mg_dl' or 'mmol_l'
+        current_weight?: number;     // in kg (metric) or lbs (imperial)
+        height?: number;             // in cm
+        activity_factor?: number;    // 1.2-1.9 range
+        insulin_sensitivity_default?: number;  // in mmol/L
+        insulin_sensitivity_per_hour?: number[];
+        carbohydrates_ratio_default?: number;
+        carbohydrates_ratio_per_hour?: number[];
+        [key: string]: unknown;
+      };
+      sub_details?: {
+        level?: string;
+      };
+    }
+
+    const response = await this.get<RawProfileResponse>(ENDPOINTS.PERSONAL_METRICS);
 
     if (response.success && response.data) {
-      await encryptedCache.set(cacheKey, response.data, 2 * 60 * 1000, true); // 2 min encrypted cache (more sensitive)
+      const raw = response.data;
+      const user = raw.user || {};
+      const settings = raw.settings || {};
+
+      // Determine units
+      const isMetric = settings.units !== 'imperial';
+
+      // Calculate BMI if weight and height available
+      const weight = settings.current_weight;
+      const heightCm = settings.height;
+      let bmi: number | undefined;
+      if (weight !== undefined && heightCm !== undefined && heightCm > 0) {
+        const heightM = heightCm / 100;
+        bmi = weight / (heightM * heightM);
+      }
+
+      // Calculate BMR using Mifflin-St Jeor equation
+      let bmr: number | undefined;
+      if (weight !== undefined && heightCm !== undefined && user.birthdate !== undefined) {
+        const age = Math.floor((Date.now() - user.birthdate) / (365.25 * 24 * 60 * 60 * 1000));
+        if (age > 0 && age < 120) {
+          // Mifflin-St Jeor: BMR = 10*weight(kg) + 6.25*height(cm) - 5*age + s (s=+5 for male, -161 for female)
+          const genderOffset = user.gender === 1 ? 5 : -161;
+          bmr = Math.round(10 * weight + 6.25 * heightCm - 5 * age + genderOffset);
+        }
+      }
+
+      // Calculate daily calorie needs
+      let dailyCalorieNeeds: number | undefined;
+      if (bmr !== undefined && settings.activity_factor !== undefined) {
+        dailyCalorieNeeds = Math.round(bmr * settings.activity_factor);
+      }
+
+      // Get insulin sensitivity (convert from mmol/L to mg/dL)
+      let insulinSensitivity: number | undefined;
+      const isSensitivity = settings.insulin_sensitivity_per_hour?.[0] ||
+        settings.insulin_sensitivity_default;
+      if (isSensitivity !== undefined && isSensitivity > 0) {
+        insulinSensitivity = Math.round(isSensitivity * 18.0182);
+      }
+
+      // Map diabetes type
+      let diabetesType: string | undefined;
+      if (user.diabetes_type === 1) {
+        diabetesType = 'Type 1';
+      } else if (user.diabetes_type === 2) {
+        diabetesType = 'Type 2';
+      }
+
+      const metrics: PersonalMetrics = {
+        weight: weight,
+        weightUnit: isMetric ? 'kg' : 'lbs',
+        height: heightCm,
+        heightUnit: isMetric ? 'cm' : 'in',
+        bmi: bmi !== undefined ? Math.round(bmi * 10) / 10 : undefined,
+        bmr: bmr,
+        dailyCalorieNeeds: dailyCalorieNeeds,
+        insulinSensitivity: insulinSensitivity,
+        diabetesType: diabetesType
+        // Note: blood pressure, pulse, and HbA1c are not in profile
+        // They come from logbook entries with those measurements
+      };
+
+      await encryptedCache.set(cacheKey, metrics, 2 * 60 * 1000, true);
+
+      auditLogger.logPersonalMetricsAccess(
+        'get_personal_metrics',
+        true,
+        timer(),
+        true,
+        'api_fetch'
+      );
+
+      return { success: true, data: metrics, timestamp: new Date().toISOString() };
     }
 
     auditLogger.logPersonalMetricsAccess(
       'get_personal_metrics',
-      response.success,
+      false,
       timer(),
       true,
       'api_fetch',
       response.error?.code
     );
 
-    return response;
+    return {
+      success: false,
+      error: response.error,
+      timestamp: new Date().toISOString()
+    };
   }
 
   /**
-   * Searches foods database
-   * The Diabetes:M API uses POST with query, language, and limit in body
-   * Response format: { total, next, nextPageUrl, result: [...] }
+   * Searches foods database including user foods extracted from diary entries
+   * User foods are stored in diary entries, not in separate endpoints
    */
   async searchFoods(
     query: string,
@@ -408,56 +844,226 @@ class DiabetesMClient {
     const timer = auditLogger.startTimer();
     const cacheKey = `foods:${query}:${filter || ''}:${language}`;
 
-    // Check cache (public data, unencrypted)
+    // Check cache
     const cached = await encryptedCache.get<FoodItem[]>(cacheKey);
     if (cached) {
       auditLogger.logOperation('search_foods', 'search_foods', true, timer(), cacheKey);
       return { success: true, data: cached, timestamp: new Date().toISOString() };
     }
 
-    // API uses POST with query, language, and limit
-    const body: Record<string, unknown> = {
-      query: query,
-      language: language.toLowerCase(),
-      limit: 50
-    };
-
-    // The API returns { total, next, nextPageUrl, result: [...] }
-    interface FoodSearchResponse {
-      total: number;
-      next: boolean;
-      nextPageUrl: string | null;
-      result: FoodItem[];
+    // Raw API food item format (from food_list in diary entries)
+    interface RawFoodItem {
+      food_id?: number;
+      input_id?: number;
+      name?: string;
+      brand?: string;
+      category?: string;
+      food_type?: string;
+      // Nutrition per serving_size
+      calories?: number;
+      total_carbs?: number;
+      protein?: number;
+      total_fat?: number;
+      fiber?: number;
+      sugars?: number;
+      sodium?: number;
+      saturated_fat?: number;
+      trans_fat?: number;
+      cholesterol?: number;
+      // Serving info
+      serving?: string;
+      serving_size?: number;
+      serving_id?: number;
+      quantity?: number;
+      // Source info
+      barcode?: string;
+      external_source_code?: number;  // 0 = user created
+      has_ingredients?: boolean;
+      glycemic_index?: number;
+      [key: string]: unknown;
     }
 
-    const response = await this.post<FoodSearchResponse>(ENDPOINTS.FOODS_SEARCH, body);
+    interface FoodSearchResponse {
+      total: number;
+      next: boolean | number;
+      nextPageUrl: string | null;
+      result: RawFoodItem[];
+    }
 
-    // Transform response to extract just the results
-    let foodsResponse: ApiResponse<FoodItem[]>;
-    if (response.success && response.data) {
-      const foods = response.data.result || [];
-      foodsResponse = {
-        success: true,
-        data: foods,
-        timestamp: new Date().toISOString()
+    // Diary entry with food_list
+    interface DiaryEntry {
+      food_list?: RawFoodItem[];
+      food?: string;  // JSON string of foods (legacy format)
+      [key: string]: unknown;
+    }
+
+    interface DiaryResponse {
+      logEntryList?: DiaryEntry[];
+      [key: string]: unknown;
+    }
+
+    /**
+     * Maps raw API food item to our FoodItem type
+     * Normalizes nutrition to per 100g
+     */
+    const mapToFoodItem = (raw: RawFoodItem, sourceOverride?: 'user' | 'database' | 'recent' | 'favorite'): FoodItem => {
+      const servingSize = raw.serving_size || 100;
+      const factor = 100 / servingSize;
+
+      // Handle -1 values (means "not available" in the API)
+      const safeValue = (val: number | undefined) =>
+        val !== undefined && val >= 0 ? val : 0;
+
+      const nutritionPer100g = {
+        calories: Math.round(safeValue(raw.calories) * factor),
+        carbs: Math.round((safeValue(raw.total_carbs) * factor) * 10) / 10,
+        protein: Math.round((safeValue(raw.protein) * factor) * 10) / 10,
+        fat: Math.round((safeValue(raw.total_fat) * factor) * 10) / 10,
+        fiber: raw.fiber !== undefined && raw.fiber >= 0
+          ? Math.round((raw.fiber * factor) * 10) / 10
+          : undefined,
+        sugar: raw.sugars !== undefined && raw.sugars >= 0
+          ? Math.round((raw.sugars * factor) * 10) / 10
+          : undefined,
+        sodium: raw.sodium !== undefined && raw.sodium >= 0
+          ? Math.round(raw.sodium * factor)
+          : undefined
       };
-      // Public data, no encryption needed, longer TTL
-      await encryptedCache.set(cacheKey, foods, 30 * 60 * 1000, false); // 30 min unencrypted cache
-    } else {
-      foodsResponse = {
-        success: false,
-        error: response.error,
-        timestamp: new Date().toISOString()
+
+      // Determine source - external_source_code 0 means user-created
+      let source: 'user' | 'database' | 'recent' | 'favorite' = sourceOverride || 'database';
+      if (!sourceOverride && raw.external_source_code === 0) {
+        source = 'user';
+      }
+
+      return {
+        id: String(raw.food_id || raw.input_id || Date.now()),
+        name: raw.name || 'Unknown',
+        brand: raw.brand,
+        category: raw.category || raw.food_type,
+        nutritionPer100g,
+        servingSizes: [{
+          name: raw.serving || 'g',
+          grams: servingSize
+        }],
+        source,
+        barcode: raw.barcode,
+        language: language
       };
+    };
+
+    /**
+     * Filters foods by query string (case-insensitive)
+     */
+    const matchesQuery = (food: RawFoodItem, searchQuery: string): boolean => {
+      const q = searchQuery.toLowerCase();
+      const name = (food.name || '').toLowerCase();
+      const brand = (food.brand || '').toLowerCase();
+      return name.includes(q) || brand.includes(q);
+    };
+
+    // Collect all foods from different sources
+    const allFoods: FoodItem[] = [];
+    const seenIds = new Set<string>();
+
+    // Helper to add foods without duplicates (by name, not just ID)
+    const addFoods = (foods: FoodItem[]) => {
+      for (const food of foods) {
+        // Use name as key to avoid duplicates with different IDs
+        const key = food.name.toLowerCase();
+        if (!seenIds.has(key)) {
+          seenIds.add(key);
+          allFoods.push(food);
+        }
+      }
+    };
+
+    // 1. Extract user foods from diary entries (last 90 days)
+    // This is where user-created foods are stored in Diabetes:M
+    if (!filter || filter === 'userCreated' || filter === 'recent') {
+      try {
+        const now = Date.now();
+        const fromDate = now - 90 * 24 * 60 * 60 * 1000;
+
+        const diaryResponse = await this.post<DiaryResponse>(ENDPOINTS.LOGBOOK_ENTRIES, {
+          fromDate,
+          toDate: now,
+          includeCarbs: true,
+          all: true
+        });
+
+        if (diaryResponse.success && diaryResponse.data?.logEntryList) {
+          const foodMap = new Map<string, RawFoodItem>();
+
+          for (const entry of diaryResponse.data.logEntryList) {
+            // Get foods from food_list array (preferred)
+            const foods = entry.food_list || [];
+
+            // Also try to parse legacy food JSON string
+            if (entry.food && typeof entry.food === 'string' && entry.food.length > 2) {
+              try {
+                const parsedFoods = JSON.parse(entry.food) as RawFoodItem[];
+                foods.push(...parsedFoods);
+              } catch {
+                // Ignore parse errors
+              }
+            }
+
+            // Add unique foods that match query
+            for (const food of foods) {
+              if (food.name && matchesQuery(food, query)) {
+                const key = food.name.toLowerCase();
+                if (!foodMap.has(key)) {
+                  foodMap.set(key, food);
+                }
+              }
+            }
+          }
+
+          // Convert to FoodItem array
+          const diaryFoods = Array.from(foodMap.values())
+            .map(f => mapToFoodItem(f, f.external_source_code === 0 ? 'user' : 'recent'));
+          addFoods(diaryFoods);
+        }
+      } catch {
+        // Continue if recent endpoint fails
+      }
+    }
+
+    // 4. Search public database (only if not filtering to user-only sources)
+    if (!filter || filter === 'database') {
+      const body: Record<string, unknown> = {
+        query: query,
+        language: language.toLowerCase(),
+        limit: 50
+      };
+
+      const response = await this.post<FoodSearchResponse>(ENDPOINTS.FOODS_SEARCH, body);
+      if (response.success && response.data) {
+        const rawFoods = response.data.result || [];
+        const foods = rawFoods.map(f => mapToFoodItem(f));
+        addFoods(foods);
+      }
+    }
+
+    // Return combined results
+    const foodsResponse: ApiResponse<FoodItem[]> = {
+      success: true,
+      data: allFoods,
+      timestamp: new Date().toISOString()
+    };
+
+    // Cache results
+    if (allFoods.length > 0) {
+      await encryptedCache.set(cacheKey, allFoods, 30 * 60 * 1000, false);
     }
 
     auditLogger.logOperation(
       'search_foods',
       'search_foods',
-      foodsResponse.success,
+      true,
       timer(),
-      cacheKey,
-      response.error?.code
+      cacheKey
     );
 
     return foodsResponse;

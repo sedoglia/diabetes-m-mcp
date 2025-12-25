@@ -2,6 +2,9 @@
  * Security Types
  */
 
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+
 export interface EncryptedData {
   /** Base64 encoded encrypted data (salt + iv + tag + ciphertext) */
   data: string;
@@ -108,8 +111,6 @@ export const PERSONAL_AUDIT_LOG_FILE_NAME = 'diabetesm-personal-audit.log';
  * - Linux: ~/.config/diabetes-m-mcp/
  */
 export function getConfigDir(): string {
-  const { homedir } = require('node:os');
-  const { join } = require('node:path');
   const home = homedir();
 
   switch (process.platform) {

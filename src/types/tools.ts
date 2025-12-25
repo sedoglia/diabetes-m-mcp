@@ -22,9 +22,13 @@ export type ReportFormat = z.infer<typeof ReportFormatSchema>;
 
 // Tool input schemas
 export const GetLogbookEntriesInputSchema = z.object({
-  dateRange: DateRangeSchema.describe('Time range for logbook entries'),
+  dateRange: DateRangeSchema.optional().describe('Time range for logbook entries (today, 7days, 30days, 90days)'),
+  date: z.string().optional().describe('Specific date in YYYY-MM-DD format (e.g., 2025-12-25)'),
   category: z.string().optional().describe('Optional category filter (e.g., breakfast, lunch, dinner)')
-});
+}).refine(
+  data => data.dateRange || data.date,
+  { message: 'Either dateRange or date must be provided' }
+);
 export type GetLogbookEntriesInput = z.infer<typeof GetLogbookEntriesInputSchema>;
 
 export const GetGlucoseStatisticsInputSchema = z.object({
@@ -67,21 +71,24 @@ export interface ToolDefinition {
 export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
     name: 'get_logbook_entries',
-    description: 'Retrieve logbook entries from Diabetes:M including glucose readings, insulin doses, carbs, and notes for a specified date range.',
+    description: 'Retrieve logbook entries from Diabetes:M including glucose readings, insulin doses, carbs, and notes. You can specify either a date range (today, 7days, 30days, 90days) OR a specific date (YYYY-MM-DD format).',
     inputSchema: {
       type: 'object',
       properties: {
         dateRange: {
           type: 'string',
           enum: ['today', '7days', '30days', '90days'],
-          description: 'Time range for logbook entries'
+          description: 'Time range for logbook entries (use this OR date, not both)'
+        },
+        date: {
+          type: 'string',
+          description: 'Specific date in YYYY-MM-DD format (e.g., 2025-12-25). Use this OR dateRange, not both.'
         },
         category: {
           type: 'string',
           description: 'Optional category filter (e.g., breakfast, lunch, dinner)'
         }
-      },
-      required: ['dateRange']
+      }
     }
   },
   {

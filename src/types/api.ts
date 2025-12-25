@@ -29,6 +29,48 @@ export interface LogbookEntry {
   isSensor?: boolean;
 }
 
+/**
+ * Simplified logbook entry for LLM consumption
+ * Only includes non-null fields with human-readable formatting
+ */
+export interface SimplifiedLogbookEntry {
+  time: string;           // "14:30" format
+  glucose?: string;       // "120 mg/dL" or "6.7 mmol/L"
+  insulin?: string;       // "8u bolus, 2u correction" compact format
+  meal?: string;          // "45g carbs (320 cal)" compact format
+  notes?: string;
+  category?: string;
+}
+
+/**
+ * Daily summary for logbook entries
+ */
+export interface DailySummary {
+  date: string;           // "2024-01-15 (Mon)"
+  glucoseAvg?: string;    // "125 mg/dL"
+  glucoseRange?: string;  // "95-180 mg/dL"
+  glucoseReadings: number;
+  totalInsulin?: string;  // "32u (24u bolus, 8u basal)"
+  totalCarbs?: number;
+  totalCalories?: number;
+  entries: SimplifiedLogbookEntry[];
+}
+
+/**
+ * Simplified logbook result optimized for LLM analysis
+ */
+export interface SimplifiedLogbookResult {
+  summary: {
+    period: string;       // "Last 7 days (Jan 8-15, 2024)"
+    totalEntries: number;
+    daysWithData: number;
+    avgGlucose?: string;
+    avgDailyInsulin?: string;
+    avgDailyCarbs?: number;
+  };
+  dailyData: DailySummary[];
+}
+
 export interface GlucoseDistribution {
   hypo: number;      // < 54 mg/dL
   low: number;       // 54-69 mg/dL
