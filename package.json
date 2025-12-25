@@ -1,6 +1,6 @@
 {
-  "name": "@anthropic/diabetes-m-mcp",
-  "version": "1.0.0",
+  "name": "diabetes-m-mcp",
+  "version": "1.1.0",
   "description": "MCP Server for Diabetes:M integration with Claude Desktop - Secure access to diabetes management data",
   "type": "module",
   "main": "dist/index.js",
@@ -9,7 +9,10 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "README_EN.md",
+    "LICENSE",
+    "manifest.json"
   ],
   "scripts": {
     "build": "tsc",
@@ -17,7 +20,9 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "bundle": "npm run build && node scripts/create-bundle.js",
+    "release": "npm run bundle && node scripts/create-release.js"
   },
   "keywords": [
     "mcp",
@@ -32,16 +37,16 @@
     "logbook",
     "ai"
   ],
-  "author": "",
+  "author": "Sergio Dogliani",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anthropics/diabetes-m-mcp.git"
+    "url": "https://github.com/sedoglia/diabetes-m-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/anthropics/diabetes-m-mcp/issues"
+    "url": "https://github.com/sedoglia/diabetes-m-mcp/issues"
   },
-  "homepage": "https://github.com/anthropics/diabetes-m-mcp#readme",
+  "homepage": "https://github.com/sedoglia/diabetes-m-mcp#readme",
   "engines": {
     "node": ">=18.0.0"
   },
