@@ -172,7 +172,7 @@ npm run check-encryption
 
 > **Nota sulla Sicurezza:** Non commitare mai il file `.env` nel controllo versione. È già incluso in `.gitignore`. Si consiglia di usare il metodo sicuro sopra descritto.
 
-## Configurazione di Claude Desktop
+### 6. Configurazione di Claude Desktop
 
 ### Posizione del File di Configurazione
 
