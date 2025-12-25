@@ -51,3 +51,6 @@ login-response.html
 
 # Claude local settings
 .claude/
+
+# Releases (generated packages)
+releases/
