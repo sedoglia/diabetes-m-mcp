@@ -91,7 +91,7 @@ sha256sum -c diabetes-m-mcp.mcpb.sha256
 3. Seleziona la scheda **Estensioni** (Extensions)
 4. Clicca su **Impostazioni Avanzate** (Advanced settings) e trova la sezione **Extension Developer**
 5. Clicca su **"Installa Estensione..."** (Install Extension…)
-6. Seleziona il file `.mcpb` (`diabetes-m-mcp.mcpb` scaricato al passaggio 1)
+6. Seleziona il file `.mcpb` (`diabetes-m-mcp.mcpb` scaricato al passaggio 2)
 7. Segui le indicazioni a schermo per completare l'installazione
 
 > **Nota:** Questo è il metodo più semplice e consigliato. L'estensione sarà automaticamente integrata in Claude Desktop senza necessità di configurazione manuale.
