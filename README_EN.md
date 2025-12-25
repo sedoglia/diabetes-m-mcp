@@ -70,7 +70,7 @@ npm install keytar
 Use your browser or:
 
 ```bash
-wget
+wget https://github.com/sedoglia/diabetes-m-mcp/releases/download/v1.1.0/diabetes-m-mcp.mcpb
 ```
 
 ### 3. Verify integrity
@@ -78,7 +78,7 @@ wget
 Verify integrity (optional but recommended):
 
 ```bash
-wget
+wget https://github.com/sedoglia/diabetes-m-mcp/releases/download/v1.1.0/diabetes-m-mcp.mcpb.sha256
 sha256sum -c diabetes-m-mcp.mcpb.sha256
 ```
 

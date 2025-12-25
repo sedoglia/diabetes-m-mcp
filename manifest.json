@@ -1,14 +1,15 @@
 {
   "manifest_version": "0.2",
   "name": "diabetes-m-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP Server for Diabetes:M integration with Claude Desktop - Secure access to diabetes management data",
   "author": {
-    "name": "sedoglia",
+    "name": "Sergio Dogliani",
     "email": "sedoglia@gmail.com"
   },
-  "homepage": "https://github.com/sedoglia/garmin-mcp-ts",
-  "support": "https://github.com/sedoglia/garmin-mcp-ts/issues",
+  "homepage": "https://github.com/sedoglia/diabetes-m-mcp",
+  "documentation": "https://github.com/sedoglia/diabetes-m-mcp/blob/main/README_EN.md",
+  "support": "https://github.com/sedoglia/diabetes-m-mcp/issues",
   "icon": "Diabetes-M.png",
   "server": {
     "type": "node",
