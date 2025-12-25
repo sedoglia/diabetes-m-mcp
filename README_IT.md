@@ -278,8 +278,9 @@ Aggiungi il server MCP Diabetes-M al tuo `claude_desktop_config.json`:
 │  AES-256-GCM • IV/Salt casuali • PBKDF2 (100K iter)│
 ├─────────────────────────────────────────────────────┤
 │            Livello 3: Storage Sicuro                │
-│  ~/.diabetesm/credentials.enc • tokens.enc          │
-│  Permessi file: 0600 (solo proprietario)            │
+│  %LOCALAPPDATA%/diabetes-m-mcp/ (Win)               │
+│  ~/Library/Application Support/diabetes-m-mcp/ (Mac)│
+│  ~/.config/diabetes-m-mcp/ (Linux)                  │
 ├─────────────────────────────────────────────────────┤
 │           Livello 4: Validazione Input              │
 │  Schemi Zod • Prevenzione SQL injection             │
@@ -293,11 +294,21 @@ Aggiungi il server MCP Diabetes-M al tuo `claude_desktop_config.json`:
 
 ### Posizioni di Storage
 
+I file di configurazione sono salvati in percorsi specifici per ogni sistema operativo:
+
+| Sistema Operativo | Percorso |
+|-------------------|----------|
+| **Windows** | `%LOCALAPPDATA%\diabetes-m-mcp\` |
+| **macOS** | `~/Library/Application Support/diabetes-m-mcp/` |
+| **Linux** | `~/.config/diabetes-m-mcp/` |
+
 | File | Scopo |
 |------|-------|
-| `~/.diabetesm/diabetesm-credentials.enc` | Credenziali criptate |
-| `~/.diabetesm/diabetesm-tokens.enc` | Token sessione criptati |
-| `~/.diabetesm/diabetesm-audit.log` | Log audit (dati hashati) |
+| `diabetesm-credentials.enc` | Credenziali criptate |
+| `diabetesm-tokens.enc` | Token sessione criptati |
+| `diabetesm-audit.log` | Log audit (dati hashati) |
+
+> **Nota:** La chiave di crittografia master è sempre salvata nel keyring nativo del sistema operativo (Windows Credential Vault, macOS Keychain, Linux Secret Service), non in questi file.
 
 ## 🏗️ Struttura Progetto
 
@@ -353,7 +364,7 @@ Esegui lo strumento setup_credentials:
 
 Se il keyring di sistema non è disponibile:
 - Il server usa automaticamente lo storage file criptato come fallback
-- Le chiavi sono memorizzate in `~/.diabetesm/master.key.enc`
+- Le chiavi sono memorizzate in `<config-dir>/master.key.enc`
 - La sicurezza è mantenuta attraverso crittografia specifica per macchina
 
 ### Rate Limiting
@@ -377,7 +388,10 @@ Questo server MCP raccoglie e tratta i seguenti dati:
 - **Log audit**: Log operazioni hashati per monitoraggio sicurezza (nessun dato salute grezzo)
 
 ### Archiviazione Dati
-- Tutti i dati sono memorizzati **localmente sul tuo dispositivo** in `~/.diabetesm/`
+- Tutti i dati sono memorizzati **localmente sul tuo dispositivo** nella directory specifica del SO:
+  - Windows: `%LOCALAPPDATA%\diabetes-m-mcp\`
+  - macOS: `~/Library/Application Support/diabetes-m-mcp/`
+  - Linux: `~/.config/diabetes-m-mcp/`
 - Le credenziali sono criptate con crittografia **AES-256-GCM**
 - La chiave master di crittografia è memorizzata nel tuo **keyring del SO** (Windows Credential Vault, macOS Keychain, o Linux Secret Service)
 - Nessun dato memorizzato in file di configurazione o testo semplice
@@ -395,7 +409,7 @@ Questo server MCP raccoglie e tratta i seguenti dati:
 ### I Tuoi Diritti
 - Hai pieno controllo sui tuoi dati
 - Usa `clear_credentials` per rimuovere tutte le credenziali e token memorizzati
-- Elimina la directory `~/.diabetesm/` per rimuovere tutti i dati locali
+- Elimina la directory di configurazione del SO per rimuovere tutti i dati locali
 
 ### Servizi di Terze Parti
 Questo server interagisce solo con:

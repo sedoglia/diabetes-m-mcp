@@ -14,18 +14,18 @@
  */
 
 import { existsSync, appendFileSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { homedir } from 'node:os';
 import { join } from 'node:path';
 import {
   AUDIT_LOG_FILE_NAME,
   PERSONAL_AUDIT_LOG_FILE_NAME,
   DEFAULT_SECURITY_CONFIG,
+  getConfigDir,
   type AuditLogEntry,
   type PersonalMetricsAuditEntry
 } from '../types/security.js';
 import { encryptionService } from './encryption.js';
 
-const CONFIG_DIR = join(homedir(), '.diabetesm');
+const CONFIG_DIR = getConfigDir();
 const AUDIT_LOG_PATH = join(CONFIG_DIR, AUDIT_LOG_FILE_NAME);
 const PERSONAL_AUDIT_LOG_PATH = join(CONFIG_DIR, PERSONAL_AUDIT_LOG_FILE_NAME);
 

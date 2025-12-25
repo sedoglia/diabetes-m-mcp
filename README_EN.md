@@ -180,8 +180,9 @@ Configuration file location:
 │  AES-256-GCM • Random IV/Salt • PBKDF2 (100K iter) │
 ├─────────────────────────────────────────────────────┤
 │               Layer 3: Secure Storage               │
-│  ~/.diabetesm/credentials.enc • tokens.enc          │
-│  File permissions: 0600 (owner only)                │
+│  %LOCALAPPDATA%/diabetes-m-mcp/ (Win)               │
+│  ~/Library/Application Support/diabetes-m-mcp/ (Mac)│
+│  ~/.config/diabetes-m-mcp/ (Linux)                  │
 ├─────────────────────────────────────────────────────┤
 │              Layer 4: Input Validation              │
 │  Zod schemas • SQL injection prevention             │
@@ -195,11 +196,21 @@ Configuration file location:
 
 ### Storage Locations
 
+Configuration files are stored in OS-specific directories:
+
+| Operating System | Path |
+|------------------|------|
+| **Windows** | `%LOCALAPPDATA%\diabetes-m-mcp\` |
+| **macOS** | `~/Library/Application Support/diabetes-m-mcp/` |
+| **Linux** | `~/.config/diabetes-m-mcp/` |
+
 | File | Purpose |
 |------|---------|
-| `~/.diabetesm/diabetesm-credentials.enc` | Encrypted credentials |
-| `~/.diabetesm/diabetesm-tokens.enc` | Encrypted session tokens |
-| `~/.diabetesm/diabetesm-audit.log` | Audit log (hashed data) |
+| `diabetesm-credentials.enc` | Encrypted credentials |
+| `diabetesm-tokens.enc` | Encrypted session tokens |
+| `diabetesm-audit.log` | Audit log (hashed data) |
+
+> **Note:** The master encryption key is always stored in the native OS keyring (Windows Credential Vault, macOS Keychain, Linux Secret Service), not in these files.
 
 ## 🏗️ Project Structure
 
@@ -255,7 +266,7 @@ Run the setup_credentials tool:
 
 If the system keyring isn't available:
 - The server automatically falls back to encrypted file storage
-- Keys are stored in `~/.diabetesm/master.key.enc`
+- Keys are stored in `<config-dir>/master.key.enc`
 - Security is maintained through machine-specific encryption
 
 ### Rate Limiting
@@ -305,7 +316,10 @@ This MCP server collects and processes the following data:
 - **Audit logs**: Hashed operation logs for security monitoring (no raw health data)
 
 ### Data Storage
-- All data is stored **locally on your device** in `~/.diabetesm/`
+- All data is stored **locally on your device** in the OS-specific config directory:
+  - Windows: `%LOCALAPPDATA%\diabetes-m-mcp\`
+  - macOS: `~/Library/Application Support/diabetes-m-mcp/`
+  - Linux: `~/.config/diabetes-m-mcp/`
 - Credentials are encrypted with **AES-256-GCM** encryption
 - Master encryption key is stored in your **OS keyring** (Windows Credential Vault, macOS Keychain, or Linux Secret Service)
 - No data is stored in config files or plain text
@@ -323,7 +337,7 @@ This MCP server collects and processes the following data:
 ### Your Rights
 - You have full control over your data
 - Use `clear_credentials` to remove all stored credentials and tokens
-- Delete the `~/.diabetesm/` directory to remove all local data
+- Delete the OS-specific config directory to remove all local data
 
 ### Third-Party Services
 This server interacts only with:

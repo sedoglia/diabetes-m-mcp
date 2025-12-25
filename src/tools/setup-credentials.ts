@@ -7,14 +7,19 @@
  * Security:
  * - Credentials never stored in plain text
  * - Encrypted with master key from OS keyring
- * - Stored in ~/.diabetesm/diabetesm-credentials.enc
+ * - Stored in platform-specific config directory:
+ *   - Windows: %LOCALAPPDATA%\diabetes-m-mcp\
+ *   - macOS: ~/Library/Application Support/diabetes-m-mcp/
+ *   - Linux: ~/.config/diabetes-m-mcp/
  */
 
 import { z } from 'zod';
+import { join } from 'node:path';
 import { credentialsManager } from '../security/credentials.js';
 import { diabetesMClient } from '../api/client.js';
 import { auditLogger } from '../security/audit.js';
 import { keyringManager } from '../security/keyring.js';
+import { CREDENTIALS_FILE_NAME, getConfigDir } from '../types/security.js';
 
 export const setupCredentialsToolDefinition = {
   name: 'setup_credentials',
@@ -86,8 +91,8 @@ export async function executeSetupCredentials(
         storageLocation: credentialsManager.getStorageInfo().configDir,
         securityInfo: {
           encryptionMethod: 'AES-256-GCM with PBKDF2 key derivation',
-          keyStorage: await keyringManager.isKeytarAvailable() ? 'OS Keyring (Windows Credential Vault)' : 'Encrypted file',
-          credentialsFile: '~/.diabetesm/diabetesm-credentials.enc'
+          keyStorage: await keyringManager.isKeytarAvailable() ? 'OS Keyring (Windows Credential Vault / macOS Keychain / Linux Secret Service)' : 'Encrypted file',
+          credentialsFile: join(getConfigDir(), CREDENTIALS_FILE_NAME)
         }
       };
     }
@@ -100,8 +105,8 @@ export async function executeSetupCredentials(
       storageLocation: credentialsManager.getStorageInfo().configDir,
       securityInfo: {
         encryptionMethod: 'AES-256-GCM with PBKDF2 key derivation',
-        keyStorage: await keyringManager.isKeytarAvailable() ? 'OS Keyring (Windows Credential Vault)' : 'Encrypted file',
-        credentialsFile: '~/.diabetesm/diabetesm-credentials.enc'
+        keyStorage: await keyringManager.isKeytarAvailable() ? 'OS Keyring (Windows Credential Vault / macOS Keychain / Linux Secret Service)' : 'Encrypted file',
+        credentialsFile: join(getConfigDir(), CREDENTIALS_FILE_NAME)
       }
     };
   } catch (error) {
