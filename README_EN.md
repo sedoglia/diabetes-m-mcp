@@ -5,16 +5,18 @@
 [![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[🇮🇹 Versione Italiana](README_IT.md)
+[![PayPal](https://img.shields.io/badge/Support%20the%20Project-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/sedoglia)
 
-MCP (Model Context Protocol) server for integrating [Diabetes:M](https://diabetes-m.com) health data with Claude Desktop. Access your glucose readings, insulin data, food diary, and health metrics through natural language conversations.
+**[🇮🇹 Versione Italiana](README.md)**
+
+MCP (Model Context Protocol) server to integrate [Diabetes:M](https://diabetes-m.com) data with Claude Desktop. Access your glucose readings, insulin data, food diary, and health metrics through natural language conversations.
 
 ## ✨ Features
 
-- **9 MCP Tools** for comprehensive diabetes data access
+- **9 MCP Tools** for complete diabetes data access
 - **Multi-layer security** with AES-256-GCM encryption
 - **System keyring integration** for secure master key storage (Windows Credential Vault, macOS Keychain, Linux Secret Service)
-- **Encrypted credential storage** in user profile (never in config files)
+- **Encrypted credentials** in user profile (never in config files)
 - **Cookie-based authentication** (reverse-engineered from analytics.diabetes-m.com)
 - **Smart food search** from your diary entries
 - **Comprehensive audit logging**
@@ -25,7 +27,7 @@ MCP (Model Context Protocol) server for integrating [Diabetes:M](https://diabete
 
 | Tool | Description |
 |------|-------------|
-| `setup_credentials` | Configure your Diabetes:M login securely |
+| `setup_credentials` | Configure Diabetes:M login securely |
 | `check_credentials` | Check if credentials are configured |
 | `clear_credentials` | Remove stored credentials |
 
@@ -33,63 +35,174 @@ MCP (Model Context Protocol) server for integrating [Diabetes:M](https://diabete
 
 | Tool | Description |
 |------|-------------|
-| `get_logbook_entries` | Retrieve logbook entries (glucose, insulin, carbs, notes) |
+| `get_logbook_entries` | Retrieve diary entries (glucose, insulin, carbs, notes) |
 | `get_glucose_statistics` | Get glucose distribution, average, estimated HbA1c |
 | `get_insulin_analysis` | Analyze insulin usage and carb ratios |
 | `get_personal_metrics` | Get weight, BMI, blood pressure, HbA1c |
 | `search_foods` | Search food database (includes your custom foods from diary) |
 | `generate_health_report` | Generate comprehensive health report |
 
-## 📦 Installation
+---
 
-### Option 1: Using npx (Recommended)
+## Prerequisites
 
-No installation required - just configure Claude Desktop:
+- **Node.js** 18.0 or higher
+- **npm** 8.0 or higher
+- **Claude Desktop** installed
+- **Diabetes-M Connect** account with valid credentials
 
-```json
-{
-  "mcpServers": {
-    "diabetes-m": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/diabetes-m-mcp"]
-    }
-  }
-}
-```
+## 🚀 Quick Installation (Precompiled Bundle)
 
-### Option 2: Global Installation
+### Steps:
+
+### 1. Install Keytar (Recommended for maximum security)
+
+To use the native OS vault (Windows Credential Manager, macOS Keychain, Linux Secret Service), install `keytar`:
 
 ```bash
-npm install -g @anthropic/diabetes-m-mcp
+npm install keytar
 ```
 
-Then configure Claude Desktop:
+> **Note:** If `keytar` cannot be installed, the system will automatically use an encrypted file as fallback.
 
-```json
-{
-  "mcpServers": {
-    "diabetes-m": {
-      "command": "diabetes-m-mcp"
-    }
-  }
-}
-```
+### 2. Download the bundle
 
-### Option 3: From Source
+Use your browser or:
 
 ```bash
-git clone https://github.com/anthropics/diabetes-m-mcp.git
+wget
+```
+
+### 3. Verify integrity
+
+Verify integrity (optional but recommended):
+
+```bash
+wget
+sha256sum -c diabetes-m-mcp.mcpb.sha256
+```
+
+### 4. Install the extension in Claude Desktop (Recommended Method)
+
+**Installation via Custom Desktop Extensions:**
+
+1. Open **Claude Desktop**
+2. Go to **Settings**
+3. Select the **Extensions** tab
+4. Click on **Advanced settings** and find the **Extension Developer** section
+5. Click on **"Install Extension..."**
+6. Select the `.mcpb` file (`diabetes-m-mcp.mcpb` downloaded in step 1)
+7. Follow the on-screen instructions to complete the installation
+
+> **Note:** This is the simplest and recommended method. The extension will be automatically integrated into Claude Desktop without manual configuration.
+
+---
+
+### 5. Configure Diabetes-M Credentials (Secure Method - Recommended)
+
+Open a **new chat in Claude Desktop** and type the following prompt:
+
+```
+Configure my Diabetes-M login credentials
+```
+
+Reply to the message providing:
+- **Username:** your Diabetes-M email
+- **Password:** your Diabetes-M password
+
+The extension will automatically encrypt and securely save the credentials in the native OS vault (Windows Credential Manager, macOS Keychain, Linux Secret Service).
+
+> **Note:** Credentials will NOT be saved in text files. They will always be encrypted and managed by the native OS vault.
+
+### 6. Restart Claude Desktop
+
+- Close the application completely
+- Reopen Claude Desktop
+- Check in Settings → Developer the connection status ✅
+
+## 🚀 Installation (cloning the repository with GIT)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/sedoglia/diabetes-m-mcp
 cd diabetes-m-mcp
+```
+
+### 2. Install Dependencies
+
+```bash
 npm install
+```
+
+### 3. Install Keytar (Recommended for maximum security)
+
+To use the native OS vault (Windows Credential Manager, macOS Keychain, Linux Secret Service), install `keytar`:
+
+```bash
+npm install keytar
+```
+
+> **Note:** If `keytar` cannot be installed, the system will automatically use an encrypted file as fallback.
+
+### 4. Build the Project
+
+```bash
 npm run build
 ```
 
-Then configure Claude Desktop:
+### 5. Configure Diabetes-M Credentials (Secure Method - Recommended)
+
+Run the setup script to configure credentials securely:
+
+```bash
+npm run setup-encryption
+```
+
+This script:
+1. Creates a secure directory in the user's home
+2. Generates an encryption key and saves it in the native OS vault
+3. Asks for Diabetes-M email and password
+4. Encrypts and securely saves the credentials
+
+To verify the configuration:
+```bash
+npm run check-encryption
+```
+
+> **Security Note:** Never commit the `.env` file to version control. It's already included in `.gitignore`. We recommend using the secure method described above.
+
+## Claude Desktop Configuration
+
+### Configuration File Location
+
+The Claude Desktop configuration file is located at:
+
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+### Configuration Example
+
+Add the Diabetes-M MCP server to your `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "diabetes-m": {
+    "Diabetes-M": {
+      "command": "node",
+      "args": ["C:\\path\\to\\diabetes-M-mcp\\dist\\index.js"]
+    }
+  }
+}
+```
+
+**For macOS/Linux:**
+
+```json
+{
+  "mcpServers": {
+    "Diabetes-M": {
       "command": "node",
       "args": ["/path/to/diabetes-m-mcp/dist/index.js"]
     }
@@ -97,56 +210,41 @@ Then configure Claude Desktop:
 }
 ```
 
-## ⚙️ Claude Desktop Configuration
+### Configuration Verification
 
-Configuration file location:
-
-| OS | Path |
-|----|------|
-| **Windows** | `%APPDATA%\Claude\claude_desktop_config.json` |
-| **macOS** | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| **Linux** | `~/.config/Claude/claude_desktop_config.json` |
-
-**⚠️ IMPORTANT: NO credentials in config file!** Credentials are managed securely through the `setup_credentials` tool.
-
-## 🚀 First-Time Setup
-
-1. Add the server to your Claude Desktop config (see above)
-2. Restart Claude Desktop
-3. Ask Claude: **"Setup my Diabetes:M credentials"**
-4. Provide your email/username and password when prompted
-5. Your credentials are encrypted and stored securely
-6. Start using natural language to access your diabetes data!
+1. Restart Claude Desktop after saving the configuration
+2. Look for Diabetes-M tools among the available ones (hammer icon)
+3. Try asking: "What are my recent activities on Diabetes-M?"
 
 ## 💬 Usage Examples
 
-### Setup Credentials
+### Configure Credentials
 ```
-"Setup my Diabetes:M credentials with username myuser and password mypassword"
+"Configure my Diabetes:M credentials with username myuser and password mypassword"
 ```
 
-### Check Credential Status
+### Check Credentials Status
 ```
-"Check my Diabetes:M credential status"
+"Check the status of my Diabetes:M credentials"
 ```
 
 ### Get Logbook Entries
 ```
-"Show me my logbook entries for the last 7 days"
+"Show me the logbook entries from the last 7 days"
 "What were my glucose readings yesterday?"
 ```
 
 ### Get Glucose Statistics
 ```
-"Show me my glucose statistics for the past 30 days"
-"What's my estimated HbA1c?"
+"Show me glucose statistics for the last 30 days"
+"What is my estimated HbA1c?"
 "How is my time in range this month?"
 ```
 
 ### Analyze Insulin Usage
 ```
-"Analyze my insulin usage over the last 14 days"
-"What's my average daily insulin dose?"
+"Analyze my insulin usage over the last 2 weeks"
+"What is my average daily insulin dose?"
 ```
 
 ### Get Personal Metrics
@@ -158,7 +256,7 @@ Configuration file location:
 ### Search Foods
 ```
 "Search for 'polenta' in the food database"
-"Find nutrition info for pasta"
+"Find nutritional info for pasta"
 ```
 
 ### Generate Health Report
@@ -172,23 +270,23 @@ Configuration file location:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                  Layer 1: OS Keyring                │
+│                Layer 1: OS Keyring                  │
 │  Master key in Windows Vault / macOS Keychain /     │
 │  Linux Secret Service                               │
 ├─────────────────────────────────────────────────────┤
-│              Layer 2: Encryption at Rest            │
+│            Layer 2: Encryption at Rest              │
 │  AES-256-GCM • Random IV/Salt • PBKDF2 (100K iter) │
 ├─────────────────────────────────────────────────────┤
-│               Layer 3: Secure Storage               │
+│              Layer 3: Secure Storage                │
 │  %LOCALAPPDATA%/diabetes-m-mcp/ (Win)               │
 │  ~/Library/Application Support/diabetes-m-mcp/ (Mac)│
 │  ~/.config/diabetes-m-mcp/ (Linux)                  │
 ├─────────────────────────────────────────────────────┤
-│              Layer 4: Input Validation              │
+│            Layer 4: Input Validation                │
 │  Zod schemas • SQL injection prevention             │
 │  Rate limiting (1 req/sec)                          │
 ├─────────────────────────────────────────────────────┤
-│               Layer 5: Audit Logging                │
+│              Layer 5: Audit Logging                 │
 │  Hashed identifiers • Separate sensitive log        │
 │  Configurable retention (default: 90 days)          │
 └─────────────────────────────────────────────────────┘
@@ -196,7 +294,7 @@ Configuration file location:
 
 ### Storage Locations
 
-Configuration files are stored in OS-specific directories:
+Configuration files are saved in OS-specific directories:
 
 | Operating System | Path |
 |------------------|------|
@@ -210,7 +308,7 @@ Configuration files are stored in OS-specific directories:
 | `diabetesm-tokens.enc` | Encrypted session tokens |
 | `diabetesm-audit.log` | Audit log (hashed data) |
 
-> **Note:** The master encryption key is always stored in the native OS keyring (Windows Credential Vault, macOS Keychain, Linux Secret Service), not in these files.
+> **Note:** The master encryption key is always saved in the native OS keyring (Windows Credential Vault, macOS Keychain, Linux Secret Service), not in these files.
 
 ## 🏗️ Project Structure
 
@@ -253,7 +351,7 @@ diabetes-m-mcp/
 
 Run the setup_credentials tool:
 ```
-"Setup my Diabetes:M credentials"
+"Configure my Diabetes:M credentials"
 ```
 
 ### Authentication Failed
@@ -277,35 +375,9 @@ The server implements rate limiting (1 request/second). If you see rate limit er
 
 ### Food Search Returns No Results
 
-The Diabetes:M API food search only returns public database foods. If you're searching for your custom foods:
+The Diabetes:M API food search only returns foods from the public database. If you're looking for your custom foods:
 - The tool automatically searches your diary entries for custom foods
-- Ensure you've used the food in a meal entry within the last 90 days
-
-## 🔧 Development
-
-### Prerequisites
-
-- Node.js 18+
-- npm 8+
-
-### Build
-
-```bash
-npm install
-npm run build
-```
-
-### Run Locally
-
-```bash
-npm start
-```
-
-### Watch Mode
-
-```bash
-npm run dev
-```
+- Make sure you've used the food in a meal entry within the last 90 days
 
 ## 🔏 Privacy Policy
 
@@ -363,4 +435,4 @@ This tool is for personal health management and informational purposes only. It 
 
 If you find this project useful, consider supporting the development:
 
-[![PayPal](https://img.shields.io/badge/PayPal-Donate-blue.svg)](https://www.paypal.com/donate/?business=YOUR_PAYPAL)
+[![PayPal](https://img.shields.io/badge/PayPal-Donate-blue.svg)](https://paypal.me/sedoglia)
