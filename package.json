@@ -24,7 +24,8 @@
     "bundle": "npm run build && node scripts/create-bundle.js",
     "release": "npm run bundle && node scripts/create-release.js",
     "setup-encryption": "node scripts/setup-encryption.js",
-    "check-encryption": "node scripts/check-encryption.js"
+    "check-encryption": "node scripts/check-encryption.js",
+    "test": "node scripts/test.js"
   },
   "keywords": [
     "mcp",
