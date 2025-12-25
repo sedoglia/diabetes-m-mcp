@@ -345,6 +345,68 @@ diabetes-m-mcp/
 └── README.md
 ```
 
+## 🧪 Testing
+
+The project includes a comprehensive test suite to verify all MCP tools with real API data.
+
+### Run Tests
+
+```bash
+npm test
+```
+
+### Prerequisites
+
+- Credentials must be configured (`npm run setup-encryption`)
+- Project must be built (`npm run build`)
+
+### Tested Tools
+
+| Test | Description |
+|------|-------------|
+| `check_credentials` | Verify credentials configuration |
+| `get_logbook_entries (today)` | Today's diary entries |
+| `get_logbook_entries (7days)` | Last 7 days diary entries |
+| `get_logbook_entries (date)` | Diary entries for specific date |
+| `get_glucose_statistics (7 days)` | 7-day glucose statistics |
+| `get_glucose_statistics (30 days)` | 30-day glucose statistics |
+| `get_insulin_analysis` | Insulin analysis and ratios |
+| `get_personal_metrics` | Personal metrics |
+| `search_foods` | Food search (database + diary) |
+| `generate_health_report` | Health report generation |
+
+### Sample Output
+
+```
+═══════════════════════════════════════════════════════════
+  Diabetes:M MCP Server - Test Suite
+═══════════════════════════════════════════════════════════
+
+▸ Prerequisites
+  ✓ Credentials configured
+
+▸ Credential Tools
+  ✓ check_credentials (5ms)
+
+▸ Data Tools
+  ✓ get_logbook_entries (today) (2279ms)
+  ✓ get_logbook_entries (7days) (147ms)
+  ✓ get_glucose_statistics (7 days) (175ms)
+  ✓ get_insulin_analysis (7 days) (1116ms)
+  ✓ get_personal_metrics (105ms)
+  ✓ search_foods ("pasta") (1265ms)
+  ✓ generate_health_report (7 days) (1083ms)
+
+═══════════════════════════════════════════════════════════
+  Test Summary
+═══════════════════════════════════════════════════════════
+
+  Passed:  13
+  Failed:  0
+
+All tests passed! ✓
+```
+
 ## 🔍 Troubleshooting
 
 ### "No credentials configured" Error
