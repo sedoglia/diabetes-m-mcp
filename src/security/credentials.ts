@@ -9,11 +9,11 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { homedir } from 'node:os';
 import { join } from 'node:path';
 import {
   CREDENTIALS_FILE_NAME,
   TOKENS_FILE_NAME,
+  getConfigDir,
   type StoredCredentials,
   type StoredTokens,
   type EncryptedData
@@ -21,7 +21,7 @@ import {
 import { encryptionService } from './encryption.js';
 import { keyringManager } from './keyring.js';
 
-const CONFIG_DIR = join(homedir(), '.diabetesm');
+const CONFIG_DIR = getConfigDir();
 const CREDENTIALS_PATH = join(CONFIG_DIR, CREDENTIALS_FILE_NAME);
 const TOKENS_PATH = join(CONFIG_DIR, TOKENS_FILE_NAME);
 

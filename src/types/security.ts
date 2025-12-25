@@ -100,3 +100,27 @@ export const CREDENTIALS_FILE_NAME = 'diabetesm-credentials.enc';
 export const TOKENS_FILE_NAME = 'diabetesm-tokens.enc';
 export const AUDIT_LOG_FILE_NAME = 'diabetesm-audit.log';
 export const PERSONAL_AUDIT_LOG_FILE_NAME = 'diabetesm-personal-audit.log';
+
+/**
+ * Gets the appropriate config directory for the current OS
+ * - Windows: %LOCALAPPDATA%\diabetes-m-mcp\
+ * - macOS: ~/Library/Application Support/diabetes-m-mcp/
+ * - Linux: ~/.config/diabetes-m-mcp/
+ */
+export function getConfigDir(): string {
+  const { homedir } = require('node:os');
+  const { join } = require('node:path');
+  const home = homedir();
+
+  switch (process.platform) {
+    case 'win32':
+      // Use LOCALAPPDATA on Windows
+      return join(process.env.LOCALAPPDATA || join(home, 'AppData', 'Local'), 'diabetes-m-mcp');
+    case 'darwin':
+      // Use ~/Library/Application Support on macOS
+      return join(home, 'Library', 'Application Support', 'diabetes-m-mcp');
+    default:
+      // Use ~/.config on Linux and other Unix-like systems
+      return join(process.env.XDG_CONFIG_HOME || join(home, '.config'), 'diabetes-m-mcp');
+  }
+}
