@@ -236,7 +236,7 @@ async function main() {
     console.log(`  Created: ${credentialsData.createdAt}`);
     console.log(`  Updated: ${credentialsData.updatedAt}`);
   } catch (error) {
-    console.log(`  Decryption test: FAILED - ${error.message}`);
+    console.log('  Decryption test: FAILED');
     console.log('');
     console.log('ERROR: Could not decrypt credentials!');
     console.log('The master key may have changed. Run "npm run setup-encryption" to reconfigure.');
