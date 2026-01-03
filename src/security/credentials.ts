@@ -90,7 +90,7 @@ class CredentialsManager {
         password: encryptionService.decrypt(data.password, masterKey)
       };
     } catch (error) {
-      console.error('[CredentialsManager] Failed to read credentials:', error);
+      console.error('[CredentialsManager] Failed to read credentials');
       return null;
     }
   }
