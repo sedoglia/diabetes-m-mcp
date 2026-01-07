@@ -57,6 +57,12 @@ export const GenerateHealthReportInputSchema = z.object({
 });
 export type GenerateHealthReportInput = z.infer<typeof GenerateHealthReportInputSchema>;
 
+export const GetIOBInputSchema = z.object({
+  dia: z.number().min(2).max(8).optional().describe('Duration of Insulin Action in hours (default: 4)'),
+  includeBasal: z.boolean().optional().describe('Whether to include basal insulin in IOB calculation (default: false)')
+});
+export type GetIOBInput = z.infer<typeof GetIOBInputSchema>;
+
 // Tool definitions for MCP
 export interface ToolDefinition {
   name: string;
@@ -174,6 +180,25 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         }
       },
       required: ['period', 'format']
+    }
+  },
+  {
+    name: 'get_iob',
+    description: 'Calculate the current Insulin on Board (IOB) - the amount of active insulin still working in the body. Uses recent insulin doses from the logbook and calculates decay based on Duration of Insulin Action (DIA).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        dia: {
+          type: 'number',
+          description: 'Duration of Insulin Action in hours (default: 4). Typical range: 3-5 hours.',
+          minimum: 2,
+          maximum: 8
+        },
+        includeBasal: {
+          type: 'boolean',
+          description: 'Whether to include basal insulin in IOB calculation (default: false)'
+        }
+      }
     }
   }
 ];

@@ -13,7 +13,7 @@ Server MCP (Model Context Protocol) per integrare i dati di [Diabetes:M](https:/
 
 ## ✨ Funzionalità
 
-- **9 Strumenti MCP** per accesso completo ai dati del diabete
+- **10 Strumenti MCP** per accesso completo ai dati del diabete
 - **Sicurezza multi-livello** con crittografia AES-256-GCM
 - **Integrazione keyring di sistema** per archiviazione sicura della chiave master (Windows Credential Vault, macOS Keychain, Linux Secret Service)
 - **Credenziali criptate** nel profilo utente (mai nei file di configurazione)
@@ -38,6 +38,7 @@ Server MCP (Model Context Protocol) per integrare i dati di [Diabetes:M](https:/
 | `get_logbook_entries` | Recupera voci del diario (glicemia, insulina, carboidrati, note) |
 | `get_glucose_statistics` | Ottieni distribuzione glucosio, media, HbA1c stimata |
 | `get_insulin_analysis` | Analizza utilizzo insulina e rapporti carboidrati |
+| `get_iob` | Calcola l'Insulina Attiva (IOB) - insulina ancora in azione nel corpo |
 | `get_personal_metrics` | Ottieni peso, BMI, pressione sanguigna, HbA1c |
 | `search_foods` | Cerca nel database cibi (include i tuoi cibi personalizzati dal diario) |
 | `generate_health_report` | Genera report salute completo |
@@ -247,6 +248,13 @@ Aggiungi il server MCP Diabetes-M al tuo `claude_desktop_config.json`:
 "Qual è la mia dose media giornaliera di insulina?"
 ```
 
+### Ottieni Insulina Attiva (IOB)
+```
+"Quanta insulina attiva ho in questo momento?"
+"Calcola il mio IOB con DIA di 4 ore"
+"Mostrami l'insulina on board attuale"
+```
+
 ### Ottieni Metriche Personali
 ```
 "Quali sono le mie metriche di salute attuali?"
@@ -333,6 +341,7 @@ diabetes-m-mcp/
 │   │   ├── get-logbook-entries.ts
 │   │   ├── get-glucose-statistics.ts
 │   │   ├── get-insulin-analysis.ts
+│   │   ├── get-iob.ts         # Calcolo IOB (Insulin on Board)
 │   │   ├── get-personal-metrics.ts
 │   │   ├── search-foods.ts    # Cerca in API + voci diario
 │   │   └── generate-health-report.ts
@@ -371,6 +380,7 @@ npm test
 | `get_glucose_statistics (7 days)` | Statistiche glicemia 7 giorni |
 | `get_glucose_statistics (30 days)` | Statistiche glicemia 30 giorni |
 | `get_insulin_analysis` | Analisi insulina e rapporti |
+| `get_iob` | Calcolo Insulina Attiva (IOB) |
 | `get_personal_metrics` | Metriche personali |
 | `search_foods` | Ricerca cibi (database + diario) |
 | `generate_health_report` | Generazione report salute |

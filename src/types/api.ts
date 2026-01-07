@@ -110,6 +110,23 @@ export interface InsulinAnalysis {
   period: string;
 }
 
+export interface InsulinOnBoard {
+  /** Current IOB value in units */
+  iob: number;
+  /** Formatted IOB string (e.g., "9.36u") */
+  iobFormatted: string;
+  /** Duration of Insulin Action used for calculation (hours) */
+  dia: number;
+  /** Timestamp of calculation */
+  calculatedAt: string;
+  /** Breakdown of IOB by dose type */
+  breakdown: {
+    fromBolus: number;
+    fromCorrection: number;
+    fromBasal: number;
+  };
+}
+
 export interface PersonalMetrics {
   weight?: number;
   weightUnit: 'kg' | 'lbs';
