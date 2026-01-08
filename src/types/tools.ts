@@ -63,6 +63,11 @@ export const GetIOBInputSchema = z.object({
 });
 export type GetIOBInput = z.infer<typeof GetIOBInputSchema>;
 
+export const GetICRatiosInputSchema = z.object({
+  includeRawData: z.boolean().optional().describe('Include full 48-value arrays (every 30 min) in the response (default: false)')
+});
+export type GetICRatiosInput = z.infer<typeof GetICRatiosInputSchema>;
+
 // Tool definitions for MCP
 export interface ToolDefinition {
   name: string;
@@ -197,6 +202,19 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         includeBasal: {
           type: 'boolean',
           description: 'Whether to include basal insulin in IOB calculation (default: false)'
+        }
+      }
+    }
+  },
+  {
+    name: 'get_ic_ratios',
+    description: 'Get the configured Insulin-to-Carb (IC) ratios and Insulin Sensitivity Factors (ISF) from your Diabetes:M profile, organized by meal time (breakfast, lunch, dinner, night).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        includeRawData: {
+          type: 'boolean',
+          description: 'Include full 48-value arrays (every 30 min) in the response (default: false)'
         }
       }
     }

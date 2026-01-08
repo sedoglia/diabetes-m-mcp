@@ -196,7 +196,15 @@ async function main() {
     return `IOB: ${result.iobFormatted}, Active doses: ${result.activeDoses.length}`;
   });
 
-  // Test 9: get_personal_metrics
+  // Test 9: get_ic_ratios
+  await runTest('get_ic_ratios', async () => {
+    const result = await tools.executeGetICRatios({});
+    const icDefault = result.icRatios.default || 'N/A';
+    const isfDefault = result.isf.default || 'N/A';
+    return `IC default: 1u/${icDefault}g, ISF default: ${isfDefault} mg/dL`;
+  });
+
+  // Test 10: get_personal_metrics
   await runTest('get_personal_metrics', async () => {
     const result = await tools.executeGetPersonalMetrics({});
     const fields = [];
@@ -205,20 +213,20 @@ async function main() {
     return fields.join(', ') || 'Profile loaded';
   });
 
-  // Test 10: search_foods
+  // Test 11: search_foods
   await runTest('search_foods ("pasta")', async () => {
     const result = await tools.executeSearchFoods({ query: 'pasta', limit: 5 });
     return `Found ${result.count} results`;
   });
 
-  // Test 11: search_foods (user foods)
+  // Test 12: search_foods (user foods)
   await runTest('search_foods (user foods)', async () => {
     const result = await tools.executeSearchFoods({ query: 'a', limit: 10 });
     const userFoods = result.foods.filter(f => f.source === 'user');
     return `Found ${userFoods.length} user-created foods`;
   });
 
-  // Test 12: generate_health_report
+  // Test 13: generate_health_report
   await runTest('generate_health_report (7 days)', async () => {
     const result = await tools.executeGenerateHealthReport({ period: '7', format: 'summary' });
     return `Report generated: ${result.summary?.recommendations?.length || 0} recommendations`;

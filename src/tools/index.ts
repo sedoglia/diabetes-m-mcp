@@ -2,7 +2,7 @@
  * MCP Tools Index
  *
  * Exports all tool definitions and executors for the Diabetes:M MCP server.
- * Total: 10 tools (7 data tools + 3 credential management tools)
+ * Total: 11 tools (8 data tools + 3 credential management tools)
  */
 
 import {
@@ -49,6 +49,11 @@ import {
   executeGetIOB
 } from './get-iob.js';
 
+import {
+  getICRatiosToolDefinition,
+  executeGetICRatios
+} from './get-ic-ratios.js';
+
 // Re-export tool definitions and executors
 export {
   // Data tools
@@ -66,6 +71,8 @@ export {
   executeGenerateHealthReport,
   getIOBToolDefinition,
   executeGetIOB,
+  getICRatiosToolDefinition,
+  executeGetICRatios,
   // Credential management tools
   setupCredentialsToolDefinition,
   executeSetupCredentials,
@@ -83,6 +90,7 @@ export type { GetPersonalMetricsResult } from './get-personal-metrics.js';
 export type { SearchFoodsResult, FoodItemResult } from './search-foods.js';
 export type { GenerateHealthReportResult } from './generate-health-report.js';
 export type { IOBResult } from './get-iob.js';
+export type { ICRatiosResult } from './get-ic-ratios.js';
 export type { SetupCredentialsResult, CheckCredentialsResult, ClearCredentialsResult } from './setup-credentials.js';
 
 /**
@@ -98,6 +106,7 @@ export const ALL_TOOL_DEFINITIONS = [
   getGlucoseStatisticsToolDefinition,
   getInsulinAnalysisToolDefinition,
   getIOBToolDefinition,
+  getICRatiosToolDefinition,
   getPersonalMetricsToolDefinition,
   searchFoodsToolDefinition,
   generateHealthReportToolDefinition
@@ -116,6 +125,7 @@ export const TOOL_EXECUTORS = {
   'get_glucose_statistics': executeGetGlucoseStatistics,
   'get_insulin_analysis': executeGetInsulinAnalysis,
   'get_iob': executeGetIOB,
+  'get_ic_ratios': executeGetICRatios,
   'get_personal_metrics': executeGetPersonalMetrics,
   'search_foods': executeSearchFoods,
   'generate_health_report': executeGenerateHealthReport

@@ -13,7 +13,7 @@ MCP (Model Context Protocol) server to integrate [Diabetes:M](https://diabetes-m
 
 ## ✨ Features
 
-- **10 MCP Tools** for complete diabetes data access
+- **11 MCP Tools** for complete diabetes data access
 - **Multi-layer security** with AES-256-GCM encryption
 - **System keyring integration** for secure master key storage (Windows Credential Vault, macOS Keychain, Linux Secret Service)
 - **Encrypted credentials** in user profile (never in config files)
@@ -39,6 +39,7 @@ MCP (Model Context Protocol) server to integrate [Diabetes:M](https://diabetes-m
 | `get_glucose_statistics` | Get glucose distribution, average, estimated HbA1c |
 | `get_insulin_analysis` | Analyze insulin usage and carb ratios |
 | `get_iob` | Calculate Insulin on Board (IOB) - active insulin still working in the body |
+| `get_ic_ratios` | Get configured IC (insulin-to-carb) ratios and ISF by time of day |
 | `get_personal_metrics` | Get weight, BMI, blood pressure, HbA1c |
 | `search_foods` | Search food database (includes your custom foods from diary) |
 | `generate_health_report` | Generate comprehensive health report |
@@ -255,6 +256,13 @@ Add the Diabetes-M MCP server to your `claude_desktop_config.json`:
 "Show me my current insulin on board"
 ```
 
+### Get IC Ratios and ISF
+```
+"What are my insulin-to-carb ratios?"
+"Show me my IC ratios for breakfast, lunch, and dinner"
+"What is my insulin sensitivity factor?"
+```
+
 ### Get Personal Metrics
 ```
 "What are my current health metrics?"
@@ -342,6 +350,7 @@ diabetes-m-mcp/
 │   │   ├── get-glucose-statistics.ts
 │   │   ├── get-insulin-analysis.ts
 │   │   ├── get-iob.ts         # IOB (Insulin on Board) calculation
+│   │   ├── get-ic-ratios.ts   # IC ratios and ISF by time of day
 │   │   ├── get-personal-metrics.ts
 │   │   ├── search-foods.ts    # Searches API + diary entries
 │   │   └── generate-health-report.ts
@@ -381,6 +390,7 @@ npm test
 | `get_glucose_statistics (30 days)` | 30-day glucose statistics |
 | `get_insulin_analysis` | Insulin analysis and ratios |
 | `get_iob` | Insulin on Board (IOB) calculation |
+| `get_ic_ratios` | IC ratios and ISF by time of day |
 | `get_personal_metrics` | Personal metrics |
 | `search_foods` | Food search (database + diary) |
 | `generate_health_report` | Health report generation |
