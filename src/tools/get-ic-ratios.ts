@@ -78,61 +78,32 @@ export const getICRatiosToolDefinition = {
 };
 
 /**
- * Time period definitions (indices in 48-element array)
- * Each index represents 30 minutes, starting from midnight
- * Index 0 = 00:00-00:30, Index 1 = 00:30-01:00, etc.
+ * Meal-specific indices in the 48-element array
+ *
+ * Diabetes:M stores IC/ISF values at specific indices for each meal type,
+ * NOT as time-based ranges. The actual storage pattern is:
+ * - Index 0 = Breakfast settings
+ * - Index 22 = Lunch settings
+ * - Index 36 = Dinner settings
+ *
+ * These indices correspond to typical meal times when interpreted as
+ * 30-minute intervals, but they represent meal-type configurations.
  */
-const TIME_PERIODS = {
-  // Breakfast: 06:00-10:00 (indices 12-19)
-  breakfast: { start: 12, end: 20 },
-  // Lunch: 11:00-14:00 (indices 22-27)
-  lunch: { start: 22, end: 28 },
-  // Dinner: 17:00-21:00 (indices 34-41)
-  dinner: { start: 34, end: 42 },
-  // Night: 21:00-06:00 (indices 42-47, 0-11)
-  night: { start: 42, end: 48, wrapStart: 0, wrapEnd: 12 }
+const MEAL_INDICES = {
+  breakfast: 0,   // Stored at 00:00 index (represents breakfast config)
+  lunch: 22,      // Stored at 11:00 index (represents lunch config)
+  dinner: 36,     // Stored at 18:00 index (represents dinner config)
 };
 
 /**
- * Extracts the most representative value from a time period
- * Uses the median of non-zero values
+ * Gets the value at a specific index from the array
+ * Returns null if not available or zero
  */
-function getValueForPeriod(
-  array: number[] | undefined,
-  period: { start: number; end: number; wrapStart?: number; wrapEnd?: number }
-): number | null {
+function getValueAtIndex(array: number[] | undefined, index: number): number | null {
   if (!array || array.length !== 48) return null;
-
-  const values: number[] = [];
-
-  // Get values from main range
-  for (let i = period.start; i < period.end && i < 48; i++) {
-    const val = array[i];
-    if (val !== undefined && val > 0) {
-      values.push(val);
-    }
-  }
-
-  // Handle wrap-around for night period
-  if (period.wrapStart !== undefined && period.wrapEnd !== undefined) {
-    for (let i = period.wrapStart; i < period.wrapEnd; i++) {
-      const val = array[i];
-      if (val !== undefined && val > 0) {
-        values.push(val);
-      }
-    }
-  }
-
-  if (values.length === 0) return null;
-
-  // Return median value (most representative)
-  values.sort((a, b) => a - b);
-  const mid = Math.floor(values.length / 2);
-  const median = values.length % 2 === 0
-    ? (values[mid - 1]! + values[mid]!) / 2
-    : values[mid]!;
-
-  return Math.round(median * 10) / 10;
+  const val = array[index];
+  if (val === undefined || val <= 0) return null;
+  return Math.round(val * 10) / 10;
 }
 
 /**
@@ -209,20 +180,20 @@ export async function executeGetICRatios(args: unknown): Promise<ICRatiosResult>
     ? Math.round(isfDefaultRaw * 18.0182)
     : undefined;
 
-  // Calculate values for each time period
+  // Get values for each meal type using specific indices
   const icRatios = {
-    breakfast: getValueForPeriod(icPerHour, TIME_PERIODS.breakfast),
-    lunch: getValueForPeriod(icPerHour, TIME_PERIODS.lunch),
-    dinner: getValueForPeriod(icPerHour, TIME_PERIODS.dinner),
-    night: getValueForPeriod(icPerHour, TIME_PERIODS.night),
+    breakfast: getValueAtIndex(icPerHour, MEAL_INDICES.breakfast),
+    lunch: getValueAtIndex(icPerHour, MEAL_INDICES.lunch),
+    dinner: getValueAtIndex(icPerHour, MEAL_INDICES.dinner),
+    night: null as number | null, // Not stored separately in Diabetes:M
     default: getFirstNonZero(icPerHour, icDefault)
   };
 
   const isf = {
-    breakfast: getValueForPeriod(isfPerHour, TIME_PERIODS.breakfast),
-    lunch: getValueForPeriod(isfPerHour, TIME_PERIODS.lunch),
-    dinner: getValueForPeriod(isfPerHour, TIME_PERIODS.dinner),
-    night: getValueForPeriod(isfPerHour, TIME_PERIODS.night),
+    breakfast: getValueAtIndex(isfPerHour, MEAL_INDICES.breakfast),
+    lunch: getValueAtIndex(isfPerHour, MEAL_INDICES.lunch),
+    dinner: getValueAtIndex(isfPerHour, MEAL_INDICES.dinner),
+    night: null as number | null, // Not stored separately in Diabetes:M
     default: getFirstNonZero(isfPerHour, isfDefault)
   };
 
