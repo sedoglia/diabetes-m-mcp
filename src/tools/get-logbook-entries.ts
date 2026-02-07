@@ -22,18 +22,26 @@ import type { LogbookEntry, SimplifiedLogbookEntry, DailySummary, SimplifiedLogb
 
 export const getLogbookEntriesToolDefinition = {
   name: 'get_logbook_entries',
-  description: 'Retrieve logbook entries from Diabetes:M including glucose readings, insulin doses, carbs, and notes. You can specify either a predefined date range OR a specific date. Returns data grouped by day with summaries optimized for analysis.',
+  description: 'Retrieve logbook entries from Diabetes:M including glucose readings, insulin doses, carbs, and notes. You can specify either a predefined date range OR a specific date OR a custom date range with startDate and endDate. Returns data grouped by day with summaries optimized for analysis.',
   inputSchema: {
     type: 'object' as const,
     properties: {
       dateRange: {
         type: 'string',
         enum: ['today', '7days', '30days', '90days'],
-        description: 'Predefined time range for logbook entries (use this OR date parameter)'
+        description: 'Predefined time range for logbook entries (use this OR date OR startDate+endDate)'
       },
       date: {
         type: 'string',
-        description: 'Specific date in YYYY-MM-DD format (e.g., 2025-12-25). Use this OR dateRange parameter.'
+        description: 'Specific date in YYYY-MM-DD format (e.g., 2025-12-25). Use this OR dateRange OR startDate+endDate.'
+      },
+      startDate: {
+        type: 'string',
+        description: 'Start date in YYYY-MM-DD format for custom date range (must be used together with endDate)'
+      },
+      endDate: {
+        type: 'string',
+        description: 'End date in YYYY-MM-DD format for custom date range (must be used together with startDate)'
       },
       category: {
         type: 'string',
@@ -211,10 +219,10 @@ export async function executeGetLogbookEntries(
 ): Promise<SimplifiedLogbookResult> {
   // Validate input
   const validatedInput = GetLogbookEntriesInputSchema.parse(args);
-  const { dateRange, date, category } = validatedInput;
+  const { dateRange, date, startDate, endDate, category } = validatedInput;
 
-  // Make API call with either dateRange or specific date
-  const response = await diabetesMClient.getLogbookEntries(dateRange, category, date);
+  // Make API call with either dateRange, specific date, or custom startDate+endDate
+  const response = await diabetesMClient.getLogbookEntries(dateRange, category, date, startDate, endDate);
 
   if (!response.success || !response.data) {
     throw new Error(
@@ -228,7 +236,12 @@ export async function executeGetLogbookEntries(
   const now = new Date();
   let periodLabel: string;
 
-  if (date) {
+  if (startDate && endDate) {
+    // Custom date range provided
+    const from = new Date(startDate + 'T12:00:00');
+    const to = new Date(endDate + 'T12:00:00');
+    periodLabel = `${formatDate(from)}-${formatDate(to, true)}`;
+  } else if (date) {
     // Specific date provided
     const specificDate = new Date(date + 'T12:00:00');
     periodLabel = formatDateWithDay(specificDate);

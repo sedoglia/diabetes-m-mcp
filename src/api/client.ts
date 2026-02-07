@@ -230,10 +230,12 @@ class DiabetesMClient {
   async getLogbookEntries(
     dateRange?: string,
     category?: string,
-    specificDate?: string
+    specificDate?: string,
+    startDate?: string,
+    endDate?: string
   ): Promise<ApiResponse<LogbookEntry[]>> {
     const timer = auditLogger.startTimer();
-    const cacheKey = `logbook:${specificDate || dateRange}:${category || ''}`;
+    const cacheKey = `logbook:${startDate && endDate ? `${startDate}_${endDate}` : specificDate || dateRange}:${category || ''}`;
 
     // Check cache
     const cached = await encryptedCache.get<LogbookEntry[]>(cacheKey);
@@ -246,7 +248,11 @@ class DiabetesMClient {
     let fromDate: number;
     let toDate: number;
 
-    if (specificDate) {
+    if (startDate && endDate) {
+      // Custom date range: from start of startDate to end of endDate
+      fromDate = new Date(startDate + 'T00:00:00').getTime();
+      toDate = new Date(endDate + 'T23:59:59.999').getTime();
+    } else if (specificDate) {
       // Specific date: from start of day to end of day
       const dateObj = new Date(specificDate + 'T00:00:00');
       fromDate = dateObj.getTime();

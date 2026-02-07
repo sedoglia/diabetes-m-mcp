@@ -24,10 +24,15 @@ export type ReportFormat = z.infer<typeof ReportFormatSchema>;
 export const GetLogbookEntriesInputSchema = z.object({
   dateRange: DateRangeSchema.optional().describe('Time range for logbook entries (today, 7days, 30days, 90days)'),
   date: z.string().optional().describe('Specific date in YYYY-MM-DD format (e.g., 2025-12-25)'),
+  startDate: z.string().optional().describe('Start date in YYYY-MM-DD format for custom date range (use with endDate)'),
+  endDate: z.string().optional().describe('End date in YYYY-MM-DD format for custom date range (use with startDate)'),
   category: z.string().optional().describe('Optional category filter (e.g., breakfast, lunch, dinner)')
 }).refine(
-  data => data.dateRange || data.date,
-  { message: 'Either dateRange or date must be provided' }
+  data => data.dateRange || data.date || (data.startDate && data.endDate),
+  { message: 'Either dateRange, date, or startDate+endDate must be provided' }
+).refine(
+  data => !(data.startDate && !data.endDate) && !(!data.startDate && data.endDate),
+  { message: 'Both startDate and endDate must be provided together' }
 );
 export type GetLogbookEntriesInput = z.infer<typeof GetLogbookEntriesInputSchema>;
 
@@ -82,18 +87,26 @@ export interface ToolDefinition {
 export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
     name: 'get_logbook_entries',
-    description: 'Retrieve logbook entries from Diabetes:M including glucose readings, insulin doses, carbs, and notes. You can specify either a date range (today, 7days, 30days, 90days) OR a specific date (YYYY-MM-DD format).',
+    description: 'Retrieve logbook entries from Diabetes:M including glucose readings, insulin doses, carbs, and notes. You can specify either a predefined date range OR a specific date OR a custom date range with startDate and endDate. Returns data grouped by day with summaries optimized for analysis.',
     inputSchema: {
       type: 'object',
       properties: {
         dateRange: {
           type: 'string',
           enum: ['today', '7days', '30days', '90days'],
-          description: 'Time range for logbook entries (use this OR date, not both)'
+          description: 'Predefined time range for logbook entries (use this OR date OR startDate+endDate)'
         },
         date: {
           type: 'string',
-          description: 'Specific date in YYYY-MM-DD format (e.g., 2025-12-25). Use this OR dateRange, not both.'
+          description: 'Specific date in YYYY-MM-DD format (e.g., 2025-12-25). Use this OR dateRange OR startDate+endDate.'
+        },
+        startDate: {
+          type: 'string',
+          description: 'Start date in YYYY-MM-DD format for custom date range (must be used together with endDate)'
+        },
+        endDate: {
+          type: 'string',
+          description: 'End date in YYYY-MM-DD format for custom date range (must be used together with startDate)'
         },
         category: {
           type: 'string',
