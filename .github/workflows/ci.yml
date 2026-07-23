@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Type-checks the whole source tree. This is the gate that catches a
+      # dependency bump breaking an API we call. The tool suite (npm test) is
+      # not run here: it needs real Diabetes:M credentials and hits the live API.
+      - run: npm run build
