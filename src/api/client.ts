@@ -82,13 +82,29 @@ class DiabetesMClient {
   }
 
   /**
+   * Backoff delay in ms for a given retry attempt
+   */
+  private retryDelay(retryCount: number): number {
+    return Math.min(
+      RETRY_CONFIG.INITIAL_DELAY * Math.pow(RETRY_CONFIG.BACKOFF_FACTOR, retryCount),
+      RETRY_CONFIG.MAX_DELAY
+    );
+  }
+
+  /**
    * Makes an authenticated API request with retry logic
+   *
+   * @param idempotent - Whether the request may be safely replayed. A timeout or
+   *   dropped connection leaves the outcome unknown: the server may have applied
+   *   the request even though no response arrived. Replaying is therefore only
+   *   safe for reads, so writes fail fast instead of risking a duplicate.
    */
   private async request<T>(
     method: string,
     endpoint: string,
     body?: unknown,
-    retryCount: number = 0
+    retryCount: number = 0,
+    idempotent: boolean = false
   ): Promise<ApiResponse<T>> {
     await this.waitForRateLimit();
     await authManager.ensureAuthenticated();
@@ -111,7 +127,7 @@ class DiabetesMClient {
       if (response.status === 401) {
         const reauthed = await authManager.handleAuthError();
         if (reauthed && retryCount < 1) {
-          return this.request<T>(method, endpoint, body, retryCount + 1);
+          return this.request<T>(method, endpoint, body, retryCount + 1, idempotent);
         }
         return {
           success: false,
@@ -125,7 +141,7 @@ class DiabetesMClient {
         const retryAfter = parseInt(response.headers.get('Retry-After') || '60', 10);
         if (retryCount < RETRY_CONFIG.MAX_RETRIES) {
           await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
-          return this.request<T>(method, endpoint, body, retryCount + 1);
+          return this.request<T>(method, endpoint, body, retryCount + 1, idempotent);
         }
         return {
           success: false,
@@ -137,12 +153,8 @@ class DiabetesMClient {
       // Handle retryable errors
       if (RETRY_CONFIG.RETRYABLE_STATUS_CODES.includes(response.status)) {
         if (retryCount < RETRY_CONFIG.MAX_RETRIES) {
-          const delay = Math.min(
-            RETRY_CONFIG.INITIAL_DELAY * Math.pow(RETRY_CONFIG.BACKOFF_FACTOR, retryCount),
-            RETRY_CONFIG.MAX_DELAY
-          );
-          await new Promise(resolve => setTimeout(resolve, delay));
-          return this.request<T>(method, endpoint, body, retryCount + 1);
+          await new Promise(resolve => setTimeout(resolve, this.retryDelay(retryCount)));
+          return this.request<T>(method, endpoint, body, retryCount + 1, idempotent);
         }
       }
 
@@ -168,24 +180,21 @@ class DiabetesMClient {
     } catch (error) {
       clearTimeout(timeout);
 
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          return {
-            success: false,
-            error: { code: ERROR_CODES.NETWORK_ERROR, message: 'Request timed out' },
-            timestamp: new Date().toISOString()
-          };
-        }
+      const timedOut = error instanceof Error && error.name === 'AbortError';
+
+      // Retry on timeouts and network errors, but only for replayable requests:
+      // no response arrived, so a write may or may not have been applied.
+      if (idempotent && retryCount < RETRY_CONFIG.MAX_RETRIES) {
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay(retryCount)));
+        return this.request<T>(method, endpoint, body, retryCount + 1, idempotent);
       }
 
-      // Retry on network errors
-      if (retryCount < RETRY_CONFIG.MAX_RETRIES) {
-        const delay = Math.min(
-          RETRY_CONFIG.INITIAL_DELAY * Math.pow(RETRY_CONFIG.BACKOFF_FACTOR, retryCount),
-          RETRY_CONFIG.MAX_DELAY
-        );
-        await new Promise(resolve => setTimeout(resolve, delay));
-        return this.request<T>(method, endpoint, body, retryCount + 1);
+      if (timedOut) {
+        return {
+          success: false,
+          error: { code: ERROR_CODES.NETWORK_ERROR, message: 'Request timed out' },
+          timestamp: new Date().toISOString()
+        };
       }
 
       return {
@@ -200,7 +209,7 @@ class DiabetesMClient {
   }
 
   /**
-   * GET request helper
+   * GET request helper - always replayable
    */
   private async get<T>(endpoint: string, params?: Record<string, string>): Promise<ApiResponse<T>> {
     let url = endpoint;
@@ -208,14 +217,22 @@ class DiabetesMClient {
       const searchParams = new URLSearchParams(params);
       url = `${endpoint}?${searchParams.toString()}`;
     }
-    return this.request<T>('GET', url);
+    return this.request<T>('GET', url, undefined, 0, true);
   }
 
   /**
    * POST request helper
+   *
+   * The Diabetes:M API serves several reads over POST (query params go in the
+   * body). Those callers pass idempotent: true so a timeout can be retried;
+   * it stays false by default so real writes are never replayed.
    */
-  private async post<T>(endpoint: string, body?: unknown): Promise<ApiResponse<T>> {
-    return this.request<T>('POST', endpoint, body);
+  private async post<T>(
+    endpoint: string,
+    body?: unknown,
+    options: { idempotent?: boolean } = {}
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>('POST', endpoint, body, 0, options.idempotent ?? false);
   }
 
   // ============ API Methods ============
@@ -380,7 +397,9 @@ class DiabetesMClient {
       };
     }
 
-    const response = await this.post<DiaryResponse>(ENDPOINTS.LOGBOOK_ENTRIES, body);
+    const response = await this.post<DiaryResponse>(ENDPOINTS.LOGBOOK_ENTRIES, body, {
+      idempotent: true
+    });
 
     // Transform response to extract and normalize entries
     let entriesResponse: ApiResponse<LogbookEntry[]>;
@@ -991,12 +1010,16 @@ class DiabetesMClient {
         const now = Date.now();
         const fromDate = now - 90 * 24 * 60 * 60 * 1000;
 
-        const diaryResponse = await this.post<DiaryResponse>(ENDPOINTS.LOGBOOK_ENTRIES, {
-          fromDate,
-          toDate: now,
-          includeCarbs: true,
-          all: true
-        });
+        const diaryResponse = await this.post<DiaryResponse>(
+          ENDPOINTS.LOGBOOK_ENTRIES,
+          {
+            fromDate,
+            toDate: now,
+            includeCarbs: true,
+            all: true
+          },
+          { idempotent: true }
+        );
 
         if (diaryResponse.success && diaryResponse.data?.logEntryList) {
           const foodMap = new Map<string, RawFoodItem>();
@@ -1044,7 +1067,9 @@ class DiabetesMClient {
         limit: 50
       };
 
-      const response = await this.post<FoodSearchResponse>(ENDPOINTS.FOODS_SEARCH, body);
+      const response = await this.post<FoodSearchResponse>(ENDPOINTS.FOODS_SEARCH, body, {
+        idempotent: true
+      });
       if (response.success && response.data) {
         const rawFoods = response.data.result || [];
         const foods = rawFoods.map(f => mapToFoodItem(f));
@@ -1087,6 +1112,8 @@ class DiabetesMClient {
     // Reports are not cached - always generated fresh
     const { from, to } = dateRangeToParams(period);
 
+    // Deliberately not idempotent: this creates a report server-side, so a
+    // replay after a timeout could produce a duplicate.
     const response = await this.post<HealthReport>(ENDPOINTS.GENERATE_REPORT, {
       from,
       to,
