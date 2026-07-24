@@ -56,12 +56,7 @@ const releaseNotes = `# Diabetes:M MCP Server ${tag}
 2. Verify SHA256: \`${hash}\`
 3. Extract and follow README instructions
 
-### Option 2: Install from npm (coming soon)
-\`\`\`bash
-npx diabetes-m-mcp
-\`\`\`
-
-### Option 3: Clone repository
+### Option 2: Clone repository
 \`\`\`bash
 git clone https://github.com/sedoglia/diabetes-m-mcp.git
 cd diabetes-m-mcp
@@ -71,12 +66,17 @@ npm run build
 
 ## What's New in ${tag}
 
-- Fixed API mappings for glucose statistics, insulin analysis, and personal metrics
-- Improved food search to include user-created foods from diary
-- Added date parameter to get_logbook_entries for specific date queries
-- Simplified logbook output for better LLM processing
-- All glucose values now correctly displayed in mg/dL
-- ICR and ISF now read from user profile settings
+### New tools
+- \`get_iob\` — Insulin on Board calculation with configurable DIA
+- \`get_ic_ratios\` — insulin-to-carb ratios (ICR) and insulin sensitivity factor (ISF) by time of day
+
+### Improvements
+- \`get_logbook_entries\` now accepts a custom date range via \`startDate\`/\`endDate\`
+
+### Security & reliability
+- Resolved all open Dependabot advisories in transitive dependencies (hono, @hono/node-server, body-parser, fast-uri), including a high-severity CORS credentials reflection
+- Timed-out and dropped requests are now retried, but only for reads — writes are never replayed, to avoid duplicates
+- Added a CI build check and gated Dependabot security-patch auto-merge behind it
 
 ## SHA256 Checksums
 \`\`\`
