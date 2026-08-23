@@ -67,10 +67,10 @@
   },
   "overrides": {
     "ajv": ">=8.18.0",
-    "hono": ">=4.12.25",
+    "hono": ">=4.12.34",
     "@hono/node-server": ">=2.0.5",
     "body-parser": ">=2.3.0",
-    "fast-uri": ">=3.1.4",
+    "fast-uri": ">=4.1.2",
     "ip-address": ">=10.4.0",
     "qs": ">=6.15.2"
   }
