@@ -67,13 +67,7 @@ npm run build
 ## What's New in ${tag}
 
 ### Fixed
-- The MCPB bundle is now a real ZIP archive (previously a gzip tarball with a \`.mcpb\` extension, which Claude Desktop rejected as corrupted) and ships everything it needs to run: \`manifest.json\`, \`dist/\`, the full \`node_modules\` (including keytar's native build), and the icon. Local \`.claude/\` settings are no longer included in the bundle.
-
-### Security
-- Raised the \`hono\` override floor to \`>=4.13.5\` (resolves 4.13.7), closing seven advisories: memo() SSR output retained across requests, Proxy Helper leaking hop-by-hop response headers, ReDoS in the CORS middleware, algorithmic complexity DoS in the Language middleware, incomplete fix for the \`toSSG()\` path traversal (CVE-2026-39408), memory exhaustion via unbounded dot-notation nesting in \`parseBody()\`, and the query parser reading parameters after the URL fragment
-- Raised the \`fast-uri\` override floor to \`>=4.1.2\`, closing host confusion via a backslash authority introducer
-- Bumped transitive \`ip-address\` 10.2.0 → 10.4.0, \`qs\` 6.15.2 → 6.16.0 and \`brace-expansion\` 5.0.8 → 5.0.9 (Dependabot)
-- \`npm audit\` is clean with and without dev dependencies
+- The server now reports its real version in \`serverInfo\` during the MCP handshake. It was hardcoded to \`1.0.0\`, so every release since v1.1.0 announced itself to clients as 1.0.0; the version is now read from \`package.json\` at runtime and cannot drift from the release.
 
 ## SHA256 Checksums
 \`\`\`
