@@ -114,35 +114,39 @@ export const RETRY_CONFIG = {
 };
 
 /**
- * Date range to API parameter mapping
+ * Formats a Date as YYYY-MM-DD in the local time zone.
+ *
+ * Do not use `toISOString().split('T')[0]` for calendar dates: it yields the
+ * UTC date, which after local midnight (before 02:00 CEST) is still yesterday.
+ */
+export function toLocalDateString(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+/**
+ * Date range to API parameter mapping (local calendar dates, YYYY-MM-DD)
  */
 export function dateRangeToParams(dateRange: string): { from: string; to: string } {
   const now = new Date();
-  const to = now.toISOString().split('T')[0] as string;
-  let from: string;
+  const to = toLocalDateString(now);
 
-  switch (dateRange) {
-    case 'today':
-      from = to;
-      break;
-    case '7days':
-    case '7':
-      from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] as string;
-      break;
-    case '14':
-      from = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] as string;
-      break;
-    case '30days':
-    case '30':
-      from = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] as string;
-      break;
-    case '90days':
-    case '90':
-      from = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] as string;
-      break;
-    default:
-      from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] as string;
-  }
+  const daysBack: Record<string, number> = {
+    'today': 0,
+    '7days': 7, '7': 7,
+    '14': 14,
+    '30days': 30, '30': 30,
+    '90days': 90, '90': 90
+  };
+  const days = daysBack[dateRange] ?? 7;
+
+  // Step back by calendar days rather than 24h multiples so DST changes
+  // cannot shift the start date.
+  const fromDate = new Date(now);
+  fromDate.setDate(fromDate.getDate() - days);
+  const from = toLocalDateString(fromDate);
 
   return { from, to };
 }

@@ -134,6 +134,14 @@ function simplifyEntry(entry: LogbookEntry): SimplifiedLogbookEntry {
 }
 
 /**
+ * Rounds to one decimal, clearing float noise from summing entries
+ * (e.g. 200.49999999999997 -> 200.5).
+ */
+function round1(n: number): number {
+  return Math.round(n * 10) / 10;
+}
+
+/**
  * Groups entries by date and creates daily summaries
  */
 function groupByDay(entries: LogbookEntry[]): DailySummary[] {
@@ -194,18 +202,18 @@ function groupByDay(entries: LogbookEntry[]): DailySummary[] {
     }
 
     // Add insulin totals if available
-    const totalInsulin = totalBolus + totalBasal + totalCorrection;
+    const totalInsulin = round1(totalBolus + totalBasal + totalCorrection);
     if (totalInsulin > 0) {
       const parts: string[] = [];
-      if (totalBolus) parts.push(`${totalBolus}u bolus`);
-      if (totalBasal) parts.push(`${totalBasal}u basal`);
-      if (totalCorrection) parts.push(`${totalCorrection}u corr`);
+      if (totalBolus) parts.push(`${round1(totalBolus)}u bolus`);
+      if (totalBasal) parts.push(`${round1(totalBasal)}u basal`);
+      if (totalCorrection) parts.push(`${round1(totalCorrection)}u corr`);
       summary.totalInsulin = `${totalInsulin}u (${parts.join(', ')})`;
     }
 
     // Add nutrition totals if available
-    if (totalCarbs > 0) summary.totalCarbs = totalCarbs;
-    if (totalCalories > 0) summary.totalCalories = totalCalories;
+    if (totalCarbs > 0) summary.totalCarbs = round1(totalCarbs);
+    if (totalCalories > 0) summary.totalCalories = round1(totalCalories);
 
     return summary;
   });
@@ -252,17 +260,20 @@ export async function executeGetLogbookEntries(
         periodLabel = `Today (${formatDate(now, true)})`;
         break;
       case '7days': {
-        const from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const from = new Date(now);
+        from.setDate(from.getDate() - 7);
         periodLabel = `Last 7 days (${formatDate(from)}-${formatDate(now, true)})`;
         break;
       }
       case '30days': {
-        const from = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        const from = new Date(now);
+        from.setDate(from.getDate() - 30);
         periodLabel = `Last 30 days (${formatDate(from)}-${formatDate(now, true)})`;
         break;
       }
       case '90days': {
-        const from = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        const from = new Date(now);
+        from.setDate(from.getDate() - 90);
         periodLabel = `Last 90 days (${formatDate(from)}-${formatDate(now, true)})`;
         break;
       }

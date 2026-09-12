@@ -17,6 +17,7 @@
  */
 
 import { diabetesMClient } from '../api/client.js';
+import { toLocalDateString } from '../api/endpoints.js';
 import { GetIOBInputSchema } from '../types/tools.js';
 import type { LogbookEntry } from '../types/api.js';
 
@@ -158,8 +159,10 @@ export async function executeGetIOB(args: unknown): Promise<IOBResult> {
   const toDate = new Date(now);
 
   // Format dates for API call
-  const fromDateStr = fromDate.toISOString().split('T')[0];
-  const toDateStr = toDate.toISOString().split('T')[0];
+  // Local calendar dates: getLogbookEntries treats a specific date as a
+  // local day, and the UTC date lags the local one after midnight.
+  const fromDateStr = toLocalDateString(fromDate);
+  const toDateStr = toLocalDateString(toDate);
 
   // Use a Map to deduplicate entries by ID
   const entriesMap = new Map<string, LogbookEntry>();
