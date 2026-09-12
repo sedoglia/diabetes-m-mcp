@@ -67,7 +67,9 @@ npm run build
 ## What's New in ${tag}
 
 ### Fixed
-- The server now reports its real version in \`serverInfo\` during the MCP handshake. It was hardcoded to \`1.0.0\`, so every release since v1.1.0 announced itself to clients as 1.0.0; the version is now read from \`package.json\` at runtime and cannot drift from the release.
+- \`get_logbook_entries\` with \`dateRange: "today"\` (and the default range) returned **yesterday** between local midnight and 02:00 CEST: dates were derived in UTC and the range start was parsed as UTC midnight. All logbook windows now use local calendar dates, and multi-day ranges step back by calendar days so DST changes cannot shift the start date.
+- \`get_iob\` had the same UTC/local mismatch in its lookback window and could miss boluses given after midnight.
+- Daily carbs, calories and insulin totals in \`get_logbook_entries\` are rounded to one decimal (no more \`200.49999999999997\`).
 
 ## SHA256 Checksums
 \`\`\`
