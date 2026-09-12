@@ -8,6 +8,7 @@
  * They are encrypted with AES-256-GCM and stored in the user profile.
  */
 
+import { createRequire } from 'module';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import {
   CallToolRequestSchema,
@@ -27,6 +28,13 @@ import { credentialsManager } from './security/credentials.js';
 import { diabetesMClient } from './api/client.js';
 import { keyringManager } from './security/keyring.js';
 
+// Version reported to clients in serverInfo. Read from package.json at runtime
+// so it cannot drift from the released version; package.json sits next to
+// dist/ in both the npm layout and the MCPB bundle.
+const { version: SERVER_VERSION } = createRequire(import.meta.url)('../package.json') as {
+  version: string;
+};
+
 /**
  * Creates and configures the MCP server
  */
@@ -34,7 +42,7 @@ export function createServer(): Server {
   const server = new Server(
     {
       name: 'diabetes-m-mcp',
-      version: '1.0.0'
+      version: SERVER_VERSION
     },
     {
       capabilities: {
