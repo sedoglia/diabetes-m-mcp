@@ -66,17 +66,14 @@ npm run build
 
 ## What's New in ${tag}
 
-### New tools
-- \`get_iob\` — Insulin on Board calculation with configurable DIA
-- \`get_ic_ratios\` — insulin-to-carb ratios (ICR) and insulin sensitivity factor (ISF) by time of day
+### Fixed
+- The MCPB bundle is now a real ZIP archive (previously a gzip tarball with a \`.mcpb\` extension, which Claude Desktop rejected as corrupted) and ships everything it needs to run: \`manifest.json\`, \`dist/\`, the full \`node_modules\` (including keytar's native build), and the icon. Local \`.claude/\` settings are no longer included in the bundle.
 
-### Improvements
-- \`get_logbook_entries\` now accepts a custom date range via \`startDate\`/\`endDate\`
-
-### Security & reliability
-- Resolved all open Dependabot advisories in transitive dependencies (hono, @hono/node-server, body-parser, fast-uri), including a high-severity CORS credentials reflection
-- Timed-out and dropped requests are now retried, but only for reads — writes are never replayed, to avoid duplicates
-- Added a CI build check and gated Dependabot security-patch auto-merge behind it
+### Security
+- Raised the \`hono\` override floor to \`>=4.13.5\` (resolves 4.13.7), closing seven advisories: memo() SSR output retained across requests, Proxy Helper leaking hop-by-hop response headers, ReDoS in the CORS middleware, algorithmic complexity DoS in the Language middleware, incomplete fix for the \`toSSG()\` path traversal (CVE-2026-39408), memory exhaustion via unbounded dot-notation nesting in \`parseBody()\`, and the query parser reading parameters after the URL fragment
+- Raised the \`fast-uri\` override floor to \`>=4.1.2\`, closing host confusion via a backslash authority introducer
+- Bumped transitive \`ip-address\` 10.2.0 → 10.4.0, \`qs\` 6.15.2 → 6.16.0 and \`brace-expansion\` 5.0.8 → 5.0.9 (Dependabot)
+- \`npm audit\` is clean with and without dev dependencies
 
 ## SHA256 Checksums
 \`\`\`

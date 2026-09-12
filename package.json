@@ -1,6 +1,6 @@
 {
   "name": "diabetes-m-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "MCP Server for Diabetes:M integration with Claude Desktop - Secure access to diabetes management data",
   "type": "module",
   "main": "dist/index.js",
@@ -67,7 +67,7 @@
   },
   "overrides": {
     "ajv": ">=8.18.0",
-    "hono": ">=4.12.34",
+    "hono": ">=4.13.5",
     "@hono/node-server": ">=2.0.5",
     "body-parser": ">=2.3.0",
     "fast-uri": ">=4.1.2",
