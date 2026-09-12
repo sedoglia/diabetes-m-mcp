@@ -15,7 +15,8 @@ import {
   RATE_LIMIT,
   RETRY_CONFIG,
   ERROR_CODES,
-  dateRangeToParams
+  dateRangeToParams,
+  toLocalDateString
 } from './endpoints.js';
 import { authManager } from './auth.js';
 import { auditLogger } from '../security/audit.js';
@@ -275,12 +276,14 @@ class DiabetesMClient {
       fromDate = dateObj.getTime();
       toDate = new Date(specificDate + 'T23:59:59.999').getTime();
     } else if (dateRange) {
+      // Append an explicit time: a bare YYYY-MM-DD is parsed as UTC midnight,
+      // which would start the window at 02:00 local (CEST).
       const { from, to } = dateRangeToParams(dateRange);
-      fromDate = new Date(from).getTime();
-      toDate = new Date(to + 'T23:59:59').getTime();
+      fromDate = new Date(from + 'T00:00:00').getTime();
+      toDate = new Date(to + 'T23:59:59.999').getTime();
     } else {
-      // Default to today
-      const today = new Date().toISOString().split('T')[0];
+      // Default to today (local calendar day)
+      const today = toLocalDateString(new Date());
       fromDate = new Date(today + 'T00:00:00').getTime();
       toDate = new Date(today + 'T23:59:59.999').getTime();
     }
