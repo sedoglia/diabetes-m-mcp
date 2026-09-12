@@ -31,5 +31,6 @@ The version lives in three places that must match: `package.json`, `package-lock
 6. `npm run bundle`, check the output starts with the ZIP signature (`head -c 2 releases/diabetes-m-mcp-vX.Y.Z.mcpb` → `PK`), and run the smoke test above.
 7. Commit as `chore(release): X.Y.Z` (body: what the release cuts), push, open a PR, squash-merge when green.
 8. `git checkout main && git pull`, then `npm ci && npm run bundle && node scripts/create-release.js`. The script creates tag `vX.Y.Z` on `main` and the GitHub release "Diabetes:M MCP Server vX.Y.Z" with the `.mcpb` and `.sha256` assets. Verify with `gh release view vX.Y.Z`.
+9. Clean up `releases/`: keep only the bundle just published (`diabetes-m-mcp-vX.Y.Z.mcpb` + `.sha256`) and delete everything else — older bundles, and the `release-notes.md` the script writes as a temp file. The GitHub release is the archive; local copies of previous versions are not needed.
 
 `releases/` is gitignored; never commit bundles. Versioning is semver: dependency/security-only changes are a patch, new tools or tool parameters a minor.
