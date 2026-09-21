@@ -27,6 +27,7 @@ const bundleName = `diabetes-m-mcp-v${version}`;
 const releasesDir = join(rootDir, 'releases');
 const bundleFile = join(releasesDir, `${bundleName}.mcpb`);
 const hashFile = `${bundleFile}.sha256`;
+const sbomFile = join(releasesDir, `${bundleName}.cdx.json`);
 
 console.log(`Preparing GitHub release: ${tag}`);
 
@@ -39,6 +40,12 @@ if (!existsSync(bundleFile)) {
 
 if (!existsSync(hashFile)) {
   console.error(`Hash file not found: ${hashFile}`);
+  process.exit(1);
+}
+
+if (!existsSync(sbomFile)) {
+  console.error(`SBOM not found: ${sbomFile}`);
+  console.error('Run "npm run bundle" first');
   process.exit(1);
 }
 
@@ -76,6 +83,9 @@ npm run build
 ${hashContent}
 \`\`\`
 
+## SBOM
+\`${bundleName}.cdx.json\` is the CycloneDX 1.6 Software Bill of Materials of this bundle: every package shipped in \`node_modules\`, with version, license, PURL and registry tarball hash. Feed it to a vulnerability scanner (e.g. \`grype sbom:${bundleName}.cdx.json\`, or upload it to OWASP Dependency-Track) to audit the release.
+
 ## Requirements
 - Node.js >= 18.0.0
 - Claude Desktop
@@ -96,6 +106,7 @@ try {
   console.log(`2. Tag: ${tag}`);
   console.log(`3. Upload: ${bundleFile}`);
   console.log(`4. Upload: ${hashFile}`);
+  console.log(`5. Upload: ${sbomFile}`);
   process.exit(0);
 }
 
@@ -126,7 +137,7 @@ try {
 
   // Create release with gh CLI
   execSync(
-    `gh release create "${tag}" "${bundleFile}" "${hashFile}" --title "Diabetes:M MCP Server ${tag}" --notes-file "${notesFile}"`,
+    `gh release create "${tag}" "${bundleFile}" "${hashFile}" "${sbomFile}" --title "Diabetes:M MCP Server ${tag}" --notes-file "${notesFile}"`,
     { cwd: rootDir, stdio: 'inherit' }
   );
 
