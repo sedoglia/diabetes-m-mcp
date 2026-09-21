@@ -12,16 +12,18 @@
     "README.md",
     "README_EN.md",
     "LICENSE",
-    "manifest.json"
+    "manifest.json",
+    "sbom.cdx.json"
   ],
   "scripts": {
     "build": "tsc",
+    "sbom": "cyclonedx-npm --omit dev --output-reproducible --spec-version 1.6 --output-format JSON --validate --output-file sbom.cdx.json",
     "start": "node dist/index.js",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
     "prepare": "npm run build",
-    "bundle": "npm run build && node scripts/create-bundle.js",
+    "bundle": "npm run build && npm run sbom && node scripts/create-bundle.js",
     "release": "npm run bundle && node scripts/create-release.js",
     "setup-encryption": "node scripts/setup-encryption.js",
     "check-encryption": "node scripts/check-encryption.js",
@@ -58,6 +60,7 @@
     "zod": "^3.25.0"
   },
   "devDependencies": {
+    "@cyclonedx/cyclonedx-npm": "^6.0.1",
     "@types/node": "^20.0.0",
     "archiver": "^8.0.0",
     "typescript": "^5.3.0"

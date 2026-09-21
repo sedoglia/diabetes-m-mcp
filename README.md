@@ -4,6 +4,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![MCP](https://img.shields.io/badge/MCP-Compatibile-purple.svg)](https://modelcontextprotocol.io/)
 [![Licenza: MIT](https://img.shields.io/badge/Licenza-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![SBOM: CycloneDX](https://img.shields.io/badge/SBOM-CycloneDX%201.6-orange.svg)](sbom.cdx.json)
 
 [![PayPal](https://img.shields.io/badge/Supporta%20il%20Progetto-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/sedoglia)
 
@@ -83,6 +84,8 @@ Verifica l'integrità (opzionale ma consigliato):
 wget https://github.com/sedoglia/diabetes-m-mcp/releases/download/v1.1.0/diabetes-m-mcp.mcpb.sha256
 sha256sum -c diabetes-m-mcp.mcpb.sha256
 ```
+
+Ogni release pubblica anche la distinta dei componenti software (SBOM) del bundle in formato CycloneDX: vedi [📋 SBOM](#-sbom-software-bill-of-materials) per sapere cosa contiene e come usarla.
 
 ### 4. Installa l'estensione in Claude Desktop (Metodo Consigliato)
 
@@ -326,6 +329,34 @@ I file di configurazione sono salvati in percorsi specifici per ogni sistema ope
 
 > **Nota:** La chiave di crittografia master è sempre salvata nel keyring nativo del sistema operativo (Windows Credential Vault, macOS Keychain, Linux Secret Service), non in questi file.
 
+## 📋 SBOM (Software Bill of Materials)
+
+Il progetto pubblica una [SBOM](https://github.com/resources/articles/what-is-an-sbom-software-bill-of-materials) in formato [CycloneDX](https://cyclonedx.org/) 1.6 (JSON): l'inventario completo dei pacchetti che compongono il server, con versione, licenza, [PURL](https://github.com/package-url/purl-spec) e hash SHA-512 del tarball scaricato dal registry npm. Permette di verificare cosa contiene esattamente il bundle installato e di controllarlo contro i database delle vulnerabilità note (CVE).
+
+| Dove | Cosa |
+|------|------|
+| [`sbom.cdx.json`](sbom.cdx.json) | SBOM della versione corrente, versionata nel repository |
+| `diabetes-m-mcp-vX.Y.Z.cdx.json` | Allegata a ogni [release](https://github.com/sedoglia/diabetes-m-mcp/releases) accanto al bundle `.mcpb` |
+| `sbom.cdx.json` dentro il bundle | Copia inclusa nell'archivio `.mcpb` |
+
+**Cosa include:** esattamente i pacchetti distribuiti nel bundle `.mcpb`, cioè le sole dipendenze runtime (`dependencies` + `optionalDependencies`, keytar con `scope: optional`) risolte dal `package-lock.json`. Le dipendenze di sviluppo (TypeScript, archiver, il generatore SBOM stesso) non vengono spedite e non compaiono. Il componente principale è `diabetes-m-mcp` (`metadata.component`); i pacchetti installati in modo annidato (`node_modules/a/node_modules/b`) sono rappresentati come componenti annidati. In fase di bundle lo script verifica che l'elenco della SBOM coincida uno a uno con l'albero installato con `npm ci --omit=dev`.
+
+**Verificare le vulnerabilità** con uno scanner che accetta CycloneDX, ad esempio [Grype](https://github.com/anchore/grype):
+
+```bash
+grype sbom:sbom.cdx.json
+```
+
+oppure caricando il file in [OWASP Dependency-Track](https://dependencytrack.org/).
+
+**Rigenerare la SBOM** (richiede `npm install` completo):
+
+```bash
+npm run sbom
+```
+
+Il comando usa [`@cyclonedx/cyclonedx-npm`](https://github.com/CycloneDX/cyclonedx-node-npm) con `--omit dev` e in modalità riproducibile (nessun timestamp o numero seriale), quindi il file cambia solo quando cambiano le dipendenze runtime o la versione. Viene rigenerato automaticamente da `npm run bundle` ad ogni release.
+
 ## 🏗️ Struttura Progetto
 
 ```
@@ -359,6 +390,7 @@ diabetes-m-mcp/
 │       ├── security.ts       # Tipi sicurezza
 │       └── tools.ts          # Schemi strumenti
 ├── package.json
+├── sbom.cdx.json             # SBOM CycloneDX (npm run sbom)
 ├── tsconfig.json
 └── README.md
 ```

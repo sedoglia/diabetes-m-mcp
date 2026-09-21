@@ -27,3 +27,14 @@ jobs:
       # dependency bump breaking an API we call. The tool suite (npm test) is
       # not run here: it needs real Diabetes:M credentials and hits the live API.
       - run: npm run build
+
+      # Generates and validates the CycloneDX SBOM from the lockfile that was
+      # just installed, so a dependency bump that breaks SBOM generation fails
+      # here rather than at release time. Kept as a build artifact for audits;
+      # the committed sbom.cdx.json is refreshed only at release time.
+      - run: npm run sbom
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cdx.json
