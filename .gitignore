@@ -54,3 +54,6 @@ login-response.html
 
 # Releases (generated packages)
 releases/
+
+# npm run audit:fix output
+autofix-summary.md
