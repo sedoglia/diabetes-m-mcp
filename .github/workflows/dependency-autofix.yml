@@ -1,0 +1,115 @@
+name: Dependency auto-fix
+
+# Covers what Dependabot cannot: advisories on transitive deps pinned through
+# `overrides` (Dependabot rewrites the lockfile only, so its PRs either never
+# arrive or leave the override floor admitting the vulnerable version), and
+# override floors that went stale while the lockfile was already fine.
+# scripts/fix-audit.js decides what is safe to change (never a new major); this
+# workflow opens a PR with it and lets it auto-merge on a green `build`, or opens
+# an issue for what needs a human.
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  # To dispatch CI on the PR branch: pushes and PRs made with GITHUB_TOKEN do
+  # not trigger workflows, and `build` is a required check.
+  actions: write
+
+concurrency:
+  group: dependency-autofix
+  cancel-in-progress: false
+
+env:
+  BRANCH: autofix/npm-audit
+  ISSUE_TITLE: 'npm audit: vulnerabilities that need a human'
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fix what can be fixed
+        id: fix
+        env:
+          AUTOFIX_SUMMARY: ${{ runner.temp }}/summary.md
+        run: |
+          set +e
+          node scripts/fix-audit.js
+          code=$?
+          set -e
+          if [ "$code" != 0 ] && [ "$code" != 3 ]; then exit "$code"; fi
+          echo "needs-human=$([ "$code" = 3 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "changed=$(git diff --quiet -- package.json package-lock.json && echo false || echo true)" >> "$GITHUB_OUTPUT"
+          cat "$AUTOFIX_SUMMARY" >> "$GITHUB_STEP_SUMMARY"
+
+      # Same gate as CI, so a broken change never becomes a PR.
+      - name: Build
+        if: steps.fix.outputs.changed == 'true'
+        run: npm run build && npm run sbom && git checkout -- sbom.cdx.json
+
+      - name: Open or update the PR
+        if: steps.fix.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY: ${{ runner.temp }}/summary.md
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -B "$BRANCH"
+          git add package.json package-lock.json
+          git commit -q -m 'fix(deps): npm audit auto-fix' -m "$(grep '^- ' "$SUMMARY" || true)"
+          # Always rebuilt from main, so a stale branch (strict up-to-date check)
+          # heals itself on the next run.
+          git push --force origin "$BRANCH"
+          {
+            echo 'Automatic fix from `scripts/fix-audit.js` (`.github/workflows/dependency-autofix.yml`).'
+            echo
+            cat "$SUMMARY"
+            echo
+            echo 'Only in-range lockfile updates and override floors within the installed major. Auto-merges on a green `build`.'
+          } > "$RUNNER_TEMP/body.md"
+          pr=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" --body-file "$RUNNER_TEMP/body.md"
+          else
+            gh pr create --base main --head "$BRANCH" --title 'fix(deps): npm audit auto-fix' --body-file "$RUNNER_TEMP/body.md"
+          fi
+          gh workflow run ci.yml --ref "$BRANCH"
+          gh pr merge "$BRANCH" --auto --squash --delete-branch
+
+      - name: Open or update the issue
+        if: steps.fix.outputs.needs-human == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY: ${{ runner.temp }}/summary.md
+        run: |
+          issue=$(gh issue list --state open --search "in:title \"$ISSUE_TITLE\"" --json number --jq '.[0].number')
+          if [ -n "$issue" ]; then
+            gh issue edit "$issue" --body-file "$SUMMARY"
+          else
+            gh issue create --title "$ISSUE_TITLE" --body-file "$SUMMARY"
+          fi
+
+      - name: Close the issue once resolved
+        if: steps.fix.outputs.needs-human == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          issue=$(gh issue list --state open --search "in:title \"$ISSUE_TITLE\"" --json number --jq '.[0].number')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment 'Nothing left that needs a human: the remaining advisories were fixed automatically or upstream.'
+          fi

@@ -9,6 +9,7 @@ MCP server (TypeScript, ESM, Node >= 18) that exposes Diabetes:M data to Claude 
 - `npm run bundle` — build + sbom + `scripts/create-bundle.js` → `releases/diabetes-m-mcp-v<version>.mcpb` (+ `.sha256`) and `releases/diabetes-m-mcp-v<version>.cdx.json` (copy of the SBOM). The bundle is a ZIP with `manifest.json` at the root, `dist/`, `package.json`, `sbom.cdx.json`, READMEs, LICENSE, the icon and a `node_modules` that is **not** the root one: the script runs `npm ci --omit=dev` from the lockfile in a temp dir (with `scripts` stripped from the staged `package.json`, otherwise `prepare` would run the missing `tsc`) and ships that runtime-only tree (~5 MB instead of ~20 MB). It refuses an `sbom.cdx.json` whose `metadata.component.version` differs from `package.json`, or whose package paths do not match `npm ls --all --parseable --omit=dev` of the staged tree one-to-one.
 - `npm run release` — bundle + `scripts/create-release.js` (creates the `v<version>` tag and the GitHub release via `gh`, uploading the bundle, its hash and the SBOM)
 - `npm test` — `scripts/test.js`
+- `npm run audit:fix` — `scripts/fix-audit.js`: `npm audit fix` (never `--force`), then raises or adds `overrides` floors to the lowest fixed version within the installed major, including floors that are stale while the lockfile is already clean (checked against the registry's bulk advisory endpoint). Exit 3 means something needs a human (a fix that requires a new major).
 
 Smoke test of the built server (expects `serverInfo.version` = `package.json` version and 11 tools):
 
@@ -20,6 +21,13 @@ printf '%s\n%s\n%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"
 
 `main` has a required status check (`build`). Admin pushes bypass it silently ("Bypassed rule violations"), so **never push directly to `main`** — every change, including release bumps, goes through a PR and is squash-merged once CI is green. Dependabot PRs are squash-merged too (`gh pr merge N --squash --delete-branch`).
 
+Dependency security is automated, no manual step expected:
+
+- `dependabot-auto-merge.yml` enables auto-merge on Dependabot security PRs, grouped ones included (for those it diffs the base/head lockfiles via the API and refuses any major bump, or 0.x minor, or a file outside `package.json`/`package-lock.json`).
+- `dependency-autofix.yml` runs daily (and on `workflow_dispatch`): `npm run audit:fix` on `main`; changes go to the `autofix/npm-audit` PR, which it rebuilds from `main` on each run, dispatches `ci.yml` on (PRs made with `GITHUB_TOKEN` trigger no workflows) and sets to auto-merge. What needs a human lands in the issue "npm audit: vulnerabilities that need a human", closed automatically once resolved. It relies on the repo setting "Allow GitHub Actions to create and approve pull requests".
+
+A red or stuck one of these is the only thing to look at.
+
 ## Release flow
 
 The version lives in three places that must match: `package.json`, `package-lock.json`, `manifest.json`. The server reads it from `package.json` at runtime (`src/server.ts`), so there is nothing to change in `src/`.
@@ -28,7 +36,7 @@ The version lives in three places that must match: `package.json`, `package-lock
 2. `git checkout -b release/X.Y.Z`
 3. `npm version X.Y.Z --no-git-tag-version` (updates `package.json` + lockfile), then set `"version": "X.Y.Z"` in `manifest.json`.
 4. Replace the `## What's New in ${tag}` section in `scripts/create-release.js` with the actual changes since the previous tag (`git log vPREV..HEAD`). The notes are a JS template literal: escape backticks as `` \` ``. Stale notes from the previous release ship verbatim otherwise.
-5. `npm ci && npm audit` — audit must be clean with and without `--omit=dev`. Transitive advisories are fixed by raising the floor in `overrides` in `package.json` (see the existing `hono` / `fast-uri` / `body-parser` entries), not by editing the lockfile by hand.
+5. `npm ci && npm run audit:fix && npm audit` — audit must be clean with and without `--omit=dev`. Transitive advisories are fixed by raising the floor in `overrides` in `package.json` (see the existing `hono` / `fast-uri` / `body-parser` entries), not by editing the lockfile by hand.
 6. `npm run bundle`, check the output starts with the ZIP signature (`head -c 2 releases/diabetes-m-mcp-vX.Y.Z.mcpb` → `PK`), and run the smoke test above. This also regenerates `sbom.cdx.json` for the new version and the current lockfile: it must be part of the release commit.
 7. Commit as `chore(release): X.Y.Z` (body: what the release cuts; include `sbom.cdx.json`), push, open a PR, squash-merge when green.
 8. `git checkout main && git pull`, then `npm ci && npm run bundle && node scripts/create-release.js`. The script creates tag `vX.Y.Z` on `main` and the GitHub release "Diabetes:M MCP Server vX.Y.Z" with the `.mcpb`, `.sha256` and `.cdx.json` assets. Verify with `gh release view vX.Y.Z`.

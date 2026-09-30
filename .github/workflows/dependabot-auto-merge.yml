@@ -20,14 +20,56 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Grouped PRs (`dependency-group`, which is how security updates arrive
+      # here) come with an empty ghsa-id and update-type, so the check above
+      # cannot see them. For those, compare the lockfiles of base and head via
+      # the API (read as data, never executed): any package whose major (minor,
+      # for 0.x) changes blocks the auto-merge, as does a change outside the
+      # manifest/lockfile. There is no .github/dependabot.yml, so Dependabot only
+      # opens security updates on this repo; if version updates are ever
+      # configured, grouped ones would pass this gate too as long as no major moves.
+      - name: Check grouped update
+        id: group
+        if: steps.meta.outputs.dependency-group != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          other=$(gh api "repos/$REPO/pulls/$PR/files" --paginate --jq '.[].filename' | grep -vxE 'package\.json|package-lock\.json' || true)
+          if [ -n "$other" ]; then
+            echo "Files outside package.json/package-lock.json changed: $other"
+            echo "safe=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          lock() { gh api -H 'Accept: application/vnd.github.raw' "repos/$REPO/contents/package-lock.json?ref=$1"; }
+          lock "$BASE" > base.json
+          lock "$HEAD" > head.json
+          majors=$(node -e '
+            const fs = require("fs");
+            const [base, head] = ["base.json", "head.json"].map((f) => JSON.parse(fs.readFileSync(f, "utf8")).packages);
+            const compat = (v) => { const [ma, mi] = v.split("."); return ma === "0" ? "0." + mi : ma; };
+            for (const [path, pkg] of Object.entries(head)) {
+              const old = base[path] && base[path].version;
+              if (path && pkg.version && old && compat(pkg.version) !== compat(old)) console.log(path + ": " + old + " -> " + pkg.version);
+            }')
+          if [ -n "$majors" ]; then
+            echo "Major bumps, leaving for a human:"; echo "$majors"
+            echo "safe=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "safe=true" >> "$GITHUB_OUTPUT"
+          fi
+
       # Security updates only (ghsa-id is empty for plain version updates), and
       # never a major: those need a human, like the @hono/node-server 1.x -> 2.x
       # bump that had to be reasoned about before landing.
       - name: Enable auto-merge
         if: |
-          steps.meta.outputs.ghsa-id != '' &&
-          (steps.meta.outputs.update-type == 'version-update:semver-patch' ||
-           steps.meta.outputs.update-type == 'version-update:semver-minor')
+          (steps.meta.outputs.ghsa-id != '' &&
+           (steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+            steps.meta.outputs.update-type == 'version-update:semver-minor')) ||
+          steps.group.outputs.safe == 'true'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
