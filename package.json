@@ -72,7 +72,7 @@
   },
   "overrides": {
     "ajv": ">=8.18.0",
-    "hono": ">=4.13.5",
+    "hono": ">=4.13.7",
     "@hono/node-server": ">=2.0.10",
     "body-parser": ">=2.3.0",
     "fast-uri": ">=4.2.1",
