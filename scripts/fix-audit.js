@@ -29,6 +29,18 @@ function run(cmd) {
   return execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'], maxBuffer: 64 * 1024 * 1024 });
 }
 
+// `npm audit fix` also exits 1 when something is left that it cannot fix
+// (e.g. no fixed version published yet). That is what the rest of the script
+// handles, so only a failure without an audit report is an error.
+function auditFix() {
+  try {
+    run('npm audit fix --no-fund');
+  } catch (err) {
+    if (err.status !== 1 || !String(err.stdout).includes('# npm audit report')) throw err;
+    log(err.stdout);
+  }
+}
+
 // npm audit exits non-zero when it finds something; the JSON is still on stdout.
 function audit(omitDev = false) {
   let out;
@@ -88,21 +100,25 @@ function installedVersions(name) {
 // Major for compatibility purposes: 0.x minors are breaking under semver.
 const compatMajor = (v) => (semver.major(v) === 0 ? `0.${semver.minor(v)}` : `${semver.major(v)}`);
 
+// Returns the lowest safe version in the installed major, and whether any
+// newer safe version exists at all (if not, the fix is upstream's to publish).
 function lowestSafeVersion(name, installed, ranges) {
   const published = JSON.parse(run(`npm view ${name} versions --json`));
   const target = installed.map((v) => semver.parse(v)).sort(semver.rcompare)[0];
-  return (Array.isArray(published) ? published : [published])
-    .filter((v) => semver.valid(v) && !semver.prerelease(v))
-    .filter((v) => compatMajor(v) === compatMajor(target.version) && semver.gt(v, target))
-    .filter((v) => !ranges.some((r) => semver.satisfies(v, r.range)))
-    .sort(semver.compare)[0];
+  const safe = (Array.isArray(published) ? published : [published])
+    .filter((v) => semver.valid(v) && !semver.prerelease(v) && semver.gt(v, target))
+    .filter((v) => !ranges.some((r) => semver.satisfies(v, r.range)));
+  return {
+    version: safe.filter((v) => compatMajor(v) === compatMajor(target.version)).sort(semver.compare)[0],
+    anyPublished: safe.length > 0,
+  };
 }
 
 const changes = [];
 const pkgBefore = readFileSync('package.json', 'utf8');
 const lockBefore = readFileSync('package-lock.json', 'utf8');
 
-run('npm audit fix --no-fund');
+auditFix();
 
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 pkg.overrides ||= {};
@@ -126,9 +142,12 @@ for (const [name, ranges] of vulnerable) {
     needsHuman.push({ name, installed, ranges, staleFloor, reason: `installed in several majors (${installed.join(', ')}); a global override would force a major bump` });
     continue;
   }
-  const safe = lowestSafeVersion(name, installed, ranges);
+  const { version: safe, anyPublished } = lowestSafeVersion(name, installed, ranges);
   if (!safe) {
-    needsHuman.push({ name, installed, ranges, staleFloor, reason: `no fixed version within the installed major (${installed.join(', ')})` });
+    const reason = anyPublished
+      ? `no fixed version within the installed major (${installed.join(', ')})`
+      : 'no fixed version published yet; the daily run picks it up once there is one';
+    needsHuman.push({ name, installed, ranges, staleFloor, reason });
     continue;
   }
   const before = pkg.overrides[name];
@@ -144,7 +163,7 @@ for (const [name, ranges] of vulnerable) {
 if (changes.length) {
   writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
   run('npm install --no-audit --no-fund');
-  run('npm audit fix --no-fund');
+  auditFix();
 }
 
 // Final state, as CLAUDE.md requires it: clean with and without --omit=dev.
