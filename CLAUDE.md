@@ -24,7 +24,7 @@ printf '%s\n%s\n%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"
 Dependency security is automated, no manual step expected:
 
 - `dependabot-auto-merge.yml` enables auto-merge on Dependabot security PRs, grouped ones included (for those it diffs the base/head lockfiles via the API and refuses any major bump, or 0.x minor, or a file outside `package.json`/`package-lock.json`).
-- `dependency-autofix.yml` runs daily (and on `workflow_dispatch`): `npm run audit:fix` on `main`; changes go to the `autofix/npm-audit` PR, which it rebuilds from `main` on each run, dispatches `ci.yml` on (PRs made with `GITHUB_TOKEN` trigger no workflows) and sets to auto-merge. What needs a human lands in the issue "npm audit: vulnerabilities that need a human", closed automatically once resolved. It relies on the repo setting "Allow GitHub Actions to create and approve pull requests".
+- `dependency-autofix.yml` runs daily (and on `workflow_dispatch`): `npm run audit:fix` on `main`; changes go to the `autofix/npm-audit` PR, which it rebuilds from `main` on each run, approves the `pull_request` CI run of (runs for PRs made with `GITHUB_TOKEN` wait in `action_required` and hide a dispatched run; it falls back to dispatching `ci.yml` if none appears) and sets to auto-merge. What needs a human lands in the issue "npm audit: vulnerabilities that need a human", closed automatically once resolved. It relies on the repo setting "Allow GitHub Actions to create and approve pull requests".
 
 A red or stuck one of these is the only thing to look at.
 
