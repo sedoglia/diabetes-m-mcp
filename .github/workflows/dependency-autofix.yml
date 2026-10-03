@@ -17,8 +17,8 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
-  # To dispatch CI on the PR branch: pushes and PRs made with GITHUB_TOKEN do
-  # not trigger workflows, and `build` is a required check.
+  # To approve (or, failing that, dispatch) CI on the PR: runs for PRs made
+  # with GITHUB_TOKEN wait for approval, and `build` is a required check.
   actions: write
 
 concurrency:
@@ -88,7 +88,22 @@ jobs:
           else
             gh pr create --base main --head "$BRANCH" --title 'fix(deps): npm audit auto-fix' --body-file "$RUNNER_TEMP/body.md"
           fi
-          gh workflow run ci.yml --ref "$BRANCH"
+          # A PR pushed with GITHUB_TOKEN gets a pull_request CI run that waits
+          # for approval (action_required, no jobs). It is the PR's latest CI run,
+          # so it hides a dispatched one and `build` never shows up as passed:
+          # approve it instead. Dispatch only if no such run appears.
+          sha=$(git rev-parse HEAD)
+          run=
+          for _ in $(seq 12); do
+            run=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=pull_request&head_sha=$sha" --jq '[.workflow_runs[] | select(.path == ".github/workflows/ci.yml")][0].id // empty')
+            [ -n "$run" ] && break
+            sleep 5
+          done
+          if [ -z "$run" ]; then
+            gh workflow run ci.yml --ref "$BRANCH"
+          elif [ "$(gh run view "$run" --json conclusion --jq .conclusion)" = action_required ]; then
+            gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$run/approve"
+          fi
           gh pr merge "$BRANCH" --auto --squash --delete-branch
 
       - name: Open or update the issue
