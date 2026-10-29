@@ -144,7 +144,7 @@ export function createServer(): Server {
           error: true,
           type: 'ValidationError',
           message: 'Invalid input parameters',
-          details: error.errors.map(e => ({
+          details: error.issues.map(e => ({
             path: e.path.join('.'),
             message: e.message
           }))
