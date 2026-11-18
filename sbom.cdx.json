@@ -15,7 +15,7 @@
           "type": "library",
           "name": "cyclonedx-library",
           "group": "@cyclonedx",
-          "version": "10.3.0",
+          "version": "10.5.1",
           "author": "Jan Kowalleck",
           "description": "Core functionality of CycloneDX for JavaScript (Node.js or WebBrowser).",
           "licenses": [
@@ -53,7 +53,7 @@
           "type": "application",
           "name": "cyclonedx-npm",
           "group": "@cyclonedx",
-          "version": "6.0.1",
+          "version": "7.0.1",
           "author": "Jan Kowalleck",
           "description": "Create CycloneDX Software Bill of Materials (SBOM) from NPM projects.",
           "licenses": [
@@ -96,8 +96,8 @@
     "component": {
       "type": "application",
       "name": "diabetes-m-mcp",
-      "version": "1.2.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3",
+      "version": "1.2.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4",
       "author": "Sergio Dogliani",
       "description": "MCP Server for Diabetes:M integration with Claude Desktop - Secure access to diabetes management data",
       "licenses": [
@@ -108,7 +108,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/diabetes-m-mcp@1.2.3?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Fsedoglia%2Fdiabetes-m-mcp.git",
+      "purl": "pkg:npm/diabetes-m-mcp@1.2.4?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Fsedoglia%2Fdiabetes-m-mcp.git",
       "externalReferences": [
         {
           "url": "https://github.com/sedoglia/diabetes-m-mcp/issues",
@@ -149,8 +149,8 @@
       "type": "library",
       "name": "node-server",
       "group": "@hono",
-      "version": "2.0.11",
-      "bom-ref": "diabetes-m-mcp@1.2.3|@hono/node-server@2.0.11",
+      "version": "2.1.8",
+      "bom-ref": "diabetes-m-mcp@1.2.4|@hono/node-server@2.1.8",
       "author": "Yusuke Wada",
       "description": "Node.js Adapter for Hono",
       "licenses": [
@@ -161,15 +161,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40hono/node-server@2.0.11",
+      "purl": "pkg:npm/%40hono/node-server@2.1.8",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@hono/node-server/-/node-server-2.0.11.tgz",
+          "url": "https://registry.npmjs.org/@hono/node-server/-/node-server-2.1.8.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "6e30f6db528f2e8253594c2ca3527a7c62a24d711415e746fecd2f8ac6af638cda9053e4786511311365cbe161047b3b4fc0f3e2a1da648317f59a091d226d28"
+              "content": "8dd7fb14787a0359738e91c7414831b20d86784476bcc7ad9c039f78072dcdca258ba8da9a52be340c0be83b2be45977052ded61443309db598d4f10c6fedb10"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -205,8 +205,8 @@
       "type": "library",
       "name": "sdk",
       "group": "@modelcontextprotocol",
-      "version": "1.26.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|@modelcontextprotocol/sdk@1.26.0",
+      "version": "1.32.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|@modelcontextprotocol/sdk@1.32.1",
       "author": "Anthropic, PBC",
       "description": "Model Context Protocol implementation for TypeScript",
       "licenses": [
@@ -217,15 +217,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40modelcontextprotocol/sdk@1.26.0",
+      "purl": "pkg:npm/%40modelcontextprotocol/sdk@1.32.1",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@modelcontextprotocol/sdk/-/sdk-1.26.0.tgz",
+          "url": "https://registry.npmjs.org/@modelcontextprotocol/sdk/-/sdk-1.32.1.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "6394663e7729883b535c36cb2acc082734eabb687204ac5336c80aa8a7250db848820d7082d7f57d1bafc604e745f727c6dbef81b20472a50ecd9ac9ea24917a"
+              "content": "d83744f92243b732c4116cd8d598d8ed0f9570f85c5752a2b03df3238bb45d9ca4b6c8c7ba6d66c1b308f896ae954062d8e664f8a2408b6b8f5f3c627213e477"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -261,7 +261,7 @@
       "type": "library",
       "name": "accepts",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|accepts@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|accepts@2.0.0",
       "description": "Higher-level content negotiation",
       "licenses": [
         {
@@ -315,7 +315,7 @@
       "type": "library",
       "name": "ajv-formats",
       "version": "3.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ajv-formats@3.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ajv-formats@3.0.1",
       "author": "Evgeny Poberezkin",
       "description": "Format validation for Ajv v7+",
       "licenses": [
@@ -366,7 +366,7 @@
       "type": "library",
       "name": "ajv",
       "version": "8.18.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ajv@8.18.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ajv@8.18.0",
       "author": "Evgeny Poberezkin",
       "description": "Another JSON Schema Validator",
       "licenses": [
@@ -417,7 +417,7 @@
       "type": "library",
       "name": "base64-js",
       "version": "1.5.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|base64-js@1.5.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|base64-js@1.5.1",
       "author": "T. Jameson Little",
       "description": "Base64 encoding/decoding in pure JS",
       "licenses": [
@@ -472,7 +472,7 @@
       "type": "library",
       "name": "bl",
       "version": "4.1.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|bl@4.1.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|bl@4.1.0",
       "description": "Buffer List: collect buffers and access with a standard readable Buffer interface, streamable too!",
       "scope": "optional",
       "licenses": [
@@ -522,8 +522,8 @@
     {
       "type": "library",
       "name": "body-parser",
-      "version": "2.3.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|body-parser@2.3.0",
+      "version": "2.4.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|body-parser@2.4.0",
       "description": "Node.js body parsing middleware",
       "licenses": [
         {
@@ -533,15 +533,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/body-parser@2.3.0",
+      "purl": "pkg:npm/body-parser@2.4.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/body-parser/-/body-parser-2.3.0.tgz",
+          "url": "https://registry.npmjs.org/body-parser/-/body-parser-2.4.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "d9c1a626ea5a36083e414c152c0b9c0ee5aea0c67a117f621c346cc19e65b0d6049b03da4649cc3c22d9cf4ef24f356affcde9e28ff0cdb0d96c1ad3bc619323"
+              "content": "21f93529c2ebc5a1add6871c41a81034534d3aa46dd4b16e7a11271c7cc1f19e9c460231454d5305a888b14882740fa0cb93cbed8d485f7d4334a9119b1b578d"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -576,8 +576,8 @@
         {
           "type": "library",
           "name": "content-type",
-          "version": "2.0.0",
-          "bom-ref": "diabetes-m-mcp@1.2.3|body-parser@2.3.0|content-type@2.0.0",
+          "version": "2.1.0",
+          "bom-ref": "diabetes-m-mcp@1.2.4|body-parser@2.4.0|content-type@2.1.0",
           "author": "Douglas Christopher Wilson",
           "description": "Create and parse HTTP Content-Type header",
           "licenses": [
@@ -588,15 +588,15 @@
               }
             }
           ],
-          "purl": "pkg:npm/content-type@2.0.0",
+          "purl": "pkg:npm/content-type@2.1.0",
           "externalReferences": [
             {
-              "url": "https://registry.npmjs.org/content-type/-/content-type-2.0.0.tgz",
+              "url": "https://registry.npmjs.org/content-type/-/content-type-2.1.0.tgz",
               "type": "distribution",
               "hashes": [
                 {
                   "alg": "SHA-512",
-                  "content": "8ff3bf77b19c642c8d97bfe1c1901beb4eabcea932bda0dcb4b99c91bc4bcc7bc50734c91ee1847687404dc3f7c884680eb2c790801326ebf36c5969fe48b671"
+                  "content": "9a3ed43d71348daa9a3acba435945411f122d8070bec2fefc26c1c1d5d0ef7b78ed44d69c4166eca3959af1e6c79368d060d54ebea37e70a5adf941f71cfbb6a"
                 }
               ],
               "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -634,7 +634,7 @@
       "type": "library",
       "name": "buffer",
       "version": "5.7.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|buffer@5.7.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|buffer@5.7.1",
       "author": "Feross Aboukhadijeh",
       "description": "Node.js Buffer API, for the browser",
       "scope": "optional",
@@ -686,7 +686,7 @@
       "type": "library",
       "name": "bytes",
       "version": "3.1.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|bytes@3.1.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|bytes@3.1.2",
       "author": "TJ Holowaychuk",
       "description": "Utility to parse a string bytes to bytes and vice-versa",
       "licenses": [
@@ -741,7 +741,7 @@
       "type": "library",
       "name": "call-bind-apply-helpers",
       "version": "1.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|call-bind-apply-helpers@1.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|call-bind-apply-helpers@1.0.2",
       "author": "Jordan Harband",
       "description": "Helper functions around Function call/apply/bind, for use in `call-bind`",
       "licenses": [
@@ -796,7 +796,7 @@
       "type": "library",
       "name": "call-bound",
       "version": "1.0.4",
-      "bom-ref": "diabetes-m-mcp@1.2.3|call-bound@1.0.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|call-bound@1.0.4",
       "author": "Jordan Harband",
       "description": "Robust call-bound JavaScript intrinsics, using `call-bind` and `get-intrinsic`.",
       "licenses": [
@@ -851,7 +851,7 @@
       "type": "library",
       "name": "chownr",
       "version": "1.1.4",
-      "bom-ref": "diabetes-m-mcp@1.2.3|chownr@1.1.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|chownr@1.1.4",
       "author": "Isaac Z. Schlueter",
       "description": "like `chown -R`",
       "scope": "optional",
@@ -903,7 +903,7 @@
       "type": "library",
       "name": "content-disposition",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|content-disposition@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|content-disposition@1.0.1",
       "author": "Douglas Christopher Wilson",
       "description": "Create and parse Content-Disposition header",
       "licenses": [
@@ -958,7 +958,7 @@
       "type": "library",
       "name": "content-type",
       "version": "1.0.5",
-      "bom-ref": "diabetes-m-mcp@1.2.3|content-type@1.0.5",
+      "bom-ref": "diabetes-m-mcp@1.2.4|content-type@1.0.5",
       "author": "Douglas Christopher Wilson",
       "description": "Create and parse HTTP Content-Type header",
       "licenses": [
@@ -1013,7 +1013,7 @@
       "type": "library",
       "name": "cookie-signature",
       "version": "1.2.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|cookie-signature@1.2.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|cookie-signature@1.2.2",
       "author": "TJ Holowaychuk",
       "description": "Sign and unsign cookies",
       "licenses": [
@@ -1068,7 +1068,7 @@
       "type": "library",
       "name": "cookie",
       "version": "0.7.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|cookie@0.7.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|cookie@0.7.2",
       "author": "Roman Shtylman",
       "description": "HTTP server cookie parsing and serialization",
       "licenses": [
@@ -1123,7 +1123,7 @@
       "type": "library",
       "name": "cors",
       "version": "2.8.5",
-      "bom-ref": "diabetes-m-mcp@1.2.3|cors@2.8.5",
+      "bom-ref": "diabetes-m-mcp@1.2.4|cors@2.8.5",
       "author": "Troy Goode",
       "description": "Node.js CORS middleware",
       "licenses": [
@@ -1178,7 +1178,7 @@
       "type": "library",
       "name": "cross-spawn",
       "version": "7.0.6",
-      "bom-ref": "diabetes-m-mcp@1.2.3|cross-spawn@7.0.6",
+      "bom-ref": "diabetes-m-mcp@1.2.4|cross-spawn@7.0.6",
       "author": "André Cruz",
       "description": "Cross platform child_process#spawn and child_process#spawnSync",
       "licenses": [
@@ -1233,7 +1233,7 @@
       "type": "library",
       "name": "debug",
       "version": "4.4.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|debug@4.4.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|debug@4.4.3",
       "author": "Josh Junon",
       "description": "Lightweight debugging utility for Node.js and the browser",
       "licenses": [
@@ -1288,7 +1288,7 @@
       "type": "library",
       "name": "decompress-response",
       "version": "6.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|decompress-response@6.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|decompress-response@6.0.0",
       "author": "Sindre Sorhus",
       "description": "Decompress a HTTP response if needed",
       "scope": "optional",
@@ -1344,7 +1344,7 @@
       "type": "library",
       "name": "deep-extend",
       "version": "0.6.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|deep-extend@0.6.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|deep-extend@0.6.0",
       "author": "Viacheslav Lotsmanov",
       "description": "Recursive object extending",
       "scope": "optional",
@@ -1407,7 +1407,7 @@
       "type": "library",
       "name": "depd",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|depd@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|depd@2.0.0",
       "author": "Douglas Christopher Wilson",
       "description": "Deprecate all the things",
       "licenses": [
@@ -1462,7 +1462,7 @@
       "type": "library",
       "name": "detect-libc",
       "version": "2.1.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|detect-libc@2.1.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|detect-libc@2.1.2",
       "author": "Lovell Fuller",
       "description": "Node.js module to detect the C standard library (libc) implementation family and version",
       "scope": "optional",
@@ -1518,7 +1518,7 @@
       "type": "library",
       "name": "dunder-proto",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|dunder-proto@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|dunder-proto@1.0.1",
       "author": "Jordan Harband",
       "description": "If available, the `Object.prototype.__proto__` accessor and mutator, call-bound",
       "licenses": [
@@ -1573,7 +1573,7 @@
       "type": "library",
       "name": "ee-first",
       "version": "1.1.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ee-first@1.1.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ee-first@1.1.1",
       "author": "Jonathan Ong",
       "description": "return the first event in a set of ee/event pairs",
       "licenses": [
@@ -1624,7 +1624,7 @@
       "type": "library",
       "name": "encodeurl",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|encodeurl@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|encodeurl@2.0.0",
       "description": "Encode a URL to a percent-encoded form, excluding already-encoded sequences",
       "licenses": [
         {
@@ -1678,7 +1678,7 @@
       "type": "library",
       "name": "end-of-stream",
       "version": "1.4.5",
-      "bom-ref": "diabetes-m-mcp@1.2.3|end-of-stream@1.4.5",
+      "bom-ref": "diabetes-m-mcp@1.2.4|end-of-stream@1.4.5",
       "author": "Mathias Buus",
       "description": "Call a callback when a readable/writable/duplex stream has completed or failed.",
       "scope": "optional",
@@ -1730,7 +1730,7 @@
       "type": "library",
       "name": "es-define-property",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|es-define-property@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|es-define-property@1.0.1",
       "author": "Jordan Harband",
       "description": "`Object.defineProperty`, but not IE 8's broken one.",
       "licenses": [
@@ -1785,7 +1785,7 @@
       "type": "library",
       "name": "es-errors",
       "version": "1.3.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
       "author": "Jordan Harband",
       "description": "A simple cache for a few of the JS Error constructors.",
       "licenses": [
@@ -1840,7 +1840,7 @@
       "type": "library",
       "name": "es-object-atoms",
       "version": "1.1.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|es-object-atoms@1.1.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|es-object-atoms@1.1.2",
       "author": "Jordan Harband",
       "description": "ES Object-related atoms: Object, ToObject, RequireObjectCoercible",
       "licenses": [
@@ -1895,7 +1895,7 @@
       "type": "library",
       "name": "escape-html",
       "version": "1.0.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|escape-html@1.0.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|escape-html@1.0.3",
       "description": "Escape string for use in HTML",
       "licenses": [
         {
@@ -1945,7 +1945,7 @@
       "type": "library",
       "name": "etag",
       "version": "1.8.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|etag@1.8.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|etag@1.8.1",
       "description": "Create simple HTTP ETags",
       "licenses": [
         {
@@ -1999,7 +1999,7 @@
       "type": "library",
       "name": "eventsource-parser",
       "version": "3.0.6",
-      "bom-ref": "diabetes-m-mcp@1.2.3|eventsource-parser@3.0.6",
+      "bom-ref": "diabetes-m-mcp@1.2.4|eventsource-parser@3.0.6",
       "author": "Espen Hovlandsdal",
       "description": "Streaming, source-agnostic EventSource/Server-Sent Events parser",
       "licenses": [
@@ -2054,7 +2054,7 @@
       "type": "library",
       "name": "eventsource",
       "version": "3.0.7",
-      "bom-ref": "diabetes-m-mcp@1.2.3|eventsource@3.0.7",
+      "bom-ref": "diabetes-m-mcp@1.2.4|eventsource@3.0.7",
       "author": "Espen Hovlandsdal",
       "description": "WhatWG/W3C compliant EventSource client for Node.js and browsers",
       "licenses": [
@@ -2109,7 +2109,7 @@
       "type": "library",
       "name": "expand-template",
       "version": "2.0.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|expand-template@2.0.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|expand-template@2.0.3",
       "author": "LM",
       "description": "Expand placeholders in a template string",
       "scope": "optional",
@@ -2163,7 +2163,7 @@
       "type": "library",
       "name": "express-rate-limit",
       "version": "8.5.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|express-rate-limit@8.5.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|express-rate-limit@8.5.1",
       "author": "Nathan Friedly",
       "description": "Basic IP rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
       "licenses": [
@@ -2218,7 +2218,7 @@
       "type": "library",
       "name": "express",
       "version": "5.2.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|express@5.2.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|express@5.2.1",
       "author": "TJ Holowaychuk",
       "description": "Fast, unopinionated, minimalist web framework",
       "licenses": [
@@ -2273,7 +2273,7 @@
       "type": "library",
       "name": "fast-deep-equal",
       "version": "3.1.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|fast-deep-equal@3.1.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|fast-deep-equal@3.1.3",
       "author": "Evgeny Poberezkin",
       "description": "Fast deep equal",
       "licenses": [
@@ -2323,8 +2323,8 @@
     {
       "type": "library",
       "name": "fast-uri",
-      "version": "4.1.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|fast-uri@4.1.3",
+      "version": "4.2.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|fast-uri@4.2.3",
       "author": "Vincent Le Goff",
       "description": "Dependency-free RFC 3986 URI toolbox",
       "licenses": [
@@ -2335,15 +2335,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/fast-uri@4.1.3",
+      "purl": "pkg:npm/fast-uri@4.2.3",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/fast-uri/-/fast-uri-4.1.3.tgz",
+          "url": "https://registry.npmjs.org/fast-uri/-/fast-uri-4.2.3.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "efeef61babcbb7b8e335ab3c4a64804f1daa7b24488f17aa3b78b82249834f196a61944a00d84e7b56e7a2f729e16666bec62ba7ad16caa3f21ea811897d325f"
+              "content": "2353d7c0fe5e02194d95c7698edf42801e7da29d99bd97f1c3e064a861552143a03690954dc4eaa771e14d7edbaf18f9bec8a9fa7498e274ef7dff9e200efa86"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -2375,7 +2375,7 @@
       "type": "library",
       "name": "finalhandler",
       "version": "2.1.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|finalhandler@2.1.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|finalhandler@2.1.1",
       "author": "Douglas Christopher Wilson",
       "description": "Node.js final http responder",
       "licenses": [
@@ -2430,7 +2430,7 @@
       "type": "library",
       "name": "forwarded",
       "version": "0.2.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|forwarded@0.2.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|forwarded@0.2.0",
       "description": "Parse HTTP X-Forwarded-For header",
       "licenses": [
         {
@@ -2484,7 +2484,7 @@
       "type": "library",
       "name": "fresh",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|fresh@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|fresh@2.0.0",
       "author": "TJ Holowaychuk",
       "description": "HTTP response freshness testing",
       "licenses": [
@@ -2539,7 +2539,7 @@
       "type": "library",
       "name": "fs-constants",
       "version": "1.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|fs-constants@1.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|fs-constants@1.0.0",
       "author": "Mathias Buus",
       "description": "Require constants across node and the browser",
       "scope": "optional",
@@ -2591,7 +2591,7 @@
       "type": "library",
       "name": "function-bind",
       "version": "1.1.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|function-bind@1.1.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|function-bind@1.1.2",
       "author": "Raynos",
       "description": "Implementation of Function.prototype.bind",
       "licenses": [
@@ -2642,7 +2642,7 @@
       "type": "library",
       "name": "get-intrinsic",
       "version": "1.3.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|get-intrinsic@1.3.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|get-intrinsic@1.3.0",
       "author": "Jordan Harband",
       "description": "Get and robustly cache all JS language-level intrinsics at first require time",
       "licenses": [
@@ -2697,7 +2697,7 @@
       "type": "library",
       "name": "get-proto",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|get-proto@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|get-proto@1.0.1",
       "author": "Jordan Harband",
       "description": "Robustly get the [[Prototype]] of an object",
       "licenses": [
@@ -2752,7 +2752,7 @@
       "type": "library",
       "name": "github-from-package",
       "version": "0.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|github-from-package@0.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|github-from-package@0.0.0",
       "author": "James Halliday",
       "description": "return the github url from a package.json file",
       "scope": "optional",
@@ -2804,7 +2804,7 @@
       "type": "library",
       "name": "gopd",
       "version": "1.2.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|gopd@1.2.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|gopd@1.2.0",
       "author": "Jordan Harband",
       "description": "`Object.getOwnPropertyDescriptor`, but accounts for IE's broken implementation.",
       "licenses": [
@@ -2859,7 +2859,7 @@
       "type": "library",
       "name": "has-symbols",
       "version": "1.1.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|has-symbols@1.1.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|has-symbols@1.1.0",
       "author": "Jordan Harband",
       "description": "Determine if the JS environment has Symbol support. Supports spec, or shams.",
       "licenses": [
@@ -2914,7 +2914,7 @@
       "type": "library",
       "name": "hasown",
       "version": "2.0.4",
-      "bom-ref": "diabetes-m-mcp@1.2.3|hasown@2.0.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|hasown@2.0.4",
       "author": "Jordan Harband",
       "description": "A robust, ES3 compatible, \"has own property\" predicate.",
       "licenses": [
@@ -2968,8 +2968,8 @@
     {
       "type": "library",
       "name": "hono",
-      "version": "4.13.7",
-      "bom-ref": "diabetes-m-mcp@1.2.3|hono@4.13.7",
+      "version": "4.13.18",
+      "bom-ref": "diabetes-m-mcp@1.2.4|hono@4.13.18",
       "author": "Yusuke Wada",
       "description": "Web framework built on Web Standards",
       "licenses": [
@@ -2980,15 +2980,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/hono@4.13.7",
+      "purl": "pkg:npm/hono@4.13.18",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/hono/-/hono-4.13.7.tgz",
+          "url": "https://registry.npmjs.org/hono/-/hono-4.13.18.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "73cfe017d69cf18efcfda804c55a1cc8b7af811f89969341e38e0fcb41525fca49a0f75851f53345c5ed604606c2dea5d7da8895564f37931fb30f6315286641"
+              "content": "1fdabf1355e2cda5acb49c545bcf357662f1123fadfd3ac61a7cb120d926e3eb0ad2a530b0cb45768d81588f55b377084b5f4c53a6fa8828a3a14a047f87f70c"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -3024,7 +3024,7 @@
       "type": "library",
       "name": "http-errors",
       "version": "2.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|http-errors@2.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|http-errors@2.0.1",
       "author": "Jonathan Ong",
       "description": "Create HTTP error objects",
       "licenses": [
@@ -3078,8 +3078,8 @@
     {
       "type": "library",
       "name": "iconv-lite",
-      "version": "0.7.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|iconv-lite@0.7.2",
+      "version": "0.7.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|iconv-lite@0.7.3",
       "author": "Alexander Shtuchkin",
       "description": "Convert character encodings in pure javascript.",
       "licenses": [
@@ -3090,15 +3090,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/iconv-lite@0.7.2",
+      "purl": "pkg:npm/iconv-lite@0.7.3",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.7.2.tgz",
+          "url": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.7.3.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "8a6f438c40d0e79b3d7cbe04633380bf4c8caa6301499a7a1b456f1724cc3ca5b1892047523f4d5bfaaa2e65d4c17aeb33b02fa9295309fbea45bd1c33cc98ab"
+              "content": "20a5e9bc8ce39c2f574c051b54170c7c64b410f6885ed5babfecebf91469fa1a942c4a68d28c196b1eb0c91c0f3896d66f38d8b29430bac4ec7d5af489f878b9"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -3134,7 +3134,7 @@
       "type": "library",
       "name": "ieee754",
       "version": "1.2.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ieee754@1.2.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ieee754@1.2.1",
       "author": "Feross Aboukhadijeh",
       "description": "Read/write IEEE754 floating point numbers from/to a Buffer or array-like object",
       "licenses": [
@@ -3189,7 +3189,7 @@
       "type": "library",
       "name": "inherits",
       "version": "2.0.4",
-      "bom-ref": "diabetes-m-mcp@1.2.3|inherits@2.0.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|inherits@2.0.4",
       "description": "Browser-friendly inheritance fully compatible with standard node.js inherits()",
       "licenses": [
         {
@@ -3239,7 +3239,7 @@
       "type": "library",
       "name": "ini",
       "version": "1.3.8",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ini@1.3.8",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ini@1.3.8",
       "author": "Isaac Z. Schlueter",
       "description": "An ini encoder/decoder for node",
       "scope": "optional",
@@ -3290,8 +3290,8 @@
     {
       "type": "library",
       "name": "ip-address",
-      "version": "10.4.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ip-address@10.4.0",
+      "version": "10.7.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ip-address@10.7.4",
       "author": "Beau Gunderson",
       "description": "A library for parsing IPv4 and IPv6 IP addresses in node and the browser.",
       "licenses": [
@@ -3302,15 +3302,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/ip-address@10.4.0",
+      "purl": "pkg:npm/ip-address@10.7.4",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/ip-address/-/ip-address-10.4.0.tgz",
+          "url": "https://registry.npmjs.org/ip-address/-/ip-address-10.7.4.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "a122bde86ae6dda3fa3ab4b6eb7c55c5b3431952fbaf306d61da46aa50c6f2241da1e9c3a13b3f9e4922f837e561b00413c5e5ea8e58c61c65acabc8de7a8a5d"
+              "content": "0d604c2b278cdb90fbd27ac889392042d879f7f1be9da28e4dea7a86e17d8fe1a678adc3303eb466fc60e5de6a427cfedfc007828bba79a9f62c4097fa5aca0e"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -3346,7 +3346,7 @@
       "type": "library",
       "name": "ipaddr.js",
       "version": "1.9.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ipaddr.js@1.9.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ipaddr.js@1.9.1",
       "author": "whitequark",
       "description": "A library for manipulating IPv4 and IPv6 addresses in JavaScript.",
       "licenses": [
@@ -3401,7 +3401,7 @@
       "type": "library",
       "name": "is-promise",
       "version": "4.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|is-promise@4.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|is-promise@4.0.0",
       "author": "ForbesLindesay",
       "description": "Test whether an object looks like a promises-a+ promise",
       "licenses": [
@@ -3452,7 +3452,7 @@
       "type": "library",
       "name": "isexe",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|isexe@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|isexe@2.0.0",
       "author": "Isaac Z. Schlueter",
       "description": "Minimal module to check if a file is executable.",
       "licenses": [
@@ -3503,7 +3503,7 @@
       "type": "library",
       "name": "jose",
       "version": "6.1.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|jose@6.1.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|jose@6.1.3",
       "author": "Filip Skokan",
       "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
       "licenses": [
@@ -3554,7 +3554,7 @@
       "type": "library",
       "name": "json-schema-traverse",
       "version": "1.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|json-schema-traverse@1.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|json-schema-traverse@1.0.0",
       "author": "Evgeny Poberezkin",
       "description": "Traverse JSON Schema passing each schema object to callback",
       "licenses": [
@@ -3605,7 +3605,7 @@
       "type": "library",
       "name": "json-schema-typed",
       "version": "8.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|json-schema-typed@8.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|json-schema-typed@8.0.2",
       "author": "Remy Rylan",
       "description": "JSON Schema TypeScript definitions with complete inline documentation.",
       "licenses": [
@@ -3656,7 +3656,7 @@
       "type": "library",
       "name": "keytar",
       "version": "7.9.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|keytar@7.9.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|keytar@7.9.0",
       "description": "Bindings to native Mac/Linux/Windows password APIs",
       "scope": "optional",
       "licenses": [
@@ -3707,7 +3707,7 @@
       "type": "library",
       "name": "math-intrinsics",
       "version": "1.1.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|math-intrinsics@1.1.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|math-intrinsics@1.1.0",
       "author": "Jordan Harband",
       "description": "ES Math-related intrinsics and helpers, robustly cached.",
       "licenses": [
@@ -3762,7 +3762,7 @@
       "type": "library",
       "name": "media-typer",
       "version": "1.1.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|media-typer@1.1.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|media-typer@1.1.0",
       "author": "Douglas Christopher Wilson",
       "description": "Simple RFC 6838 media type parser and formatter",
       "licenses": [
@@ -3817,7 +3817,7 @@
       "type": "library",
       "name": "merge-descriptors",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|merge-descriptors@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|merge-descriptors@2.0.0",
       "description": "Merge objects using their property descriptors",
       "licenses": [
         {
@@ -3871,7 +3871,7 @@
       "type": "library",
       "name": "mime-db",
       "version": "1.54.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|mime-db@1.54.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|mime-db@1.54.0",
       "description": "Media Type Database",
       "licenses": [
         {
@@ -3925,7 +3925,7 @@
       "type": "library",
       "name": "mime-types",
       "version": "3.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|mime-types@3.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|mime-types@3.0.2",
       "description": "The ultimate javascript content-type utility.",
       "licenses": [
         {
@@ -3979,7 +3979,7 @@
       "type": "library",
       "name": "mimic-response",
       "version": "3.1.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|mimic-response@3.1.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|mimic-response@3.1.0",
       "author": "Sindre Sorhus",
       "description": "Mimic a Node.js HTTP response stream",
       "scope": "optional",
@@ -4035,7 +4035,7 @@
       "type": "library",
       "name": "minimist",
       "version": "1.2.8",
-      "bom-ref": "diabetes-m-mcp@1.2.3|minimist@1.2.8",
+      "bom-ref": "diabetes-m-mcp@1.2.4|minimist@1.2.8",
       "author": "James Halliday",
       "description": "parse argument options",
       "scope": "optional",
@@ -4087,7 +4087,7 @@
       "type": "library",
       "name": "mkdirp-classic",
       "version": "0.5.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|mkdirp-classic@0.5.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|mkdirp-classic@0.5.3",
       "author": "Mathias Buus",
       "description": "Mirror of mkdirp 0.5.2",
       "scope": "optional",
@@ -4139,7 +4139,7 @@
       "type": "library",
       "name": "ms",
       "version": "2.1.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|ms@2.1.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|ms@2.1.3",
       "description": "Tiny millisecond conversion utility",
       "licenses": [
         {
@@ -4189,7 +4189,7 @@
       "type": "library",
       "name": "napi-build-utils",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|napi-build-utils@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|napi-build-utils@2.0.0",
       "author": "Jim Schlight",
       "description": "A set of utilities to assist developers of tools that build N-API native add-ons",
       "scope": "optional",
@@ -4241,7 +4241,7 @@
       "type": "library",
       "name": "negotiator",
       "version": "1.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|negotiator@1.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|negotiator@1.0.0",
       "description": "HTTP content negotiation",
       "licenses": [
         {
@@ -4295,7 +4295,7 @@
       "type": "library",
       "name": "node-abi",
       "version": "3.85.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|node-abi@3.85.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|node-abi@3.85.0",
       "author": "Lukas Geiger",
       "description": "Get the Node ABI for a given target and runtime, and vice versa.",
       "scope": "optional",
@@ -4351,7 +4351,7 @@
       "type": "library",
       "name": "node-addon-api",
       "version": "4.3.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|node-addon-api@4.3.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|node-addon-api@4.3.0",
       "description": "Node.js API (Node-API)",
       "scope": "optional",
       "licenses": [
@@ -4402,7 +4402,7 @@
       "type": "library",
       "name": "object-assign",
       "version": "4.1.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|object-assign@4.1.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|object-assign@4.1.1",
       "author": "Sindre Sorhus",
       "description": "ES2015 `Object.assign()` ponyfill",
       "licenses": [
@@ -4457,7 +4457,7 @@
       "type": "library",
       "name": "object-inspect",
       "version": "1.13.4",
-      "bom-ref": "diabetes-m-mcp@1.2.3|object-inspect@1.13.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|object-inspect@1.13.4",
       "author": "James Halliday",
       "description": "string representations of objects in node and the browser",
       "licenses": [
@@ -4512,7 +4512,7 @@
       "type": "library",
       "name": "on-finished",
       "version": "2.4.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|on-finished@2.4.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|on-finished@2.4.1",
       "description": "Execute a callback when a request closes, finishes, or errors",
       "licenses": [
         {
@@ -4566,7 +4566,7 @@
       "type": "library",
       "name": "once",
       "version": "1.4.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|once@1.4.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|once@1.4.0",
       "author": "Isaac Z. Schlueter",
       "description": "Run a function exactly one time",
       "licenses": [
@@ -4617,7 +4617,7 @@
       "type": "library",
       "name": "parseurl",
       "version": "1.3.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|parseurl@1.3.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|parseurl@1.3.3",
       "description": "parse a url with memoization",
       "licenses": [
         {
@@ -4671,7 +4671,7 @@
       "type": "library",
       "name": "path-key",
       "version": "3.1.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|path-key@3.1.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|path-key@3.1.1",
       "author": "Sindre Sorhus",
       "description": "Get the PATH environment variable key cross-platform",
       "licenses": [
@@ -4726,7 +4726,7 @@
       "type": "library",
       "name": "path-to-regexp",
       "version": "8.4.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|path-to-regexp@8.4.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|path-to-regexp@8.4.0",
       "description": "Express style path to RegExp utility",
       "licenses": [
         {
@@ -4776,7 +4776,7 @@
       "type": "library",
       "name": "pkce-challenge",
       "version": "5.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|pkce-challenge@5.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|pkce-challenge@5.0.1",
       "author": "crouchcd",
       "description": "Generate or verify a Proof Key for Code Exchange (PKCE) challenge pair",
       "licenses": [
@@ -4831,7 +4831,7 @@
       "type": "library",
       "name": "prebuild-install",
       "version": "7.1.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|prebuild-install@7.1.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|prebuild-install@7.1.3",
       "author": "Mathias Buus",
       "description": "A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform",
       "scope": "optional",
@@ -4886,8 +4886,8 @@
     {
       "type": "library",
       "name": "proxy-addr",
-      "version": "2.0.7",
-      "bom-ref": "diabetes-m-mcp@1.2.3|proxy-addr@2.0.7",
+      "version": "2.0.8",
+      "bom-ref": "diabetes-m-mcp@1.2.4|proxy-addr@2.0.8",
       "author": "Douglas Christopher Wilson",
       "description": "Determine address of proxied request",
       "licenses": [
@@ -4898,15 +4898,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/proxy-addr@2.0.7",
+      "purl": "pkg:npm/proxy-addr@2.0.8",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.7.tgz",
+          "url": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.8.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "96542c30b4940d43d3e388ddad4fcedfbaa59e27e2b433fe670ae699972848ac8b2afb59c69c95d27dbf6c3fcde2d040019fe024475953b28cadaa0ad7e5d802"
+              "content": "e679f1d321b2554718eadf519d6700456b704fd1750fc3bdaedd3c86d3ef9dde3d5b522066d98b921bbd59f333423d5c1718c720ee9ca279d43555b993b015c9"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -4942,7 +4942,7 @@
       "type": "library",
       "name": "pump",
       "version": "3.0.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|pump@3.0.3",
+      "bom-ref": "diabetes-m-mcp@1.2.4|pump@3.0.3",
       "author": "Mathias Buus Madsen",
       "description": "pipe streams together and close all of them if one of them closes",
       "scope": "optional",
@@ -4993,8 +4993,8 @@
     {
       "type": "library",
       "name": "qs",
-      "version": "6.16.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|qs@6.16.0",
+      "version": "6.17.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|qs@6.17.0",
       "description": "A querystring parser that supports nesting and arrays, with a depth limit",
       "licenses": [
         {
@@ -5004,15 +5004,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/qs@6.16.0",
+      "purl": "pkg:npm/qs@6.17.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/qs/-/qs-6.16.0.tgz",
+          "url": "https://registry.npmjs.org/qs/-/qs-6.17.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "87a7e1388691ac80f609b118d9faacfbbb7e517668f8c2c09d4e60448abce6e16d76250f09db00a4c947857a202953381ccd8355b22318d4d3607d8e7263f5bc"
+              "content": "e4b2b9059d970c732f71425a7f4090e472f769580a6e9925bc1c82eea2d2c5891f13c08e1046c9839c421d6093ab3aa2d06b38267e4cbf9bf7477f16e9e76c70"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -5048,7 +5048,7 @@
       "type": "library",
       "name": "range-parser",
       "version": "1.2.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|range-parser@1.2.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|range-parser@1.2.1",
       "author": "TJ Holowaychuk",
       "description": "Range header field string parser",
       "licenses": [
@@ -5103,7 +5103,7 @@
       "type": "library",
       "name": "raw-body",
       "version": "3.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|raw-body@3.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|raw-body@3.0.2",
       "author": "Jonathan Ong",
       "description": "Get and validate the raw body of a readable stream.",
       "licenses": [
@@ -5158,7 +5158,7 @@
       "type": "library",
       "name": "rc",
       "version": "1.2.8",
-      "bom-ref": "diabetes-m-mcp@1.2.3|rc@1.2.8",
+      "bom-ref": "diabetes-m-mcp@1.2.4|rc@1.2.8",
       "author": "Dominic Tarr",
       "description": "hardwired configuration loader",
       "scope": "optional",
@@ -5208,7 +5208,7 @@
       "type": "library",
       "name": "readable-stream",
       "version": "3.6.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|readable-stream@3.6.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|readable-stream@3.6.2",
       "description": "Streams3, a user-land copy of the stream library from Node.js",
       "scope": "optional",
       "licenses": [
@@ -5263,7 +5263,7 @@
       "type": "library",
       "name": "require-from-string",
       "version": "2.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|require-from-string@2.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|require-from-string@2.0.2",
       "author": "Vsevolod Strukchinsky",
       "description": "Require module from string",
       "licenses": [
@@ -5318,7 +5318,7 @@
       "type": "library",
       "name": "router",
       "version": "2.2.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|router@2.2.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|router@2.2.0",
       "author": "Douglas Christopher Wilson",
       "description": "Simple middleware-style router",
       "licenses": [
@@ -5373,7 +5373,7 @@
       "type": "library",
       "name": "safe-buffer",
       "version": "5.2.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|safe-buffer@5.2.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|safe-buffer@5.2.1",
       "author": "Feross Aboukhadijeh",
       "description": "Safer Node.js Buffer API",
       "licenses": [
@@ -5428,7 +5428,7 @@
       "type": "library",
       "name": "safer-buffer",
       "version": "2.1.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|safer-buffer@2.1.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|safer-buffer@2.1.2",
       "author": "Nikita Skovoroda",
       "description": "Modern Buffer API polyfill without footguns",
       "licenses": [
@@ -5478,8 +5478,8 @@
     {
       "type": "library",
       "name": "semver",
-      "version": "7.7.3",
-      "bom-ref": "diabetes-m-mcp@1.2.3|semver@7.7.3",
+      "version": "7.8.5",
+      "bom-ref": "diabetes-m-mcp@1.2.4|semver@7.8.5",
       "author": "GitHub Inc.",
       "description": "The semantic version parser used by npm.",
       "licenses": [
@@ -5490,15 +5490,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/semver@7.7.3",
+      "purl": "pkg:npm/semver@7.8.5",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/semver/-/semver-7.7.3.tgz",
+          "url": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "49db0a32b23d4dd823770794491f4cc1e1c0e0427c6311e7f0315a0e2b2f85595439ee01175b4b0fb1808f4948a96565f9d3dbfeb131af406d6f2e65a109b6d1"
+              "content": "63bfca0ec6fc2e3a28669c1aa86cae94ee8342592c8029dc7211c693eb19218e1206f52870c044147e54af57c8e1d57e26f974c3a723bee71a222e34a6e462a0"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -5538,7 +5538,7 @@
       "type": "library",
       "name": "send",
       "version": "1.2.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|send@1.2.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|send@1.2.1",
       "author": "TJ Holowaychuk",
       "description": "Better streaming static file server with Range and conditional-GET support",
       "licenses": [
@@ -5593,7 +5593,7 @@
       "type": "library",
       "name": "serve-static",
       "version": "2.2.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|serve-static@2.2.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|serve-static@2.2.1",
       "author": "Douglas Christopher Wilson",
       "description": "Serve static files",
       "licenses": [
@@ -5648,7 +5648,7 @@
       "type": "library",
       "name": "setprototypeof",
       "version": "1.2.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|setprototypeof@1.2.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|setprototypeof@1.2.0",
       "author": "Wes Todd",
       "description": "A small polyfill for Object.setprototypeof",
       "licenses": [
@@ -5699,7 +5699,7 @@
       "type": "library",
       "name": "shebang-command",
       "version": "2.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|shebang-command@2.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|shebang-command@2.0.0",
       "author": "Kevin Mårtensson",
       "description": "Get the command from a shebang",
       "licenses": [
@@ -5754,7 +5754,7 @@
       "type": "library",
       "name": "shebang-regex",
       "version": "3.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|shebang-regex@3.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|shebang-regex@3.0.0",
       "author": "Sindre Sorhus",
       "description": "Regular expression for matching a shebang line",
       "licenses": [
@@ -5809,7 +5809,7 @@
       "type": "library",
       "name": "side-channel-list",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|side-channel-list@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|side-channel-list@1.0.1",
       "author": "Jordan Harband",
       "description": "Store information about any JS value in a side channel, using a linked list",
       "licenses": [
@@ -5864,7 +5864,7 @@
       "type": "library",
       "name": "side-channel-map",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|side-channel-map@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|side-channel-map@1.0.1",
       "author": "Jordan Harband",
       "description": "Store information about any JS value in a side channel, using a Map",
       "licenses": [
@@ -5919,7 +5919,7 @@
       "type": "library",
       "name": "side-channel-weakmap",
       "version": "1.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|side-channel-weakmap@1.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|side-channel-weakmap@1.0.2",
       "author": "Jordan Harband",
       "description": "Store information about any JS value in a side channel. Uses WeakMap if available.",
       "licenses": [
@@ -5974,7 +5974,7 @@
       "type": "library",
       "name": "side-channel",
       "version": "1.1.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|side-channel@1.1.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|side-channel@1.1.1",
       "author": "Jordan Harband",
       "description": "Store information about any JS value in a side channel. Uses WeakMap if available.",
       "licenses": [
@@ -6029,7 +6029,7 @@
       "type": "library",
       "name": "simple-concat",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|simple-concat@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|simple-concat@1.0.1",
       "author": "Feross Aboukhadijeh",
       "description": "Super-minimalist version of `concat-stream`. Less than 15 lines!",
       "scope": "optional",
@@ -6081,7 +6081,7 @@
       "type": "library",
       "name": "simple-get",
       "version": "4.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|simple-get@4.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|simple-get@4.0.1",
       "author": "Feross Aboukhadijeh",
       "description": "Simplest way to make http get requests. Supports HTTPS, redirects, gzip/deflate, streams in < 100 lines.",
       "scope": "optional",
@@ -6133,7 +6133,7 @@
       "type": "library",
       "name": "statuses",
       "version": "2.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|statuses@2.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|statuses@2.0.2",
       "description": "HTTP status utility",
       "licenses": [
         {
@@ -6187,7 +6187,7 @@
       "type": "library",
       "name": "string_decoder",
       "version": "1.3.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|string_decoder@1.3.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|string_decoder@1.3.0",
       "description": "The string_decoder module from Node core",
       "licenses": [
         {
@@ -6241,7 +6241,7 @@
       "type": "library",
       "name": "strip-json-comments",
       "version": "2.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|strip-json-comments@2.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|strip-json-comments@2.0.1",
       "author": "Sindre Sorhus",
       "description": "Strip comments from JSON. Lets you use comments in your JSON files!",
       "scope": "optional",
@@ -6297,7 +6297,7 @@
       "type": "library",
       "name": "tar-fs",
       "version": "2.1.4",
-      "bom-ref": "diabetes-m-mcp@1.2.3|tar-fs@2.1.4",
+      "bom-ref": "diabetes-m-mcp@1.2.4|tar-fs@2.1.4",
       "author": "Mathias Buus",
       "description": "filesystem bindings for tar-stream",
       "scope": "optional",
@@ -6349,7 +6349,7 @@
       "type": "library",
       "name": "tar-stream",
       "version": "2.2.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|tar-stream@2.2.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|tar-stream@2.2.0",
       "author": "Mathias Buus",
       "description": "tar-stream is a streaming tar parser and generator and nothing else. It is streams2 and operates purely using streams which means you can easily extract/parse tarballs without ever hitting the file system.",
       "scope": "optional",
@@ -6405,7 +6405,7 @@
       "type": "library",
       "name": "toidentifier",
       "version": "1.0.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|toidentifier@1.0.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|toidentifier@1.0.1",
       "author": "Douglas Christopher Wilson",
       "description": "Convert a string of words to a JavaScript identifier",
       "licenses": [
@@ -6460,7 +6460,7 @@
       "type": "library",
       "name": "tunnel-agent",
       "version": "0.6.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|tunnel-agent@0.6.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|tunnel-agent@0.6.0",
       "author": "Mikeal Rogers",
       "description": "HTTP proxy tunneling agent. Formerly part of mikeal/request, now a standalone module.",
       "scope": "optional",
@@ -6516,7 +6516,7 @@
       "type": "library",
       "name": "type-is",
       "version": "2.1.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|type-is@2.1.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|type-is@2.1.0",
       "description": "Infer the content-type of a request.",
       "licenses": [
         {
@@ -6570,7 +6570,7 @@
           "type": "library",
           "name": "content-type",
           "version": "2.0.0",
-          "bom-ref": "diabetes-m-mcp@1.2.3|type-is@2.1.0|content-type@2.0.0",
+          "bom-ref": "diabetes-m-mcp@1.2.4|type-is@2.1.0|content-type@2.0.0",
           "author": "Douglas Christopher Wilson",
           "description": "Create and parse HTTP Content-Type header",
           "licenses": [
@@ -6627,7 +6627,7 @@
       "type": "library",
       "name": "unpipe",
       "version": "1.0.0",
-      "bom-ref": "diabetes-m-mcp@1.2.3|unpipe@1.0.0",
+      "bom-ref": "diabetes-m-mcp@1.2.4|unpipe@1.0.0",
       "author": "Douglas Christopher Wilson",
       "description": "Unpipe a stream from all destinations",
       "licenses": [
@@ -6682,7 +6682,7 @@
       "type": "library",
       "name": "util-deprecate",
       "version": "1.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|util-deprecate@1.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|util-deprecate@1.0.2",
       "author": "Nathan Rajlich",
       "description": "The Node.js `util.deprecate()` function with browser support",
       "licenses": [
@@ -6737,7 +6737,7 @@
       "type": "library",
       "name": "vary",
       "version": "1.1.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|vary@1.1.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|vary@1.1.2",
       "author": "Douglas Christopher Wilson",
       "description": "Manipulate the HTTP Vary header",
       "licenses": [
@@ -6792,7 +6792,7 @@
       "type": "library",
       "name": "which",
       "version": "2.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|which@2.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|which@2.0.2",
       "author": "Isaac Z. Schlueter",
       "description": "Like which(1) unix command. Find the first instance of an executable in the PATH.",
       "licenses": [
@@ -6847,7 +6847,7 @@
       "type": "library",
       "name": "wrappy",
       "version": "1.0.2",
-      "bom-ref": "diabetes-m-mcp@1.2.3|wrappy@1.0.2",
+      "bom-ref": "diabetes-m-mcp@1.2.4|wrappy@1.0.2",
       "author": "Isaac Z. Schlueter",
       "description": "Callback wrapping utility",
       "licenses": [
@@ -6898,7 +6898,7 @@
       "type": "library",
       "name": "zod-to-json-schema",
       "version": "3.25.1",
-      "bom-ref": "diabetes-m-mcp@1.2.3|zod-to-json-schema@3.25.1",
+      "bom-ref": "diabetes-m-mcp@1.2.4|zod-to-json-schema@3.25.1",
       "author": "Stefan Terdell",
       "description": "Converts Zod schemas to Json Schemas",
       "licenses": [
@@ -6948,8 +6948,8 @@
     {
       "type": "library",
       "name": "zod",
-      "version": "3.25.76",
-      "bom-ref": "diabetes-m-mcp@1.2.3|zod@3.25.76",
+      "version": "4.6.7",
+      "bom-ref": "diabetes-m-mcp@1.2.4|zod@4.6.7",
       "author": "Colin McDonnell",
       "description": "TypeScript-first schema declaration and validation library with static type inference",
       "licenses": [
@@ -6960,15 +6960,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/zod@3.25.76",
+      "purl": "pkg:npm/zod@4.6.7",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/zod/-/zod-3.25.76.tgz",
+          "url": "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "83352dfeab7cd675ec14628815c0b76277c4031e4d92e9c27e70e5bee0524854b4d9b717bb82e679ad001485306cb5b158fc7777da7c4b94286ae8ca70d43171"
+              "content": "83c5b60f6914e9af2e9ed734e777d7d6e5412b333bcaa0315bfdf3c24f37fba472176f9228eb95f9cd30043854c335753da19aa66647fab99c5333dffb7086c2"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -6999,703 +6999,703 @@
   ],
   "dependencies": [
     {
-      "ref": "diabetes-m-mcp@1.2.3",
+      "ref": "diabetes-m-mcp@1.2.4",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|@modelcontextprotocol/sdk@1.26.0",
-        "diabetes-m-mcp@1.2.3|keytar@7.9.0",
-        "diabetes-m-mcp@1.2.3|zod@3.25.76"
+        "diabetes-m-mcp@1.2.4|@modelcontextprotocol/sdk@1.32.1",
+        "diabetes-m-mcp@1.2.4|keytar@7.9.0",
+        "diabetes-m-mcp@1.2.4|zod@4.6.7"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|@hono/node-server@2.0.11",
+      "ref": "diabetes-m-mcp@1.2.4|@hono/node-server@2.1.8",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|hono@4.13.7"
+        "diabetes-m-mcp@1.2.4|hono@4.13.18"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|@modelcontextprotocol/sdk@1.26.0",
+      "ref": "diabetes-m-mcp@1.2.4|@modelcontextprotocol/sdk@1.32.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|@hono/node-server@2.0.11",
-        "diabetes-m-mcp@1.2.3|ajv-formats@3.0.1",
-        "diabetes-m-mcp@1.2.3|ajv@8.18.0",
-        "diabetes-m-mcp@1.2.3|content-type@1.0.5",
-        "diabetes-m-mcp@1.2.3|cors@2.8.5",
-        "diabetes-m-mcp@1.2.3|cross-spawn@7.0.6",
-        "diabetes-m-mcp@1.2.3|eventsource-parser@3.0.6",
-        "diabetes-m-mcp@1.2.3|eventsource@3.0.7",
-        "diabetes-m-mcp@1.2.3|express-rate-limit@8.5.1",
-        "diabetes-m-mcp@1.2.3|express@5.2.1",
-        "diabetes-m-mcp@1.2.3|hono@4.13.7",
-        "diabetes-m-mcp@1.2.3|jose@6.1.3",
-        "diabetes-m-mcp@1.2.3|json-schema-typed@8.0.2",
-        "diabetes-m-mcp@1.2.3|pkce-challenge@5.0.1",
-        "diabetes-m-mcp@1.2.3|raw-body@3.0.2",
-        "diabetes-m-mcp@1.2.3|zod-to-json-schema@3.25.1",
-        "diabetes-m-mcp@1.2.3|zod@3.25.76"
+        "diabetes-m-mcp@1.2.4|@hono/node-server@2.1.8",
+        "diabetes-m-mcp@1.2.4|ajv-formats@3.0.1",
+        "diabetes-m-mcp@1.2.4|ajv@8.18.0",
+        "diabetes-m-mcp@1.2.4|content-type@1.0.5",
+        "diabetes-m-mcp@1.2.4|cors@2.8.5",
+        "diabetes-m-mcp@1.2.4|cross-spawn@7.0.6",
+        "diabetes-m-mcp@1.2.4|eventsource-parser@3.0.6",
+        "diabetes-m-mcp@1.2.4|eventsource@3.0.7",
+        "diabetes-m-mcp@1.2.4|express-rate-limit@8.5.1",
+        "diabetes-m-mcp@1.2.4|express@5.2.1",
+        "diabetes-m-mcp@1.2.4|hono@4.13.18",
+        "diabetes-m-mcp@1.2.4|jose@6.1.3",
+        "diabetes-m-mcp@1.2.4|json-schema-typed@8.0.2",
+        "diabetes-m-mcp@1.2.4|pkce-challenge@5.0.1",
+        "diabetes-m-mcp@1.2.4|raw-body@3.0.2",
+        "diabetes-m-mcp@1.2.4|zod-to-json-schema@3.25.1",
+        "diabetes-m-mcp@1.2.4|zod@4.6.7"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|accepts@2.0.0",
+      "ref": "diabetes-m-mcp@1.2.4|accepts@2.0.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|mime-types@3.0.2",
-        "diabetes-m-mcp@1.2.3|negotiator@1.0.0"
+        "diabetes-m-mcp@1.2.4|mime-types@3.0.2",
+        "diabetes-m-mcp@1.2.4|negotiator@1.0.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ajv-formats@3.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|ajv-formats@3.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|ajv@8.18.0"
+        "diabetes-m-mcp@1.2.4|ajv@8.18.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ajv@8.18.0",
+      "ref": "diabetes-m-mcp@1.2.4|ajv@8.18.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|fast-deep-equal@3.1.3",
-        "diabetes-m-mcp@1.2.3|fast-uri@4.1.3",
-        "diabetes-m-mcp@1.2.3|json-schema-traverse@1.0.0",
-        "diabetes-m-mcp@1.2.3|require-from-string@2.0.2"
+        "diabetes-m-mcp@1.2.4|fast-deep-equal@3.1.3",
+        "diabetes-m-mcp@1.2.4|fast-uri@4.2.3",
+        "diabetes-m-mcp@1.2.4|json-schema-traverse@1.0.0",
+        "diabetes-m-mcp@1.2.4|require-from-string@2.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|base64-js@1.5.1"
+      "ref": "diabetes-m-mcp@1.2.4|base64-js@1.5.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|bl@4.1.0",
+      "ref": "diabetes-m-mcp@1.2.4|bl@4.1.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|buffer@5.7.1",
-        "diabetes-m-mcp@1.2.3|inherits@2.0.4",
-        "diabetes-m-mcp@1.2.3|readable-stream@3.6.2"
+        "diabetes-m-mcp@1.2.4|buffer@5.7.1",
+        "diabetes-m-mcp@1.2.4|inherits@2.0.4",
+        "diabetes-m-mcp@1.2.4|readable-stream@3.6.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|body-parser@2.3.0",
+      "ref": "diabetes-m-mcp@1.2.4|body-parser@2.4.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|body-parser@2.3.0|content-type@2.0.0",
-        "diabetes-m-mcp@1.2.3|bytes@3.1.2",
-        "diabetes-m-mcp@1.2.3|debug@4.4.3",
-        "diabetes-m-mcp@1.2.3|http-errors@2.0.1",
-        "diabetes-m-mcp@1.2.3|iconv-lite@0.7.2",
-        "diabetes-m-mcp@1.2.3|on-finished@2.4.1",
-        "diabetes-m-mcp@1.2.3|qs@6.16.0",
-        "diabetes-m-mcp@1.2.3|raw-body@3.0.2",
-        "diabetes-m-mcp@1.2.3|type-is@2.1.0"
+        "diabetes-m-mcp@1.2.4|body-parser@2.4.0|content-type@2.1.0",
+        "diabetes-m-mcp@1.2.4|bytes@3.1.2",
+        "diabetes-m-mcp@1.2.4|debug@4.4.3",
+        "diabetes-m-mcp@1.2.4|http-errors@2.0.1",
+        "diabetes-m-mcp@1.2.4|iconv-lite@0.7.3",
+        "diabetes-m-mcp@1.2.4|on-finished@2.4.1",
+        "diabetes-m-mcp@1.2.4|qs@6.17.0",
+        "diabetes-m-mcp@1.2.4|raw-body@3.0.2",
+        "diabetes-m-mcp@1.2.4|type-is@2.1.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|body-parser@2.3.0|content-type@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|body-parser@2.4.0|content-type@2.1.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|buffer@5.7.1",
+      "ref": "diabetes-m-mcp@1.2.4|buffer@5.7.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|base64-js@1.5.1",
-        "diabetes-m-mcp@1.2.3|ieee754@1.2.1"
+        "diabetes-m-mcp@1.2.4|base64-js@1.5.1",
+        "diabetes-m-mcp@1.2.4|ieee754@1.2.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|bytes@3.1.2"
+      "ref": "diabetes-m-mcp@1.2.4|bytes@3.1.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|call-bind-apply-helpers@1.0.2",
+      "ref": "diabetes-m-mcp@1.2.4|call-bind-apply-helpers@1.0.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|function-bind@1.1.2"
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|function-bind@1.1.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|call-bound@1.0.4",
+      "ref": "diabetes-m-mcp@1.2.4|call-bound@1.0.4",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|call-bind-apply-helpers@1.0.2",
-        "diabetes-m-mcp@1.2.3|get-intrinsic@1.3.0"
+        "diabetes-m-mcp@1.2.4|call-bind-apply-helpers@1.0.2",
+        "diabetes-m-mcp@1.2.4|get-intrinsic@1.3.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|chownr@1.1.4"
+      "ref": "diabetes-m-mcp@1.2.4|chownr@1.1.4"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|content-disposition@1.0.1"
+      "ref": "diabetes-m-mcp@1.2.4|content-disposition@1.0.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|content-type@1.0.5"
+      "ref": "diabetes-m-mcp@1.2.4|content-type@1.0.5"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|cookie-signature@1.2.2"
+      "ref": "diabetes-m-mcp@1.2.4|cookie-signature@1.2.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|cookie@0.7.2"
+      "ref": "diabetes-m-mcp@1.2.4|cookie@0.7.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|cors@2.8.5",
+      "ref": "diabetes-m-mcp@1.2.4|cors@2.8.5",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|object-assign@4.1.1",
-        "diabetes-m-mcp@1.2.3|vary@1.1.2"
+        "diabetes-m-mcp@1.2.4|object-assign@4.1.1",
+        "diabetes-m-mcp@1.2.4|vary@1.1.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|cross-spawn@7.0.6",
+      "ref": "diabetes-m-mcp@1.2.4|cross-spawn@7.0.6",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|path-key@3.1.1",
-        "diabetes-m-mcp@1.2.3|shebang-command@2.0.0",
-        "diabetes-m-mcp@1.2.3|which@2.0.2"
+        "diabetes-m-mcp@1.2.4|path-key@3.1.1",
+        "diabetes-m-mcp@1.2.4|shebang-command@2.0.0",
+        "diabetes-m-mcp@1.2.4|which@2.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|debug@4.4.3",
+      "ref": "diabetes-m-mcp@1.2.4|debug@4.4.3",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|ms@2.1.3"
+        "diabetes-m-mcp@1.2.4|ms@2.1.3"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|decompress-response@6.0.0",
+      "ref": "diabetes-m-mcp@1.2.4|decompress-response@6.0.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|mimic-response@3.1.0"
+        "diabetes-m-mcp@1.2.4|mimic-response@3.1.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|deep-extend@0.6.0"
+      "ref": "diabetes-m-mcp@1.2.4|deep-extend@0.6.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|depd@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|depd@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|detect-libc@2.1.2"
+      "ref": "diabetes-m-mcp@1.2.4|detect-libc@2.1.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|dunder-proto@1.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|dunder-proto@1.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|call-bind-apply-helpers@1.0.2",
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|gopd@1.2.0"
+        "diabetes-m-mcp@1.2.4|call-bind-apply-helpers@1.0.2",
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|gopd@1.2.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ee-first@1.1.1"
+      "ref": "diabetes-m-mcp@1.2.4|ee-first@1.1.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|encodeurl@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|encodeurl@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|end-of-stream@1.4.5",
+      "ref": "diabetes-m-mcp@1.2.4|end-of-stream@1.4.5",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|once@1.4.0"
+        "diabetes-m-mcp@1.2.4|once@1.4.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|es-define-property@1.0.1"
+      "ref": "diabetes-m-mcp@1.2.4|es-define-property@1.0.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|es-errors@1.3.0"
+      "ref": "diabetes-m-mcp@1.2.4|es-errors@1.3.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|es-object-atoms@1.1.2",
+      "ref": "diabetes-m-mcp@1.2.4|es-object-atoms@1.1.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0"
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|escape-html@1.0.3"
+      "ref": "diabetes-m-mcp@1.2.4|escape-html@1.0.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|etag@1.8.1"
+      "ref": "diabetes-m-mcp@1.2.4|etag@1.8.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|eventsource-parser@3.0.6"
+      "ref": "diabetes-m-mcp@1.2.4|eventsource-parser@3.0.6"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|eventsource@3.0.7",
+      "ref": "diabetes-m-mcp@1.2.4|eventsource@3.0.7",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|eventsource-parser@3.0.6"
+        "diabetes-m-mcp@1.2.4|eventsource-parser@3.0.6"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|expand-template@2.0.3"
+      "ref": "diabetes-m-mcp@1.2.4|expand-template@2.0.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|express-rate-limit@8.5.1",
+      "ref": "diabetes-m-mcp@1.2.4|express-rate-limit@8.5.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|express@5.2.1",
-        "diabetes-m-mcp@1.2.3|ip-address@10.4.0"
+        "diabetes-m-mcp@1.2.4|express@5.2.1",
+        "diabetes-m-mcp@1.2.4|ip-address@10.7.4"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|express@5.2.1",
+      "ref": "diabetes-m-mcp@1.2.4|express@5.2.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|accepts@2.0.0",
-        "diabetes-m-mcp@1.2.3|body-parser@2.3.0",
-        "diabetes-m-mcp@1.2.3|content-disposition@1.0.1",
-        "diabetes-m-mcp@1.2.3|content-type@1.0.5",
-        "diabetes-m-mcp@1.2.3|cookie-signature@1.2.2",
-        "diabetes-m-mcp@1.2.3|cookie@0.7.2",
-        "diabetes-m-mcp@1.2.3|debug@4.4.3",
-        "diabetes-m-mcp@1.2.3|depd@2.0.0",
-        "diabetes-m-mcp@1.2.3|encodeurl@2.0.0",
-        "diabetes-m-mcp@1.2.3|escape-html@1.0.3",
-        "diabetes-m-mcp@1.2.3|etag@1.8.1",
-        "diabetes-m-mcp@1.2.3|finalhandler@2.1.1",
-        "diabetes-m-mcp@1.2.3|fresh@2.0.0",
-        "diabetes-m-mcp@1.2.3|http-errors@2.0.1",
-        "diabetes-m-mcp@1.2.3|merge-descriptors@2.0.0",
-        "diabetes-m-mcp@1.2.3|mime-types@3.0.2",
-        "diabetes-m-mcp@1.2.3|on-finished@2.4.1",
-        "diabetes-m-mcp@1.2.3|once@1.4.0",
-        "diabetes-m-mcp@1.2.3|parseurl@1.3.3",
-        "diabetes-m-mcp@1.2.3|proxy-addr@2.0.7",
-        "diabetes-m-mcp@1.2.3|qs@6.16.0",
-        "diabetes-m-mcp@1.2.3|range-parser@1.2.1",
-        "diabetes-m-mcp@1.2.3|router@2.2.0",
-        "diabetes-m-mcp@1.2.3|send@1.2.1",
-        "diabetes-m-mcp@1.2.3|serve-static@2.2.1",
-        "diabetes-m-mcp@1.2.3|statuses@2.0.2",
-        "diabetes-m-mcp@1.2.3|type-is@2.1.0",
-        "diabetes-m-mcp@1.2.3|vary@1.1.2"
+        "diabetes-m-mcp@1.2.4|accepts@2.0.0",
+        "diabetes-m-mcp@1.2.4|body-parser@2.4.0",
+        "diabetes-m-mcp@1.2.4|content-disposition@1.0.1",
+        "diabetes-m-mcp@1.2.4|content-type@1.0.5",
+        "diabetes-m-mcp@1.2.4|cookie-signature@1.2.2",
+        "diabetes-m-mcp@1.2.4|cookie@0.7.2",
+        "diabetes-m-mcp@1.2.4|debug@4.4.3",
+        "diabetes-m-mcp@1.2.4|depd@2.0.0",
+        "diabetes-m-mcp@1.2.4|encodeurl@2.0.0",
+        "diabetes-m-mcp@1.2.4|escape-html@1.0.3",
+        "diabetes-m-mcp@1.2.4|etag@1.8.1",
+        "diabetes-m-mcp@1.2.4|finalhandler@2.1.1",
+        "diabetes-m-mcp@1.2.4|fresh@2.0.0",
+        "diabetes-m-mcp@1.2.4|http-errors@2.0.1",
+        "diabetes-m-mcp@1.2.4|merge-descriptors@2.0.0",
+        "diabetes-m-mcp@1.2.4|mime-types@3.0.2",
+        "diabetes-m-mcp@1.2.4|on-finished@2.4.1",
+        "diabetes-m-mcp@1.2.4|once@1.4.0",
+        "diabetes-m-mcp@1.2.4|parseurl@1.3.3",
+        "diabetes-m-mcp@1.2.4|proxy-addr@2.0.8",
+        "diabetes-m-mcp@1.2.4|qs@6.17.0",
+        "diabetes-m-mcp@1.2.4|range-parser@1.2.1",
+        "diabetes-m-mcp@1.2.4|router@2.2.0",
+        "diabetes-m-mcp@1.2.4|send@1.2.1",
+        "diabetes-m-mcp@1.2.4|serve-static@2.2.1",
+        "diabetes-m-mcp@1.2.4|statuses@2.0.2",
+        "diabetes-m-mcp@1.2.4|type-is@2.1.0",
+        "diabetes-m-mcp@1.2.4|vary@1.1.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|fast-deep-equal@3.1.3"
+      "ref": "diabetes-m-mcp@1.2.4|fast-deep-equal@3.1.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|fast-uri@4.1.3"
+      "ref": "diabetes-m-mcp@1.2.4|fast-uri@4.2.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|finalhandler@2.1.1",
+      "ref": "diabetes-m-mcp@1.2.4|finalhandler@2.1.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|debug@4.4.3",
-        "diabetes-m-mcp@1.2.3|encodeurl@2.0.0",
-        "diabetes-m-mcp@1.2.3|escape-html@1.0.3",
-        "diabetes-m-mcp@1.2.3|on-finished@2.4.1",
-        "diabetes-m-mcp@1.2.3|parseurl@1.3.3",
-        "diabetes-m-mcp@1.2.3|statuses@2.0.2"
+        "diabetes-m-mcp@1.2.4|debug@4.4.3",
+        "diabetes-m-mcp@1.2.4|encodeurl@2.0.0",
+        "diabetes-m-mcp@1.2.4|escape-html@1.0.3",
+        "diabetes-m-mcp@1.2.4|on-finished@2.4.1",
+        "diabetes-m-mcp@1.2.4|parseurl@1.3.3",
+        "diabetes-m-mcp@1.2.4|statuses@2.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|forwarded@0.2.0"
+      "ref": "diabetes-m-mcp@1.2.4|forwarded@0.2.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|fresh@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|fresh@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|fs-constants@1.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|fs-constants@1.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|function-bind@1.1.2"
+      "ref": "diabetes-m-mcp@1.2.4|function-bind@1.1.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|get-intrinsic@1.3.0",
+      "ref": "diabetes-m-mcp@1.2.4|get-intrinsic@1.3.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|call-bind-apply-helpers@1.0.2",
-        "diabetes-m-mcp@1.2.3|es-define-property@1.0.1",
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|es-object-atoms@1.1.2",
-        "diabetes-m-mcp@1.2.3|function-bind@1.1.2",
-        "diabetes-m-mcp@1.2.3|get-proto@1.0.1",
-        "diabetes-m-mcp@1.2.3|gopd@1.2.0",
-        "diabetes-m-mcp@1.2.3|has-symbols@1.1.0",
-        "diabetes-m-mcp@1.2.3|hasown@2.0.4",
-        "diabetes-m-mcp@1.2.3|math-intrinsics@1.1.0"
+        "diabetes-m-mcp@1.2.4|call-bind-apply-helpers@1.0.2",
+        "diabetes-m-mcp@1.2.4|es-define-property@1.0.1",
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|es-object-atoms@1.1.2",
+        "diabetes-m-mcp@1.2.4|function-bind@1.1.2",
+        "diabetes-m-mcp@1.2.4|get-proto@1.0.1",
+        "diabetes-m-mcp@1.2.4|gopd@1.2.0",
+        "diabetes-m-mcp@1.2.4|has-symbols@1.1.0",
+        "diabetes-m-mcp@1.2.4|hasown@2.0.4",
+        "diabetes-m-mcp@1.2.4|math-intrinsics@1.1.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|get-proto@1.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|get-proto@1.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|dunder-proto@1.0.1",
-        "diabetes-m-mcp@1.2.3|es-object-atoms@1.1.2"
+        "diabetes-m-mcp@1.2.4|dunder-proto@1.0.1",
+        "diabetes-m-mcp@1.2.4|es-object-atoms@1.1.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|github-from-package@0.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|github-from-package@0.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|gopd@1.2.0"
+      "ref": "diabetes-m-mcp@1.2.4|gopd@1.2.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|has-symbols@1.1.0"
+      "ref": "diabetes-m-mcp@1.2.4|has-symbols@1.1.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|hasown@2.0.4",
+      "ref": "diabetes-m-mcp@1.2.4|hasown@2.0.4",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|function-bind@1.1.2"
+        "diabetes-m-mcp@1.2.4|function-bind@1.1.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|hono@4.13.7"
+      "ref": "diabetes-m-mcp@1.2.4|hono@4.13.18"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|http-errors@2.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|http-errors@2.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|depd@2.0.0",
-        "diabetes-m-mcp@1.2.3|inherits@2.0.4",
-        "diabetes-m-mcp@1.2.3|setprototypeof@1.2.0",
-        "diabetes-m-mcp@1.2.3|statuses@2.0.2",
-        "diabetes-m-mcp@1.2.3|toidentifier@1.0.1"
+        "diabetes-m-mcp@1.2.4|depd@2.0.0",
+        "diabetes-m-mcp@1.2.4|inherits@2.0.4",
+        "diabetes-m-mcp@1.2.4|setprototypeof@1.2.0",
+        "diabetes-m-mcp@1.2.4|statuses@2.0.2",
+        "diabetes-m-mcp@1.2.4|toidentifier@1.0.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|iconv-lite@0.7.2",
+      "ref": "diabetes-m-mcp@1.2.4|iconv-lite@0.7.3",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|safer-buffer@2.1.2"
+        "diabetes-m-mcp@1.2.4|safer-buffer@2.1.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ieee754@1.2.1"
+      "ref": "diabetes-m-mcp@1.2.4|ieee754@1.2.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|inherits@2.0.4"
+      "ref": "diabetes-m-mcp@1.2.4|inherits@2.0.4"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ini@1.3.8"
+      "ref": "diabetes-m-mcp@1.2.4|ini@1.3.8"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ip-address@10.4.0"
+      "ref": "diabetes-m-mcp@1.2.4|ip-address@10.7.4"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ipaddr.js@1.9.1"
+      "ref": "diabetes-m-mcp@1.2.4|ipaddr.js@1.9.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|is-promise@4.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|is-promise@4.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|isexe@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|isexe@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|jose@6.1.3"
+      "ref": "diabetes-m-mcp@1.2.4|jose@6.1.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|json-schema-traverse@1.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|json-schema-traverse@1.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|json-schema-typed@8.0.2"
+      "ref": "diabetes-m-mcp@1.2.4|json-schema-typed@8.0.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|keytar@7.9.0",
+      "ref": "diabetes-m-mcp@1.2.4|keytar@7.9.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|node-addon-api@4.3.0",
-        "diabetes-m-mcp@1.2.3|prebuild-install@7.1.3"
+        "diabetes-m-mcp@1.2.4|node-addon-api@4.3.0",
+        "diabetes-m-mcp@1.2.4|prebuild-install@7.1.3"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|math-intrinsics@1.1.0"
+      "ref": "diabetes-m-mcp@1.2.4|math-intrinsics@1.1.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|media-typer@1.1.0"
+      "ref": "diabetes-m-mcp@1.2.4|media-typer@1.1.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|merge-descriptors@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|merge-descriptors@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|mime-db@1.54.0"
+      "ref": "diabetes-m-mcp@1.2.4|mime-db@1.54.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|mime-types@3.0.2",
+      "ref": "diabetes-m-mcp@1.2.4|mime-types@3.0.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|mime-db@1.54.0"
+        "diabetes-m-mcp@1.2.4|mime-db@1.54.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|mimic-response@3.1.0"
+      "ref": "diabetes-m-mcp@1.2.4|mimic-response@3.1.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|minimist@1.2.8"
+      "ref": "diabetes-m-mcp@1.2.4|minimist@1.2.8"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|mkdirp-classic@0.5.3"
+      "ref": "diabetes-m-mcp@1.2.4|mkdirp-classic@0.5.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|ms@2.1.3"
+      "ref": "diabetes-m-mcp@1.2.4|ms@2.1.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|napi-build-utils@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|napi-build-utils@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|negotiator@1.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|negotiator@1.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|node-abi@3.85.0",
+      "ref": "diabetes-m-mcp@1.2.4|node-abi@3.85.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|semver@7.7.3"
+        "diabetes-m-mcp@1.2.4|semver@7.8.5"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|node-addon-api@4.3.0"
+      "ref": "diabetes-m-mcp@1.2.4|node-addon-api@4.3.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|object-assign@4.1.1"
+      "ref": "diabetes-m-mcp@1.2.4|object-assign@4.1.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|object-inspect@1.13.4"
+      "ref": "diabetes-m-mcp@1.2.4|object-inspect@1.13.4"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|on-finished@2.4.1",
+      "ref": "diabetes-m-mcp@1.2.4|on-finished@2.4.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|ee-first@1.1.1"
+        "diabetes-m-mcp@1.2.4|ee-first@1.1.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|once@1.4.0",
+      "ref": "diabetes-m-mcp@1.2.4|once@1.4.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|wrappy@1.0.2"
+        "diabetes-m-mcp@1.2.4|wrappy@1.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|parseurl@1.3.3"
+      "ref": "diabetes-m-mcp@1.2.4|parseurl@1.3.3"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|path-key@3.1.1"
+      "ref": "diabetes-m-mcp@1.2.4|path-key@3.1.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|path-to-regexp@8.4.0"
+      "ref": "diabetes-m-mcp@1.2.4|path-to-regexp@8.4.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|pkce-challenge@5.0.1"
+      "ref": "diabetes-m-mcp@1.2.4|pkce-challenge@5.0.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|prebuild-install@7.1.3",
+      "ref": "diabetes-m-mcp@1.2.4|prebuild-install@7.1.3",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|detect-libc@2.1.2",
-        "diabetes-m-mcp@1.2.3|expand-template@2.0.3",
-        "diabetes-m-mcp@1.2.3|github-from-package@0.0.0",
-        "diabetes-m-mcp@1.2.3|minimist@1.2.8",
-        "diabetes-m-mcp@1.2.3|mkdirp-classic@0.5.3",
-        "diabetes-m-mcp@1.2.3|napi-build-utils@2.0.0",
-        "diabetes-m-mcp@1.2.3|node-abi@3.85.0",
-        "diabetes-m-mcp@1.2.3|pump@3.0.3",
-        "diabetes-m-mcp@1.2.3|rc@1.2.8",
-        "diabetes-m-mcp@1.2.3|simple-get@4.0.1",
-        "diabetes-m-mcp@1.2.3|tar-fs@2.1.4",
-        "diabetes-m-mcp@1.2.3|tunnel-agent@0.6.0"
+        "diabetes-m-mcp@1.2.4|detect-libc@2.1.2",
+        "diabetes-m-mcp@1.2.4|expand-template@2.0.3",
+        "diabetes-m-mcp@1.2.4|github-from-package@0.0.0",
+        "diabetes-m-mcp@1.2.4|minimist@1.2.8",
+        "diabetes-m-mcp@1.2.4|mkdirp-classic@0.5.3",
+        "diabetes-m-mcp@1.2.4|napi-build-utils@2.0.0",
+        "diabetes-m-mcp@1.2.4|node-abi@3.85.0",
+        "diabetes-m-mcp@1.2.4|pump@3.0.3",
+        "diabetes-m-mcp@1.2.4|rc@1.2.8",
+        "diabetes-m-mcp@1.2.4|simple-get@4.0.1",
+        "diabetes-m-mcp@1.2.4|tar-fs@2.1.4",
+        "diabetes-m-mcp@1.2.4|tunnel-agent@0.6.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|proxy-addr@2.0.7",
+      "ref": "diabetes-m-mcp@1.2.4|proxy-addr@2.0.8",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|forwarded@0.2.0",
-        "diabetes-m-mcp@1.2.3|ipaddr.js@1.9.1"
+        "diabetes-m-mcp@1.2.4|forwarded@0.2.0",
+        "diabetes-m-mcp@1.2.4|ipaddr.js@1.9.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|pump@3.0.3",
+      "ref": "diabetes-m-mcp@1.2.4|pump@3.0.3",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|end-of-stream@1.4.5",
-        "diabetes-m-mcp@1.2.3|once@1.4.0"
+        "diabetes-m-mcp@1.2.4|end-of-stream@1.4.5",
+        "diabetes-m-mcp@1.2.4|once@1.4.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|qs@6.16.0",
+      "ref": "diabetes-m-mcp@1.2.4|qs@6.17.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|es-define-property@1.0.1",
-        "diabetes-m-mcp@1.2.3|side-channel@1.1.1"
+        "diabetes-m-mcp@1.2.4|es-define-property@1.0.1",
+        "diabetes-m-mcp@1.2.4|side-channel@1.1.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|range-parser@1.2.1"
+      "ref": "diabetes-m-mcp@1.2.4|range-parser@1.2.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|raw-body@3.0.2",
+      "ref": "diabetes-m-mcp@1.2.4|raw-body@3.0.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|bytes@3.1.2",
-        "diabetes-m-mcp@1.2.3|http-errors@2.0.1",
-        "diabetes-m-mcp@1.2.3|iconv-lite@0.7.2",
-        "diabetes-m-mcp@1.2.3|unpipe@1.0.0"
+        "diabetes-m-mcp@1.2.4|bytes@3.1.2",
+        "diabetes-m-mcp@1.2.4|http-errors@2.0.1",
+        "diabetes-m-mcp@1.2.4|iconv-lite@0.7.3",
+        "diabetes-m-mcp@1.2.4|unpipe@1.0.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|rc@1.2.8",
+      "ref": "diabetes-m-mcp@1.2.4|rc@1.2.8",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|deep-extend@0.6.0",
-        "diabetes-m-mcp@1.2.3|ini@1.3.8",
-        "diabetes-m-mcp@1.2.3|minimist@1.2.8",
-        "diabetes-m-mcp@1.2.3|strip-json-comments@2.0.1"
+        "diabetes-m-mcp@1.2.4|deep-extend@0.6.0",
+        "diabetes-m-mcp@1.2.4|ini@1.3.8",
+        "diabetes-m-mcp@1.2.4|minimist@1.2.8",
+        "diabetes-m-mcp@1.2.4|strip-json-comments@2.0.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|readable-stream@3.6.2",
+      "ref": "diabetes-m-mcp@1.2.4|readable-stream@3.6.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|inherits@2.0.4",
-        "diabetes-m-mcp@1.2.3|string_decoder@1.3.0",
-        "diabetes-m-mcp@1.2.3|util-deprecate@1.0.2"
+        "diabetes-m-mcp@1.2.4|inherits@2.0.4",
+        "diabetes-m-mcp@1.2.4|string_decoder@1.3.0",
+        "diabetes-m-mcp@1.2.4|util-deprecate@1.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|require-from-string@2.0.2"
+      "ref": "diabetes-m-mcp@1.2.4|require-from-string@2.0.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|router@2.2.0",
+      "ref": "diabetes-m-mcp@1.2.4|router@2.2.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|debug@4.4.3",
-        "diabetes-m-mcp@1.2.3|depd@2.0.0",
-        "diabetes-m-mcp@1.2.3|is-promise@4.0.0",
-        "diabetes-m-mcp@1.2.3|parseurl@1.3.3",
-        "diabetes-m-mcp@1.2.3|path-to-regexp@8.4.0"
+        "diabetes-m-mcp@1.2.4|debug@4.4.3",
+        "diabetes-m-mcp@1.2.4|depd@2.0.0",
+        "diabetes-m-mcp@1.2.4|is-promise@4.0.0",
+        "diabetes-m-mcp@1.2.4|parseurl@1.3.3",
+        "diabetes-m-mcp@1.2.4|path-to-regexp@8.4.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|safe-buffer@5.2.1"
+      "ref": "diabetes-m-mcp@1.2.4|safe-buffer@5.2.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|safer-buffer@2.1.2"
+      "ref": "diabetes-m-mcp@1.2.4|safer-buffer@2.1.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|semver@7.7.3"
+      "ref": "diabetes-m-mcp@1.2.4|semver@7.8.5"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|send@1.2.1",
+      "ref": "diabetes-m-mcp@1.2.4|send@1.2.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|debug@4.4.3",
-        "diabetes-m-mcp@1.2.3|encodeurl@2.0.0",
-        "diabetes-m-mcp@1.2.3|escape-html@1.0.3",
-        "diabetes-m-mcp@1.2.3|etag@1.8.1",
-        "diabetes-m-mcp@1.2.3|fresh@2.0.0",
-        "diabetes-m-mcp@1.2.3|http-errors@2.0.1",
-        "diabetes-m-mcp@1.2.3|mime-types@3.0.2",
-        "diabetes-m-mcp@1.2.3|ms@2.1.3",
-        "diabetes-m-mcp@1.2.3|on-finished@2.4.1",
-        "diabetes-m-mcp@1.2.3|range-parser@1.2.1",
-        "diabetes-m-mcp@1.2.3|statuses@2.0.2"
+        "diabetes-m-mcp@1.2.4|debug@4.4.3",
+        "diabetes-m-mcp@1.2.4|encodeurl@2.0.0",
+        "diabetes-m-mcp@1.2.4|escape-html@1.0.3",
+        "diabetes-m-mcp@1.2.4|etag@1.8.1",
+        "diabetes-m-mcp@1.2.4|fresh@2.0.0",
+        "diabetes-m-mcp@1.2.4|http-errors@2.0.1",
+        "diabetes-m-mcp@1.2.4|mime-types@3.0.2",
+        "diabetes-m-mcp@1.2.4|ms@2.1.3",
+        "diabetes-m-mcp@1.2.4|on-finished@2.4.1",
+        "diabetes-m-mcp@1.2.4|range-parser@1.2.1",
+        "diabetes-m-mcp@1.2.4|statuses@2.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|serve-static@2.2.1",
+      "ref": "diabetes-m-mcp@1.2.4|serve-static@2.2.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|encodeurl@2.0.0",
-        "diabetes-m-mcp@1.2.3|escape-html@1.0.3",
-        "diabetes-m-mcp@1.2.3|parseurl@1.3.3",
-        "diabetes-m-mcp@1.2.3|send@1.2.1"
+        "diabetes-m-mcp@1.2.4|encodeurl@2.0.0",
+        "diabetes-m-mcp@1.2.4|escape-html@1.0.3",
+        "diabetes-m-mcp@1.2.4|parseurl@1.3.3",
+        "diabetes-m-mcp@1.2.4|send@1.2.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|setprototypeof@1.2.0"
+      "ref": "diabetes-m-mcp@1.2.4|setprototypeof@1.2.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|shebang-command@2.0.0",
+      "ref": "diabetes-m-mcp@1.2.4|shebang-command@2.0.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|shebang-regex@3.0.0"
+        "diabetes-m-mcp@1.2.4|shebang-regex@3.0.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|shebang-regex@3.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|shebang-regex@3.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|side-channel-list@1.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|side-channel-list@1.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|object-inspect@1.13.4"
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|object-inspect@1.13.4"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|side-channel-map@1.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|side-channel-map@1.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|call-bound@1.0.4",
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|get-intrinsic@1.3.0",
-        "diabetes-m-mcp@1.2.3|object-inspect@1.13.4"
+        "diabetes-m-mcp@1.2.4|call-bound@1.0.4",
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|get-intrinsic@1.3.0",
+        "diabetes-m-mcp@1.2.4|object-inspect@1.13.4"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|side-channel-weakmap@1.0.2",
+      "ref": "diabetes-m-mcp@1.2.4|side-channel-weakmap@1.0.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|call-bound@1.0.4",
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|get-intrinsic@1.3.0",
-        "diabetes-m-mcp@1.2.3|object-inspect@1.13.4",
-        "diabetes-m-mcp@1.2.3|side-channel-map@1.0.1"
+        "diabetes-m-mcp@1.2.4|call-bound@1.0.4",
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|get-intrinsic@1.3.0",
+        "diabetes-m-mcp@1.2.4|object-inspect@1.13.4",
+        "diabetes-m-mcp@1.2.4|side-channel-map@1.0.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|side-channel@1.1.1",
+      "ref": "diabetes-m-mcp@1.2.4|side-channel@1.1.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|es-errors@1.3.0",
-        "diabetes-m-mcp@1.2.3|object-inspect@1.13.4",
-        "diabetes-m-mcp@1.2.3|side-channel-list@1.0.1",
-        "diabetes-m-mcp@1.2.3|side-channel-map@1.0.1",
-        "diabetes-m-mcp@1.2.3|side-channel-weakmap@1.0.2"
+        "diabetes-m-mcp@1.2.4|es-errors@1.3.0",
+        "diabetes-m-mcp@1.2.4|object-inspect@1.13.4",
+        "diabetes-m-mcp@1.2.4|side-channel-list@1.0.1",
+        "diabetes-m-mcp@1.2.4|side-channel-map@1.0.1",
+        "diabetes-m-mcp@1.2.4|side-channel-weakmap@1.0.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|simple-concat@1.0.1"
+      "ref": "diabetes-m-mcp@1.2.4|simple-concat@1.0.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|simple-get@4.0.1",
+      "ref": "diabetes-m-mcp@1.2.4|simple-get@4.0.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|decompress-response@6.0.0",
-        "diabetes-m-mcp@1.2.3|once@1.4.0",
-        "diabetes-m-mcp@1.2.3|simple-concat@1.0.1"
+        "diabetes-m-mcp@1.2.4|decompress-response@6.0.0",
+        "diabetes-m-mcp@1.2.4|once@1.4.0",
+        "diabetes-m-mcp@1.2.4|simple-concat@1.0.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|statuses@2.0.2"
+      "ref": "diabetes-m-mcp@1.2.4|statuses@2.0.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|string_decoder@1.3.0",
+      "ref": "diabetes-m-mcp@1.2.4|string_decoder@1.3.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|safe-buffer@5.2.1"
+        "diabetes-m-mcp@1.2.4|safe-buffer@5.2.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|strip-json-comments@2.0.1"
+      "ref": "diabetes-m-mcp@1.2.4|strip-json-comments@2.0.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|tar-fs@2.1.4",
+      "ref": "diabetes-m-mcp@1.2.4|tar-fs@2.1.4",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|chownr@1.1.4",
-        "diabetes-m-mcp@1.2.3|mkdirp-classic@0.5.3",
-        "diabetes-m-mcp@1.2.3|pump@3.0.3",
-        "diabetes-m-mcp@1.2.3|tar-stream@2.2.0"
+        "diabetes-m-mcp@1.2.4|chownr@1.1.4",
+        "diabetes-m-mcp@1.2.4|mkdirp-classic@0.5.3",
+        "diabetes-m-mcp@1.2.4|pump@3.0.3",
+        "diabetes-m-mcp@1.2.4|tar-stream@2.2.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|tar-stream@2.2.0",
+      "ref": "diabetes-m-mcp@1.2.4|tar-stream@2.2.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|bl@4.1.0",
-        "diabetes-m-mcp@1.2.3|end-of-stream@1.4.5",
-        "diabetes-m-mcp@1.2.3|fs-constants@1.0.0",
-        "diabetes-m-mcp@1.2.3|inherits@2.0.4",
-        "diabetes-m-mcp@1.2.3|readable-stream@3.6.2"
+        "diabetes-m-mcp@1.2.4|bl@4.1.0",
+        "diabetes-m-mcp@1.2.4|end-of-stream@1.4.5",
+        "diabetes-m-mcp@1.2.4|fs-constants@1.0.0",
+        "diabetes-m-mcp@1.2.4|inherits@2.0.4",
+        "diabetes-m-mcp@1.2.4|readable-stream@3.6.2"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|toidentifier@1.0.1"
+      "ref": "diabetes-m-mcp@1.2.4|toidentifier@1.0.1"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|tunnel-agent@0.6.0",
+      "ref": "diabetes-m-mcp@1.2.4|tunnel-agent@0.6.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|safe-buffer@5.2.1"
+        "diabetes-m-mcp@1.2.4|safe-buffer@5.2.1"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|type-is@2.1.0",
+      "ref": "diabetes-m-mcp@1.2.4|type-is@2.1.0",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|media-typer@1.1.0",
-        "diabetes-m-mcp@1.2.3|mime-types@3.0.2",
-        "diabetes-m-mcp@1.2.3|type-is@2.1.0|content-type@2.0.0"
+        "diabetes-m-mcp@1.2.4|media-typer@1.1.0",
+        "diabetes-m-mcp@1.2.4|mime-types@3.0.2",
+        "diabetes-m-mcp@1.2.4|type-is@2.1.0|content-type@2.0.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|type-is@2.1.0|content-type@2.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|type-is@2.1.0|content-type@2.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|unpipe@1.0.0"
+      "ref": "diabetes-m-mcp@1.2.4|unpipe@1.0.0"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|util-deprecate@1.0.2"
+      "ref": "diabetes-m-mcp@1.2.4|util-deprecate@1.0.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|vary@1.1.2"
+      "ref": "diabetes-m-mcp@1.2.4|vary@1.1.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|which@2.0.2",
+      "ref": "diabetes-m-mcp@1.2.4|which@2.0.2",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|isexe@2.0.0"
+        "diabetes-m-mcp@1.2.4|isexe@2.0.0"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|wrappy@1.0.2"
+      "ref": "diabetes-m-mcp@1.2.4|wrappy@1.0.2"
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|zod-to-json-schema@3.25.1",
+      "ref": "diabetes-m-mcp@1.2.4|zod-to-json-schema@3.25.1",
       "dependsOn": [
-        "diabetes-m-mcp@1.2.3|zod@3.25.76"
+        "diabetes-m-mcp@1.2.4|zod@4.6.7"
       ]
     },
     {
-      "ref": "diabetes-m-mcp@1.2.3|zod@3.25.76"
+      "ref": "diabetes-m-mcp@1.2.4|zod@4.6.7"
     }
   ]
 }

@@ -73,10 +73,16 @@ npm run build
 
 ## What's New in ${tag}
 
-### Fixed
-- \`get_logbook_entries\` with \`dateRange: "today"\` (and the default range) returned **yesterday** between local midnight and 02:00 CEST: dates were derived in UTC and the range start was parsed as UTC midnight. All logbook windows now use local calendar dates, and multi-day ranges step back by calendar days so DST changes cannot shift the start date.
-- \`get_iob\` had the same UTC/local mismatch in its lookback window and could miss boluses given after midnight.
-- Daily carbs, calories and insulin totals in \`get_logbook_entries\` are rounded to one decimal (no more \`200.49999999999997\`).
+Security and supply-chain release: no changes to tools or parameters.
+
+### Security
+- Runtime dependencies updated to clear published advisories: \`@modelcontextprotocol/sdk\` 1.32.1, \`zod\` 4.6.7 (GHSA-mrhx-c7xc-m3w5), \`hono\` 4.13.18, \`@hono/node-server\` 2.1.8, \`body-parser\` 2.4.0, \`fast-uri\` 4.2.3, \`ip-address\` 10.7.4, \`qs\` 6.17.0.
+- \`npm audit\` is clean for both runtime and development dependencies.
+
+### Supply chain
+- Each release now ships a CycloneDX 1.6 SBOM (\`.cdx.json\`) describing exactly the packages in the bundle.
+- The \`.mcpb\` bundle contains only runtime dependencies, installed from the lockfile (~6 MB instead of ~20 MB).
+- Dependency security fixes are now automated (Dependabot auto-merge and a daily \`npm audit fix\` job).
 
 ## SHA256 Checksums
 \`\`\`
